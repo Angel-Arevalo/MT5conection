@@ -29,7 +29,8 @@ args = parser.parse_args()
 SYMBOL = str(args.symbol)
 IS_SHORT = args.short.lower() in ["true", "1", "yes", "y"]
 
-MAGIC_NUMBER = manager.get_or_create_magic(SYMBOL, IS_SHORT)
+DIRECTION = "SHORT" if IS_SHORT else "LONG"
+MAGIC_NUMBER = manager.get_or_create_magic(SYMBOL, DIRECTION)
 
 BROKER_OFFSET = 3
 
@@ -39,6 +40,10 @@ N_CONFIRM = 2
 ATR_PERIODS = 15
 
 keys.calls = 15
+
+#keys.methods = {"SMA", "EMA"}
+#keys.candles = 1 
+#keys.lookbacks = 3
 
 FAST_METHODS: Dict[str, Callable] = {
     "SMA": talib.SMA,
@@ -327,7 +332,7 @@ def ejecutar_orden(tipo: int, comentario: str) -> bool:
         volumen = manager.calcular_volumen_estricto(
             SYMBOL,
             MAGIC_NUMBER,
-            IS_SHORT
+            DIRECTION
         )
 
         if volumen <= 0:

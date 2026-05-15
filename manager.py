@@ -3,17 +3,18 @@ import os
 import time
 import MetaTrader5 as mt5
 from datetime import datetime, timezone
-from typing import Dict, Any, Optional, Tuple, List
+from typing import Dict, Any, Optional, Tuple, List, Literal
 
 JSON_FILE: str = "magic_numbers.json"
 CAPITAL_INICIAL: float = 1000.0
 APALANCAMIENTO: float = 40.0
 
-def get_or_create_magic(symbol: str, is_short: bool) -> int:
-    direccion: str = "SHORT" if is_short else "LONG"
-    clave: str = f"{symbol}_{direccion}"
+Direction = Literal["LONG", "SHORT", "BOTH"]
 
-    _: int
+
+def get_or_create_magic(symbol: str, direction: Direction) -> int:
+    clave: str = f"{symbol}_{direction}"
+
     for _ in range(10):
         try:
             data: Dict[str, Any]
@@ -41,39 +42,86 @@ def get_or_create_magic(symbol: str, is_short: bool) -> int:
 
     raise Exception(f"No se pudo acceder a {JSON_FILE} tras varios intentos.")
 
-def calcular_volumen_estricto(symbol: str, magic_number: int, is_short: bool) -> float:
+
+def _margen_por_lote(symbol: str, direction: Direction, precio_ask: float, precio_bid: float) -> float:
+    def _calc(tipo: int, precio: float) -> float:
+        m = mt5.order_calc_margin(tipo, symbol, 1.0, precio)
+        return float(m) if m and m > 0.0 else 0.0
+
+    if direction == "LONG":
+        return _calc(mt5.ORDER_TYPE_BUY, precio_ask)
+
+    if direction == "SHORT":
+        return _calc(mt5.ORDER_TYPE_SELL, precio_bid)
+
+    return max(
+        _calc(mt5.ORDER_TYPE_BUY,  precio_ask),
+        _calc(mt5.ORDER_TYPE_SELL, precio_bid),
+    )
+
+
+def calcular_volumen_estricto(
+    symbol: str,
+    magic_number: int,
+    direction: Direction = "LONG",
+    *,
+    capital: float = CAPITAL_INICIAL, 
+    apalancamiento: float = APALANCAMIENTO, 
+    ignorar_historial: bool = False) -> float:
     info: Any = mt5.symbol_info(symbol)
     if info is None:
         return 0.0
 
-    from_date: datetime = datetime(2000, 1, 1, tzinfo=timezone.utc)
-    to_date: datetime = datetime.now(timezone.utc)
+    tick = mt5.symbol_info_tick(symbol)
+    if tick is None:
+        return 0.0
 
-    deals: Optional[Tuple[Any, ...]] = mt5.history_deals_get(from_date, to_date)
-    total_pnl: float = 0.0
+    precio_ask: float = float(tick.ask)
+    precio_bid: float = float(tick.bid)
 
-    if deals:
-        deals_bot: List[Any] = [d for d in deals if d.magic == magic_number]
-        deal: Any
-        for deal in deals_bot:
-            total_pnl += float(deal.profit + deal.commission + deal.fee + deal.swap)
+    if ignorar_historial:
+        balance_operativo: float = capital
+    else:
+        from_date: datetime = datetime(2000, 1, 1, tzinfo=timezone.utc)
+        to_date:   datetime = datetime.now(timezone.utc)
 
-    balance_virtual: float = CAPITAL_INICIAL + total_pnl
-    balance_operativo: float = min(CAPITAL_INICIAL, balance_virtual)
+        deals: Optional[Tuple[Any, ...]] = mt5.history_deals_get(from_date, to_date)
+        total_pnl: float = 0.0
+
+        if deals:
+            deals_bot: List[Any] = [d for d in deals if d.magic == magic_number]
+            for deal in deals_bot:
+                total_pnl += float(
+                    deal.profit + deal.commission + deal.fee + deal.swap
+                )
+
+        balance_virtual:  float = capital + total_pnl
+        balance_operativo = min(capital, balance_virtual)
 
     if balance_operativo <= 0.0:
-        print(f"[MANAGER] Bot {magic_number} quebrado. Balance: {balance_operativo:.2f}")
+        print(
+            f"[MANAGER] Bot {magic_number} quebrado. "
+            f"Balance operativo: {balance_operativo:.2f}"
+        )
         return 0.0
 
-    tipo_orden: int = mt5.ORDER_TYPE_SELL if is_short else mt5.ORDER_TYPE_BUY
-    precio_ref: float = float(info.bid if is_short else info.ask)
-
-    margin_1lot: Optional[float] = mt5.order_calc_margin(tipo_orden, symbol, 1.0, precio_ref)
-    if not margin_1lot or margin_1lot == 0.0:
+    notional_por_lote: float = float(info.trade_contract_size) * precio_ask
+    if notional_por_lote <= 0.0:
         return 0.0
 
-    nocional_disponible: float = balance_operativo * APALANCAMIENTO
-    lote_exacto: float = nocional_disponible / margin_1lot
-    lote_redondeado: float = float((lote_exacto // info.volume_step) * info.volume_step)
+    lote_exacto: float = (balance_operativo * apalancamiento) / notional_por_lote
 
+    margin_1lot: float = _margen_por_lote(symbol, direction, precio_ask, precio_bid)
+    if margin_1lot > 0.0:
+        margen_requerido: float = lote_exacto * margin_1lot
+        if margen_requerido > balance_operativo:
+            lote_exacto = balance_operativo / margin_1lot
+            print(
+                f"[MANAGER] Volumen reducido por margen insuficiente: "
+                f"{lote_exacto:.4f} lotes (margen máx: {balance_operativo:.2f})"
+            )
+
+    lote_redondeado: float = float(
+        (lote_exacto // info.volume_step) * info.volume_step
+    )
     return float(max(info.volume_min, min(lote_redondeado, info.volume_max)))
