@@ -1,5 +1,6 @@
 import json
 import os
+import requests
 import time
 import MetaTrader5 as mt5
 from datetime import datetime, timezone
@@ -8,6 +9,11 @@ from typing import Dict, Any, Optional, Tuple, List, Literal
 JSON_FILE: str = "magic_numbers.json"
 CAPITAL_INICIAL: float = 1000.0
 APALANCAMIENTO: float = 40.0
+
+TELEGRAM_BOT_TOKEN: str = "8890946032:AAF4hDUq08qxy1p6M1v878zFmTwSB1WMLo8"
+TELEGRAM_CHAT_ID: str = "6045302342"
+
+Direction = Literal["LONG", "SHORT", "BOTH"]
 
 Direction = Literal["LONG", "SHORT", "BOTH"]
 
@@ -125,3 +131,39 @@ def calcular_volumen_estricto(
         (lote_exacto // info.volume_step) * info.volume_step
     )
     return float(max(info.volume_min, min(lote_redondeado, info.volume_max)))
+
+def enviar_mensaje_telegram(symbol: str, direction: Direction, is_close: bool, magic_number: int) -> None:
+    if not TELEGRAM_BOT_TOKEN or TELEGRAM_BOT_TOKEN == "TU_TOKEN_DE_BOTFATHER":
+        print("[TELEGRAM] Credenciales no configuradas. Mensaje omitido.")
+        return
+
+
+    accion_str = "🔴 *CIERRE* de" if is_close else "🟢 *APERTURA* de"
+    direccion_str = "📈 LONG" if direction == "LONG" else ("📉 SHORT" if direction == "SHORT" else "🔄 BOTH")
+
+    mensaje = (
+        f"🤖 *Notificación de Trading Bot*\n\n"
+        f"Acción: {accion_str} {direccion_str}\n"
+        f"Activo: *{symbol}*\n"
+        f"Magic Number: `{magic_number}`\n"
+        f"Hora (UTC): {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M:%S')}"
+    )
+
+    url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage"
+    payload = {
+        "chat_id": TELEGRAM_CHAT_ID,
+        "text": mensaje,
+        "parse_mode": "Markdown"
+    }
+
+    try:
+
+        response = requests.post(url, json=payload, timeout=5.0)
+
+        if response.status_code == 200:
+            print(f"[TELEGRAM] Mensaje enviado correctamente para {symbol} (Magic: {magic_number})")
+        else:
+            print(f"[TELEGRAM] Error de la API de Telegram ({response.status_code}): {response.text}")
+
+    except requests.exceptions.RequestException as e:
+        print(f"[TELEGRAM] Excepción de red al intentar enviar mensaje: {e}")

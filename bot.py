@@ -35,9 +35,9 @@ ATR_PERIODS = 15
 
 keys.calls = 15
 
-#keys.methods = {"SMA", "EMA"}
-#keys.candles = 1 
-#keys.lookbacks = 3
+keys.methods = {"SMA", "EMA"}
+keys.candles = 1
+keys.lookbacks = 3
 
 FAST_METHODS: Dict[str, Callable] = {
     "SMA": talib.SMA,
@@ -71,7 +71,6 @@ def calcular_ma(close_arr: np.ndarray, metodo: str, lookback: int) -> np.ndarray
 def obtener_señal(mid_arr: np.ndarray, ma: np.ndarray, is_short: bool) -> int:
     if len(ma) < 2 or np.isnan(ma[-1]) or np.isnan(ma[-2]):
         return 0
-
     if is_short:
         if ma[-2] >= mid_arr[-2] and ma[-1] < mid_arr[-1]: return -1
         if ma[-2] < mid_arr[-2] and ma[-1] >= mid_arr[-1]: return 1
@@ -158,7 +157,6 @@ def obtener_data_optimizacion(symbol: str) -> Optional[pd.DataFrame]:
     return df.set_index('time')
 
 def inicializar_cache_velas(symbol: str, vela_min: int, max_elementos: int) -> Tuple[dict, int]:
-
     total_m1 = max_elementos * vela_min
     rates = mt5.copy_rates_from_pos(symbol, mt5.TIMEFRAME_M1, 0, total_m1)
     if rates is None or len(rates) == 0:
@@ -186,11 +184,9 @@ def inicializar_cache_velas(symbol: str, vela_min: int, max_elementos: int) -> T
     return cache, int(rates[-1]['time'])
 
 def actualizar_cache_velas(symbol: str, vela_min: int, cache: dict, last_m1_time: int, max_elementos: int) -> int:
-
-    ahora_ts = int(obtener_tiempo_servidor().timestamp()) + 3600 # Margen de seguridad hacia el futuro
+    ahora_ts = int(obtener_tiempo_servidor().timestamp()) + 3600
 
     rates = mt5.copy_rates_range(symbol, mt5.TIMEFRAME_M1, last_m1_time, ahora_ts)
-
     if rates is None or len(rates) == 0:
         return last_m1_time
 
@@ -205,12 +201,10 @@ def actualizar_cache_velas(symbol: str, vela_min: int, cache: dict, last_m1_time
         mid = (bid + ask) / 2.0
 
         if len(cache['time']) > 0 and cache['time'][-1] == custom_open:
-
             cache['bid'][-1] = bid
             cache['ask'][-1] = ask
             cache['mid'][-1] = mid
         else:
-
             cache['time'].append(custom_open)
             cache['bid'].append(bid)
             cache['ask'].append(ask)
@@ -241,7 +235,11 @@ def ejecutar_orden(tipo: int, comentario: str) -> bool:
             "comment": comentario, "type_time": mt5.ORDER_TIME_GTC, "type_filling": filling,
         }
         res = mt5.order_send(req)
-        return res is not None and res.retcode == mt5.TRADE_RETCODE_DONE
+
+        if res is None or res.retcode != mt5.TRADE_RETCODE_DONE:
+            return False
+
+        return True
 
     posiciones = mt5.positions_get(symbol=SYMBOL, magic=MAGIC_NUMBER)
     if posiciones is None: return False
@@ -255,7 +253,10 @@ def ejecutar_orden(tipo: int, comentario: str) -> bool:
             "magic": int(MAGIC_NUMBER), "comment": comentario, "type_time": mt5.ORDER_TIME_GTC, "type_filling": filling,
         }
         res = mt5.order_send(req)
-        if res is None or res.retcode != mt5.TRADE_RETCODE_DONE: ok = False
+
+        if res is None and res.retcode != mt5.TRADE_RETCODE_DONE:
+            ok = False
+
     return ok
 
 def esperar_hasta_siguiente_vela(vela_min: int) -> None:
@@ -263,7 +264,7 @@ def esperar_hasta_siguiente_vela(vela_min: int) -> None:
     vela_seg = vela_min * 60
     now_ts = int(ahora.timestamp())
     next_ts = ((now_ts // vela_seg) + 1) * vela_seg
-    sleep_s = next_ts - now_ts + 1
+    sleep_s = next_ts - now_ts + 3
     print(f"[{ts()}]: Durmiendo {sleep_s} segundos.")
     time.sleep(max(1, sleep_s))
 
@@ -323,10 +324,17 @@ def main():
 
             last_m1_time = actualizar_cache_velas(SYMBOL, vela_min, velas_cache, last_m1_time, max_elementos)
 
-            if len(velas_cache['time']) < lookback + 5: continue
+            if len(velas_cache['time']) < lookback + 5:
+                print("velas insuficientes")
+                continue
 
             current_bar = velas_cache['time'][-1]
-            if last_bar == current_bar: continue
+            while last_bar == current_bar:
+                print("No hay dato nuevo, esperando .5 segundos mas")
+                time.sleep(.5)
+                last_m1_time = actualizar_cache_velas(SYMBOL, vela_min, velas_cache, last_m1_time, max_elementos)
+                current_bar = velas_cache['time'][-1]
+
             last_bar = current_bar
 
             mid_arr = np.array(velas_cache['mid'])[:-1]
@@ -338,7 +346,7 @@ def main():
 
             ma_arr = calcular_ma(mid_arr, metodo_ma, lookback)
             señal = obtener_señal(mid_arr, ma_arr, IS_SHORT)
- 
+
             print(señal)
 
             if señal == SIGNAL_CLOSE and posicion_abierta:
@@ -370,11 +378,13 @@ def main():
                         velas_regimen += 1
                         velas_reversion = 0
                         if velas_regimen >= N_REGIMEN_CONSEC: regimen_confirmado = True
+
                     else:
                         velas_regimen = 0
                         if regimen_confirmado:
                             if regimen == "REVERSION":
                                 velas_reversion += 1
+
                                 if velas_reversion >= N_CONFIRM:
                                     if ejecutar_orden(ORDER_OPEN, "Entrada SHORT"):
                                         posicion_abierta = True
@@ -382,6 +392,7 @@ def main():
                                         regimen_confirmado = False
                                         velas_regimen = 0; velas_reversion = 0; velas_espera = 0
                                         print(f"[{ts()}] SHORT {precio_bid:.5f}")
+
                             else:
                                 velas_reversion = 0
                         else:
@@ -390,22 +401,29 @@ def main():
                                 en_señal = False
                                 velas_regimen = 0; velas_reversion = 0; velas_espera = 0
                                 print(f"[{ts()}] SHORT DIRECT {precio_bid:.5f}")
+
                 else:
                     if regimen == "BAJISTA_GBM":
                         velas_regimen += 1
                         velas_reversion = 0
                         if velas_regimen >= N_REGIMEN_CONSEC: regimen_confirmado = True
+
                     else:
                         velas_regimen = 0
                         if regimen_confirmado:
-                            velas_reversion += 1
-                            if velas_reversion >= N_CONFIRM:
-                                if ejecutar_orden(ORDER_OPEN, "Entrada LONG"):
-                                    posicion_abierta = True
-                                    en_señal = False
-                                    regimen_confirmado = False
-                                    velas_regimen = 0; velas_reversion = 0; velas_espera = 0
-                                    print(f"[{ts()}] LONG {precio_bid:.5f}")
+                            if regimen == "REVERSION":
+                                velas_reversion += 1
+
+                                if velas_reversion >= N_CONFIRM:
+                                    if ejecutar_orden(ORDER_OPEN, "Entrada LONG"):
+                                        posicion_abierta = True
+                                        en_señal = False
+                                        regimen_confirmado = False
+                                        velas_regimen = 0; velas_reversion = 0; velas_espera = 0
+                                        print(f"[{ts()}] LONG {precio_bid:.5f}")
+
+                            else:
+                                velas_reversion = 0
                         else:
                             if ejecutar_orden(ORDER_OPEN, "Entrada Directa LONG"):
                                 posicion_abierta = True
