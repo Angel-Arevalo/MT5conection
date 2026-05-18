@@ -41,9 +41,9 @@ ATR_PERIODS = 15
 
 keys.calls = 15
 
-#keys.methods = {"SMA", "EMA"}
-#keys.candles = 1 
-#keys.lookbacks = 3
+keys.methods = {"SMA", "EMA"}
+keys.candles = 1 
+keys.lookbacks = 3
 
 FAST_METHODS: Dict[str, Callable] = {
     "SMA": talib.SMA,
@@ -84,6 +84,7 @@ def obtener_filling_mode(symbol: str) -> int:
 
 
 def calcular_ma(close_arr: np.ndarray, metodo: str, lookback: int) -> np.ndarray:
+
     return FAST_METHODS[metodo](close_arr, timeperiod=lookback)
 
 
@@ -96,6 +97,8 @@ def obtener_señal(close_arr: np.ndarray, metodo: str, lookback: int, is_short: 
     if np.isnan(ma[-1]) or np.isnan(ma[-2]):
         return 0
 
+    print(ma[-1], ma[-2])
+    print(close_arr)
     if is_short:
         if ma[-2] >= close_arr[-2] and ma[-1] < close_arr[-1]:
             return -1
@@ -550,7 +553,7 @@ def main():
                 continue
 
             last_bar = current_bar
-            close_arr = df_velas['bid'].values
+            close_arr = df_velas['bid'].values[:-1]
 
             ask_arr = df_velas['ask'].values
             precio_bid = float(close_arr[-1])
@@ -562,6 +565,8 @@ def main():
                 lookback,
                 IS_SHORT
             )
+
+            print(señal)
 
             if señal == SIGNAL_CLOSE and posicion_abierta:
                 ok = ejecutar_orden(
