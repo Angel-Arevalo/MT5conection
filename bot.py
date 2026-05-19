@@ -20,10 +20,20 @@ from find_best import opti_main
 parser = argparse.ArgumentParser()
 parser.add_argument("--symbol", required=True)
 parser.add_argument("--short", type=str, default="false")
+parser.add_argument("--mon", type=int, default=1000)
+parser.add_argument("--st_mon", type=str, default="false")
+parser.add_argument("--leverage", type=int, default=40)
 args = parser.parse_args()
 
 SYMBOL = str(args.symbol)
 IS_SHORT = args.short.lower() in ["true", "1", "yes", "y"]
+
+MON = args.mon
+STATIC_MON = args.st_mon.lower() in ["true", "1", "yes", "y"]
+LEVERAGE = args.leverage
+
+if LEVERAGE <= 0 or 400 < LEVERAGE or not isinstance(LEVERAGE, int):
+    raise ValueError("No permitido valor de apalancamiento")
 
 DIRECTION = "SHORT" if IS_SHORT else "LONG"
 MAGIC_NUMBER = manager.get_or_create_magic(SYMBOL, DIRECTION)
@@ -225,7 +235,7 @@ def ejecutar_orden(tipo: int, comentario: str) -> bool:
     if tick is None: return False
 
     if ((not IS_SHORT and tipo == mt5.ORDER_TYPE_BUY) or (IS_SHORT and tipo == mt5.ORDER_TYPE_SELL)):
-        volumen = manager.calcular_volumen_estricto(SYMBOL, MAGIC_NUMBER, DIRECTION)
+        volumen = manager.calcular_volumen_estricto(SYMBOL, MAGIC_NUMBER, DIRECTION, capital=MON, apalancamiento=LEVERAGE,ignorar_historial=STATIC_MON)
         if volumen <= 0: return False
 
         precio = tick.ask if not IS_SHORT else tick.bid
@@ -254,7 +264,7 @@ def ejecutar_orden(tipo: int, comentario: str) -> bool:
         }
         res = mt5.order_send(req)
 
-        if res is None and res.retcode != mt5.TRADE_RETCODE_DONE:
+        if res is None or res.retcode != mt5.TRADE_RETCODE_DONE:
             ok = False
 
     return ok

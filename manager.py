@@ -15,9 +15,6 @@ TELEGRAM_CHAT_ID: str = "6045302342"
 
 Direction = Literal["LONG", "SHORT", "BOTH"]
 
-Direction = Literal["LONG", "SHORT", "BOTH"]
-
-
 def get_or_create_magic(symbol: str, direction: Direction) -> int:
     clave: str = f"{symbol}_{direction}"
 
