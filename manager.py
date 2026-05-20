@@ -63,20 +63,55 @@ def _margen_por_lote(symbol: str, direction: Direction, precio_ask: float, preci
     )
 
 
+def _notional_por_lote(
+    symbol: str,
+    direction: Direction,
+    precio_ask: float,
+    precio_bid: float,
+    info: Any
+) -> float:
+    tick_size  = float(info.trade_tick_size)
+    tick_value = float(info.trade_tick_value)
+    precio_ref = precio_ask if direction != "SHORT" else precio_bid
+
+    if tick_size > 0.0 and tick_value > 0.0:
+        notional = (tick_value / tick_size) * precio_ref
+        if notional > 0.0:
+            return notional
+
+    print(f"[MANAGER] tick_value no disponible para {symbol}, usando fallback de margen.")
+    account = mt5.account_info()
+    if account is None:
+        return 0.0
+
+    broker_leverage = float(account.leverage)
+    if broker_leverage <= 0.0:
+        return 0.0
+
+    margin_1lot = _margen_por_lote(symbol, direction, precio_ask, precio_bid)
+    if margin_1lot <= 0.0:
+        return 0.0
+
+    return margin_1lot * broker_leverage
+
+
 def calcular_volumen_estricto(
     symbol: str,
     magic_number: int,
     direction: Direction = "LONG",
     *,
-    capital: float = CAPITAL_INICIAL, 
-    apalancamiento: float = APALANCAMIENTO, 
+    capital: float = CAPITAL_INICIAL,
+    apalancamiento: float = APALANCAMIENTO,
     ignorar_historial: bool = False) -> float:
+
     info: Any = mt5.symbol_info(symbol)
     if info is None:
+        print(f"[MANAGER] Símbolo no encontrado: {symbol}")
         return 0.0
 
     tick = mt5.symbol_info_tick(symbol)
     if tick is None:
+        print(f"[MANAGER] Sin tick para: {symbol}")
         return 0.0
 
     precio_ask: float = float(tick.ask)
@@ -99,20 +134,21 @@ def calcular_volumen_estricto(
                 )
 
         balance_virtual:  float = capital + total_pnl
-        balance_operativo = min(capital, balance_virtual)
+        balance_operativo        = min(capital, balance_virtual)
 
     if balance_operativo <= 0.0:
-        print(
-            f"[MANAGER] Bot {magic_number} quebrado. "
-            f"Balance operativo: {balance_operativo:.2f}"
-        )
+        print(f"[MANAGER] Bot {magic_number} quebrado. Balance: {balance_operativo:.2f}")
         return 0.0
 
-    notional_por_lote: float = float(info.trade_contract_size) * precio_ask
+    notional_por_lote: float = _notional_por_lote(
+        symbol, direction, precio_ask, precio_bid, info
+    )
     if notional_por_lote <= 0.0:
+        print(f"[MANAGER] No se pudo calcular nocional para {symbol}.")
         return 0.0
 
-    lote_exacto: float = (balance_operativo * apalancamiento) / notional_por_lote
+    exposicion_deseada: float = balance_operativo * apalancamiento
+    lote_exacto: float        = exposicion_deseada / notional_por_lote
 
     margin_1lot: float = _margen_por_lote(symbol, direction, precio_ask, precio_bid)
     if margin_1lot > 0.0:
@@ -120,14 +156,18 @@ def calcular_volumen_estricto(
         if margen_requerido > balance_operativo:
             lote_exacto = balance_operativo / margin_1lot
             print(
-                f"[MANAGER] Volumen reducido por margen insuficiente: "
-                f"{lote_exacto:.4f} lotes (margen máx: {balance_operativo:.2f})"
+                f"[MANAGER] Volumen reducido por margen: "
+                f"{lote_exacto:.4f} lotes (balance: {balance_operativo:.2f})"
             )
 
     lote_redondeado: float = float(
         (lote_exacto // info.volume_step) * info.volume_step
     )
-    return float(max(info.volume_min, min(lote_redondeado, info.volume_max)))
+    volumen_final: float = float(
+        max(info.volume_min, min(lote_redondeado, info.volume_max))
+    )
+
+    return volumen_final
 
 def enviar_mensaje_telegram(symbol: str, direction: Direction, is_close: bool, magic_number: int) -> None:
     if not TELEGRAM_BOT_TOKEN or TELEGRAM_BOT_TOKEN == "TU_TOKEN_DE_BOTFATHER":
