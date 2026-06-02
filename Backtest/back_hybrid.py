@@ -11,7 +11,7 @@ sys.path.append(os.path.abspath('../optimal-moving-average'))
 import keys
 from find_best import opti_main
 
-SYMBOL           = "CAC40_SPOT"
+SYMBOL           = "BTCUSD"
 keys.calls       = 15
 
 N_CONFIRM_L      = 2
