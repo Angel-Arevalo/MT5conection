@@ -42,9 +42,6 @@ N_CONFIRM       = 2
 ADX_THRESHOLD   = 25
 
 keys.calls   = 15
-#keys.methods = {"SMA", "EMA"}
-#keys.candles = 1
-#keys.lookbacks = 3
 
 FAST_METHODS: Dict[str, Callable] = {
     "SMA": talib.SMA, "EMA": talib.EMA, "WMA": talib.WMA,
@@ -55,20 +52,53 @@ FAST_METHODS: Dict[str, Callable] = {
 _LAST_TICK_TIME = 0
 _BROKER_OFFSET_HOURS = 0.0
 
+
+def comprobar_conexion() -> bool:
+
+    terminal = mt5.terminal_info()
+    if terminal is None:
+        return False
+    return terminal.connected
+
+def asegurar_conexion():
+
+    if comprobar_conexion():
+        return True
+
+    print(f"[{datetime.now().strftime('%d/%m %H:%M:%S')}] ⚠️ ¡CONEXIÓN PERDIDA! Detectada caída de Wi-Fi o Broker.")
+
+    while not comprobar_conexion():
+        print(f"[{datetime.now().strftime('%d/%m %H:%M:%S')}] Intentando reconectar a MetaTrader 5...")
+        mt5.shutdown()
+        time.sleep(5)
+
+        if mt5.initialize():
+            time.sleep(5)
+            if comprobar_conexion():
+                print(f"[{datetime.now().strftime('%d/%m %H:%M:%S')}] ✅ ¡Reconexión exitosa con el Broker!")
+                return True
+        time.sleep(5)
+
+
 def obtener_tiempo_servidor() -> datetime:
     global _LAST_TICK_TIME, _BROKER_OFFSET_HOURS
 
-    tick = mt5.symbol_info_tick(SYMBOL)
-    if tick is not None:
+    asegurar_conexion()
 
+    tick = mt5.symbol_info_tick("US500_SPOT")
+
+    if tick is None:
+        return datetime.now(timezone.utc) + timedelta(hours=_BROKER_OFFSET_HOURS)
+
+    if _BROKER_OFFSET_HOURS == 0:
         if tick.time != _LAST_TICK_TIME:
             _LAST_TICK_TIME = tick.time
             pc_utc_ts = datetime.now(timezone.utc).timestamp()
-
             diff_seconds = round(tick.time - pc_utc_ts)
             _BROKER_OFFSET_HOURS = diff_seconds / 3600.0
 
     return datetime.now(timezone.utc) + timedelta(hours=_BROKER_OFFSET_HOURS)
+
 
 def ts() -> str:
     return obtener_tiempo_servidor().strftime("%d/%m %H:%M:%S")
@@ -88,7 +118,6 @@ def obtener_señal(mid_arr: np.ndarray, ma: np.ndarray, is_short: bool) -> int:
         if ma[-2] <= mid_arr[-2] and ma[-1] > mid_arr[-1]:  return  1
         if ma[-2] > mid_arr[-2]  and ma[-1] <= mid_arr[-1]: return -1
     return 0
-
 
 def adx_favorable(high: np.ndarray, low: np.ndarray, close: np.ndarray, lb: int) -> bool:
     if len(close) < lb + 2:
@@ -111,6 +140,7 @@ def adx_favorable(high: np.ndarray, low: np.ndarray, close: np.ndarray, lb: int)
 
 
 def inicializar_cache_velas(symbol: str, vela_min: int, max_elementos: int) -> Tuple[dict, int]:
+    asegurar_conexion()
     total_m1 = max_elementos * vela_min
     rates = mt5.copy_rates_from_pos(symbol, mt5.TIMEFRAME_M1, 0, total_m1)
     if rates is None or len(rates) == 0:
@@ -149,7 +179,8 @@ def inicializar_cache_velas(symbol: str, vela_min: int, max_elementos: int) -> T
 
 
 def actualizar_cache_velas(symbol: str, vela_min: int, cache: dict,
-                            last_m1_time: int, max_elementos: int) -> int:
+                           last_m1_time: int, max_elementos: int) -> int:
+    asegurar_conexion()
     ahora_ts = int(obtener_tiempo_servidor().timestamp()) + 3600
     rates    = mt5.copy_rates_range(symbol, mt5.TIMEFRAME_M1, last_m1_time, ahora_ts)
     if rates is None or len(rates) == 0:
@@ -202,6 +233,7 @@ def obtener_filling_mode(symbol: str) -> int:
     return mt5.ORDER_FILLING_RETURN
 
 def ejecutar_orden(tipo: int, comentario: str) -> bool:
+    asegurar_conexion()
     filling = obtener_filling_mode(SYMBOL)
     tick    = mt5.symbol_info_tick(SYMBOL)
     if tick is None: return False
@@ -239,7 +271,9 @@ def ejecutar_orden(tipo: int, comentario: str) -> bool:
 
     ok = True
     for p in posiciones:
-        precio = mt5.symbol_info_tick(SYMBOL).bid if not IS_SHORT else mt5.symbol_info_tick(SYMBOL).ask
+        tick_close = mt5.symbol_info_tick(SYMBOL)
+        if tick_close is None: return False
+        precio = tick_close.bid if not IS_SHORT else tick_close.ask
         req = {
             "action":      mt5.TRADE_ACTION_DEAL,
             "symbol":      SYMBOL,
@@ -260,7 +294,6 @@ def ejecutar_orden(tipo: int, comentario: str) -> bool:
 
 def esperar_hasta_siguiente_vela(vela_min: int) -> None:
     ahora    = obtener_tiempo_servidor()
-
     vela_seg = vela_min * 60
     now_ts   = int(ahora.timestamp())
     next_ts  = ((now_ts // vela_seg) + 1) * vela_seg
@@ -278,6 +311,7 @@ def esperar_hasta_lunes() -> None:
     time.sleep(max(1, secs))
 
 def obtener_data_optimizacion(symbol: str) -> Optional[pd.DataFrame]:
+    asegurar_conexion()
     ahora       = obtener_tiempo_servidor()
     lunes_actual = (ahora - timedelta(days=ahora.weekday())).replace(
         hour=0, minute=0, second=0, microsecond=0)
@@ -338,13 +372,34 @@ def main():
             ahora = obtener_tiempo_servidor()
 
             if ahora.weekday() == 4 and ahora.hour == 23 and ahora.minute >= 50:
-                if posicion_abierta:
+                posiones_check = mt5.positions_get(symbol=SYMBOL, magic=MAGIC_NUMBER)
+                if posiones_check is not None and len(posiones_check) > 0:
                     ejecutar_orden(ORDER_CLOSE, "Cierre Viernes")
-                    posicion_abierta = False
+                posicion_abierta = False
                 esperar_hasta_lunes()
                 break
 
             esperar_hasta_siguiente_vela(vela_min)
+
+            asegurar_conexion()
+            posiones_actuales = mt5.positions_get(symbol=SYMBOL, magic=MAGIC_NUMBER)
+
+            if posiones_actuales is None:
+
+                if not comprobar_conexion(): continue
+                realmente_abierta = False
+            else:
+                realmente_abierta = len(posiones_actuales) > 0
+
+            if posicion_abierta and not realmente_abierta:
+                print(f"[{ts()}] ℹ️ Sincronización: La posición se cerró externamente (posible SL/TP durante corte).")
+                posicion_abierta = False
+                en_señal = adx_confirmado = False
+                velas_adx = velas_confirm = velas_espera = 0
+            elif not posicion_abierta and realmente_abierta:
+                print(f"[{ts()}] ℹ️ Sincronización: Se detectó posición abierta huérfana en el Broker. Tomando control.")
+                posicion_abierta = True
+
 
             last_m1_time = actualizar_cache_velas(
                 SYMBOL, vela_min, velas_cache, last_m1_time, max_elementos)
@@ -397,14 +452,12 @@ def main():
 
             if en_señal and not posicion_abierta:
                 velas_espera += 1
-
                 favorable = adx_favorable(high_arr, low_arr, mid_arr, lookback)
 
                 if not favorable:
                     en_señal = adx_confirmado = False
                     velas_adx = velas_confirm = velas_espera = 0
                     print(f"[{ts()}] ADX bloqueó entrada — tendencia fuerte")
-
                 else:
                     velas_adx += 1
                     if velas_adx >= N_ADX_CONSEC:
@@ -424,7 +477,6 @@ def main():
                             en_señal = False
                             velas_adx = velas_confirm = velas_espera = 0
                             print(f"[{ts()}] {DIRECTION} directo @ {precio_ask:.5f}")
-
 
                 if en_señal and velas_espera >= max_espera:
                     en_señal = adx_confirmado = False

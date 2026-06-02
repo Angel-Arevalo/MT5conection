@@ -1,8 +1,12 @@
 {
-    "last_magic": 1002,
+    "last_magic": 1006,
     "configs": {
         "US500_SPOT_SHORT": 1000,
         "EURUSD__SHORT": 1001,
-        "US500_SPOT_LONG": 1002
+        "US500_SPOT_LONG": 1002,
+        "EUR50_SPOT_SHORT": 1003,
+        "GER30_SPOT_SHORT": 1004,
+        "EUR50_SPOT_LONG": 1005,
+        "GER30_SPOT_LONG": 1006
     }
 }
