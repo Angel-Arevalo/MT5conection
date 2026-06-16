@@ -11,7 +11,7 @@ sys.path.append(os.path.abspath('../optimal-moving-average'))
 import keys
 from find_best import opti_main
 
-SYMBOL           = "BTCUSD"
+SYMBOL           = "US500_SPOT"
 keys.calls       = 15
 
 N_CONFIRM_L      = 2
@@ -37,11 +37,60 @@ SWAP_BY_MONEY    = 1
 SWAP_BY_PCT_OPEN = 2
 SWAP_BY_PCT_CUR  = 3
 
+PRE_CALC_DIR     = "pre_calc"
+
 FAST_METHODS = {
     "SMA": talib.SMA, "EMA": talib.EMA, "WMA": talib.WMA,
     "DEMA": talib.DEMA, "TEMA": talib.TEMA, "TRIMA": talib.TRIMA,
     "KAMA": talib.KAMA, "T3": talib.T3, "MIDPOINT": talib.MIDPOINT,
 }
+
+def _ruta_pre_calc(symbol: str) -> str:
+    return os.path.join(PRE_CALC_DIR, f"{symbol}.csv")
+
+
+def _cargar_pre_calc(symbol: str) -> dict:
+    ruta = _ruta_pre_calc(symbol)
+    if not os.path.exists(ruta):
+        return {}
+    try:
+        df = pd.read_csv(
+            ruta,
+            dtype={'semana': str, 'met_l': str, 'met_s': str}
+        )
+        cache = {}
+        for _, row in df.iterrows():
+            cache[row['semana']] = {
+                'met_l':  row['met_l'],
+                'vela_l': int(row['vela_l']),
+                'lb_l':   int(row['lb_l']),
+                'met_s':  row['met_s'],
+                'vela_s': int(row['vela_s']),
+                'lb_s':   int(row['lb_s']),
+            }
+        print(f"  [pre_calc] {len(cache)} semanas cargadas de '{ruta}'")
+        return cache
+    except Exception as e:
+        print(f"  [pre_calc] Error leyendo caché '{ruta}': {e}")
+        return {}
+
+
+def _guardar_pre_calc(symbol: str, cache: dict) -> None:
+    os.makedirs(PRE_CALC_DIR, exist_ok=True)
+    ruta = _ruta_pre_calc(symbol)
+    filas = [
+        {
+            'semana': semana,
+            'met_l':  v['met_l'],
+            'vela_l': v['vela_l'],
+            'lb_l':   v['lb_l'],
+            'met_s':  v['met_s'],
+            'vela_s': v['vela_s'],
+            'lb_s':   v['lb_s'],
+        }
+        for semana, v in sorted(cache.items())
+    ]
+    pd.DataFrame(filas).to_csv(ruta, index=False)
 
 
 def _ma(arr, metodo, lb):
@@ -188,7 +237,6 @@ def _semana_long(df_semana, lunes_actual, viernes_actual, metodo, lb, vela_min):
         ask_ = float(ask[-1])
         t    = w.index[-1]
 
-        # Monitoreo continuo intra-trade de MAE y MFE
         if comprado:
             posicion['max_high'] = max(posicion['max_high'], float(high[-1]))
             posicion['min_low'] = min(posicion['min_low'], float(low[-1]))
@@ -288,7 +336,6 @@ def _semana_short(df_semana, lunes_actual, viernes_actual, metodo, lb, vela_min)
         ask_ = float(ask[-1])
         t    = w.index[-1]
 
-        # Monitoreo continuo intra-trade de MAE y MFE
         if vendido:
             posicion['max_high'] = max(posicion['max_high'], float(high[-1]))
             posicion['min_low'] = min(posicion['min_low'], float(low[-1]))
@@ -385,7 +432,6 @@ def _contabilizar(trades, capital_inicial, swap_rate, swap_mode,
         )
         pnl_neto = pnl_bruto - com + swap
 
-        # Guardar MAE y MFE monetarios dinámicos
         mae_usd = row.get('mae_price', 0.0) * contract_size * lotes
         mfe_usd = row.get('mfe_price', 0.0) * contract_size * lotes
 
@@ -451,14 +497,11 @@ def _metricas(df_res, capital_inicial, balance_final, reserva_final,
     pat = df_res['patrimonio_total'].iloc[-1]
     mg, mp = calcular_rachas(df_res['pnl_neto_usd'])
 
-    # 1. Esperanza matemática (Expectancy)
     expectancy = (hr * aw) - ((1.0 - hr) * al)
 
-    # 2. Eficiencias operativas promedio (MAE / MFE)
     avg_mae = df_res['mae_usd'].mean() if total else 0.0
     avg_mfe = df_res['mfe_usd'].mean() if total else 0.0
 
-    # 3. Ratio de Sortino (Volatilidad del Downside)
     r = df_res['retorno_trade'].values
     ex = r - RISK_FREE_RATE
     downside = ex[ex < 0]
@@ -468,14 +511,12 @@ def _metricas(df_res, capital_inicial, balance_final, reserva_final,
         std_down = downside.std(ddof=1)
         so = 0.0 if std_down <= 1e-14 else np.sqrt(len(ex)) * ex.mean() / std_down
 
-    # 4. Métricas de riesgo de cola históricas (VaR y cVaR al 95%)
     if total > 0:
         var_95 = np.percentile(r, 5)
         cvar_95 = r[r <= var_95].mean() if len(r[r <= var_95]) > 0 else var_95
     else:
         var_95 = cvar_95 = 0.0
 
-    # 5. Duración Máxima de Drawdown (Tiempo de recuperación en días)
     durations = []
     peak_val = capital_inicial
     peak_time = df_res['fecha_entrada'].iloc[0] if total else None
@@ -488,7 +529,6 @@ def _metricas(df_res, capital_inicial, balance_final, reserva_final,
                 durations.append(row['fecha_salida'] - peak_time)
     max_dd_dur_days = max([d.total_seconds() / 86400.0 for d in durations]) if durations else 0.0
 
-    # 6. Exposición temporal en el mercado
     if total > 0:
         total_duration = (df_res['fecha_salida'] - df_res['fecha_entrada']).sum()
         total_duration_days = total_duration.total_seconds() / 86400.0
@@ -496,7 +536,6 @@ def _metricas(df_res, capital_inicial, balance_final, reserva_final,
     else:
         total_duration_days = avg_duration_hours = 0.0
 
-    # 7. Asimetría (Skewness) y Curtosis (Kurtosis de exceso) nativas
     if total >= 3:
         mean_r = np.mean(r)
         std_r = np.std(r, ddof=1)
@@ -564,7 +603,7 @@ def _metricas(df_res, capital_inicial, balance_final, reserva_final,
         'total_swap': round(ts, 2), 'total_comisiones': round(tc, 2),
         'patrimonio_final': round(pat, 2),
         'racha_max_ganadora': mg, 'racha_max_perdedora': mp,
-        # Inserción de nuevas métricas calculadas al diccionario estructurado
+
         'expectancy': round(expectancy, 2),
         'avg_mae': round(avg_mae, 2),
         'avg_mfe': round(avg_mfe, 2),
@@ -628,24 +667,46 @@ def backtest_año(year: int):
 
     lunes_rango = pd.date_range(f'{year}-01-01', f'{year}-12-31', freq='W-MON')
 
+    cache_pre = _cargar_pre_calc(SYMBOL)
+
     for lunes in lunes_rango:
-        l_ini = lunes - timedelta(weeks=4)
-        v_fin = (lunes - timedelta(days=3)).replace(hour=23, minute=59, second=59)
+        semana_key = str(lunes.date())
 
-        df_opt = df.loc[l_ini:v_fin].copy()
-        if df_opt.empty:
-            continue
+        if semana_key in cache_pre:
+            vals  = cache_pre[semana_key]
+            met_l, vela_l, lb_l = vals['met_l'], vals['vela_l'], vals['lb_l']
+            met_s, vela_s, lb_s = vals['met_s'], vals['vela_s'], vals['lb_s']
+            print(f"  {lunes.date()} | [CACHE] "
+                  f"Long: {met_l} lb={lb_l} v={vela_l} | "
+                  f"Short: {met_s} lb={lb_s} v={vela_s}")
+        else:
+            l_ini = lunes - timedelta(weeks=4)
+            v_fin = (lunes - timedelta(days=3)).replace(hour=23, minute=59, second=59)
 
-        inp = df_opt[['bid', 'ask']].copy()
-        for c in ['open', 'high', 'low', 'close']:
-            if c in df_opt.columns:
-                inp[c] = df_opt[c]
+            df_opt = df.loc[l_ini:v_fin].copy()
+            if df_opt.empty:
+                continue
 
-        p_l = opti_main(inp, is_bid=True, verbose=False, shorts=False)
-        p_s = opti_main(inp, is_bid=True, verbose=False, shorts=True)
+            inp = df_opt[['bid', 'ask']].copy()
+            for c in ['open', 'high', 'low', 'close']:
+                if c in df_opt.columns:
+                    inp[c] = df_opt[c]
 
-        met_l, vela_l, lb_l = p_l[0], int(p_l[1]), int(p_l[2])
-        met_s, vela_s, lb_s = p_s[0], int(p_s[1]), int(p_s[2])
+            p_l = opti_main(inp, is_bid=True, verbose=False, shorts=False)
+            p_s = opti_main(inp, is_bid=True, verbose=False, shorts=True)
+
+            met_l, vela_l, lb_l = p_l[0], int(p_l[1]), int(p_l[2])
+            met_s, vela_s, lb_s = p_s[0], int(p_s[1]), int(p_s[2])
+
+            cache_pre[semana_key] = {
+                'met_l':  met_l, 'vela_l': vela_l, 'lb_l': lb_l,
+                'met_s':  met_s, 'vela_s': vela_s, 'lb_s': lb_s,
+            }
+            _guardar_pre_calc(SYMBOL, cache_pre)
+
+            print(f"  {lunes.date()} | [NUEVO] "
+                  f"Long: {met_l} lb={lb_l} v={vela_l} | "
+                  f"Short: {met_s} lb={lb_s} v={vela_s}")
 
         viernes = (lunes + timedelta(days=4)).replace(hour=23, minute=50, second=0)
 
@@ -658,9 +719,6 @@ def backtest_año(year: int):
 
         sem_l = df.loc[buf_l:viernes]
         sem_s = df.loc[buf_s:viernes]
-
-        print(f"  {lunes.date()} | Long: {met_l} lb={lb_l} v={vela_l} | "
-              f"Short: {met_s} lb={lb_s} v={vela_s}")
 
         if not sem_l.empty:
             trades_long  += _semana_long(sem_l,  lunes, viernes, met_l, lb_l, vela_l)
