@@ -17,7 +17,7 @@ sys.path.append(os.path.abspath('../optimal-moving-average'))
 import keys
 from find_best import opti_main
 
-SYMBOL           = "XAUUSD_"
+SYMBOL           = "BTCUSD"
 keys.calls       = 15
 
 CAPITAL_LONG     = 10_000.0
@@ -92,74 +92,227 @@ def _generar_equity_chart(df_l, df_s, year, symbol):
     ts_l = ts_s = None
 
     if df_l is not None and not df_l.empty:
-        t0    = df_l['fecha_entrada'].iloc[0]
+        t0 = df_l['fecha_entrada'].iloc[0]
+
         pts_l = pd.concat([
             pd.Series([CAPITAL_LONG], index=[t0]),
-            df_l.set_index('fecha_salida')['patrimonio_total'],
+            df_l.set_index('fecha_salida')['patrimonio_total']
         ]).sort_index()
-        ts_l      = pts_l
+
+        ts_l = pts_l
+
         pat_fin_l = pts_l.iloc[-1]
-        ret_l     = (pat_fin_l / CAPITAL_LONG - 1) * 100
-        ax.plot(pts_l.index, pts_l.values, color='#2ecc71', lw=1.8, zorder=3,
-                label=f'Long  {ret_l:+.1f}%  →  ${pat_fin_l:,.0f}')
-        ax.fill_between(pts_l.index, CAPITAL_LONG, pts_l.values,
-                        where=pts_l.values >= CAPITAL_LONG, color='#2ecc71', alpha=0.13)
-        ax.fill_between(pts_l.index, CAPITAL_LONG, pts_l.values,
-                        where=pts_l.values < CAPITAL_LONG,  color='#e74c3c', alpha=0.13)
+        ret_l = (pat_fin_l / CAPITAL_LONG - 1) * 100
+
+        ax.plot(
+            pts_l.index,
+            pts_l.values,
+            color='#2ecc71',
+            lw=1.8,
+            zorder=3,
+            label=f'Long  {ret_l:+.1f}%  →  ${pat_fin_l:,.0f}'
+        )
+
+        ax.fill_between(
+            pts_l.index,
+            CAPITAL_LONG,
+            pts_l.values,
+            where=pts_l.values >= CAPITAL_LONG,
+            color='#2ecc71',
+            alpha=0.13
+        )
+
+        ax.fill_between(
+            pts_l.index,
+            CAPITAL_LONG,
+            pts_l.values,
+            where=pts_l.values < CAPITAL_LONG,
+            color='#e74c3c',
+            alpha=0.13
+        )
 
     if df_s is not None and not df_s.empty:
-        t0    = df_s['fecha_entrada'].iloc[0]
+        t0 = df_s['fecha_entrada'].iloc[0]
+
         pts_s = pd.concat([
             pd.Series([CAPITAL_SHORT], index=[t0]),
-            df_s.set_index('fecha_salida')['patrimonio_total'],
+            df_s.set_index('fecha_salida')['patrimonio_total']
         ]).sort_index()
-        ts_s      = pts_s
+
+        ts_s = pts_s
+
         pat_fin_s = pts_s.iloc[-1]
-        ret_s     = (pat_fin_s / CAPITAL_SHORT - 1) * 100
-        ax.plot(pts_s.index, pts_s.values, color='#e67e22', lw=1.8, zorder=3,
-                label=f'Short  {ret_s:+.1f}%  →  ${pat_fin_s:,.0f}')
-        ax.fill_between(pts_s.index, CAPITAL_SHORT, pts_s.values,
-                        where=pts_s.values >= CAPITAL_SHORT, color='#e67e22', alpha=0.13)
-        ax.fill_between(pts_s.index, CAPITAL_SHORT, pts_s.values,
-                        where=pts_s.values < CAPITAL_SHORT,  color='#e74c3c', alpha=0.13)
+        ret_s = (pat_fin_s / CAPITAL_SHORT - 1) * 100
+
+        ax.plot(
+            pts_s.index,
+            pts_s.values,
+            color='#e67e22',
+            lw=1.8,
+            zorder=3,
+            label=f'Short  {ret_s:+.1f}%  →  ${pat_fin_s:,.0f}'
+        )
+
+        ax.fill_between(
+            pts_s.index,
+            CAPITAL_SHORT,
+            pts_s.values,
+            where=pts_s.values >= CAPITAL_SHORT,
+            color='#e67e22',
+            alpha=0.13
+        )
+
+        ax.fill_between(
+            pts_s.index,
+            CAPITAL_SHORT,
+            pts_s.values,
+            where=pts_s.values < CAPITAL_SHORT,
+            color='#e74c3c',
+            alpha=0.13
+        )
 
     if ts_l is not None and ts_s is not None:
-        idx    = ts_l.index.union(ts_s.index).sort_values()
-        ts_tot = (ts_l.reindex(idx).ffill().bfill()
-                  + ts_s.reindex(idx).ffill().bfill())
-        cap_tot     = CAPITAL_LONG + CAPITAL_SHORT
+
+        idx = ts_l.index.union(ts_s.index).sort_values()
+
+        eq_l = ts_l.reindex(idx).ffill().bfill()
+        eq_s = ts_s.reindex(idx).ffill().bfill()
+
+        ts_tot = eq_l + eq_s - CAPITAL_LONG
+
+        cap_tot = CAPITAL_LONG
+
         pat_fin_tot = ts_tot.iloc[-1]
-        ret_tot     = (pat_fin_tot / cap_tot - 1) * 100
-        ax.plot(ts_tot.index, ts_tot.values, color='#5dade2', lw=2.2, ls='--', zorder=4,
-                label=f'Total  {ret_tot:+.1f}%  →  ${pat_fin_tot:,.0f}')
-        ax.axhline(cap_tot, color='#7f8c8d', ls=':', lw=1, alpha=0.55,
-                   label=f'Capital Base  ${cap_tot:,.0f}')
+        ret_tot = (pat_fin_tot / cap_tot - 1) * 100
+
+        ax.plot(
+            ts_tot.index,
+            ts_tot.values,
+            color='#5dade2',
+            lw=2.5,
+            ls='--',
+            zorder=5,
+            label=f'Total Real  {ret_tot:+.1f}%  →  ${pat_fin_tot:,.0f}'
+        )
+
+        ax.axhline(
+            cap_tot,
+            color='#7f8c8d',
+            ls=':',
+            lw=1,
+            alpha=0.55,
+            label=f'Capital Real  ${cap_tot:,.0f}'
+        )
+
+        ax.fill_between(
+            ts_tot.index,
+            cap_tot,
+            ts_tot.values,
+            where=ts_tot.values >= cap_tot,
+            color='#3498db',
+            alpha=0.08
+        )
+
+        ax.fill_between(
+            ts_tot.index,
+            cap_tot,
+            ts_tot.values,
+            where=ts_tot.values < cap_tot,
+            color='#e74c3c',
+            alpha=0.08
+        )
+
     elif ts_l is not None:
-        ax.axhline(CAPITAL_LONG,  color='#7f8c8d', ls=':', lw=1, alpha=0.55)
+
+        ax.axhline(
+            CAPITAL_LONG,
+            color='#7f8c8d',
+            ls=':',
+            lw=1,
+            alpha=0.55
+        )
+
     elif ts_s is not None:
-        ax.axhline(CAPITAL_SHORT, color='#7f8c8d', ls=':', lw=1, alpha=0.55)
+
+        ax.axhline(
+            CAPITAL_SHORT,
+            color='#7f8c8d',
+            ls=':',
+            lw=1,
+            alpha=0.55
+        )
 
     col_txt = '#c8d0d8'
-    ax.set_title(f'{symbol}  ·  Equity MR Directo {year}',
-                 fontsize=14, fontweight='bold', color='white', pad=14)
-    ax.set_ylabel('Patrimonio ($)', color=col_txt, fontsize=10)
-    ax.tick_params(colors=col_txt, labelsize=9)
+
+    ax.set_title(
+        f'{symbol}  ·  Equity MR Directo {year}',
+        fontsize=14,
+        fontweight='bold',
+        color='white',
+        pad=14
+    )
+
+    ax.set_ylabel(
+        'Patrimonio ($)',
+        color=col_txt,
+        fontsize=10
+    )
+
+    ax.tick_params(
+        colors=col_txt,
+        labelsize=9
+    )
+
     for spine in ax.spines.values():
         spine.set_color('#2c3e50')
-    ax.yaxis.set_major_formatter(mticker.FuncFormatter(lambda x, _: f'${x:,.0f}'))
-    ax.xaxis.set_major_formatter(mdates.DateFormatter('%b'))
-    ax.xaxis.set_major_locator(mdates.MonthLocator())
-    ax.grid(True, color='#1e2030', linewidth=0.8)
-    ax.legend(facecolor='#0f0f1a', edgecolor='#2c3e50',
-              labelcolor=col_txt, fontsize=9, loc='upper left')
-    fig.autofmt_xdate(rotation=0, ha='center')
+
+    ax.yaxis.set_major_formatter(
+        mticker.FuncFormatter(lambda x, _: f'${x:,.0f}')
+    )
+
+    ax.xaxis.set_major_formatter(
+        mdates.DateFormatter('%b')
+    )
+
+    ax.xaxis.set_major_locator(
+        mdates.MonthLocator()
+    )
+
+    ax.grid(
+        True,
+        color='#1e2030',
+        linewidth=0.8
+    )
+
+    ax.legend(
+        facecolor='#0f0f1a',
+        edgecolor='#2c3e50',
+        labelcolor=col_txt,
+        fontsize=9,
+        loc='upper left'
+    )
+
+    fig.autofmt_xdate(
+        rotation=0,
+        ha='center'
+    )
+
     fig.tight_layout(pad=1.5)
 
-    ruta = os.path.expanduser(f"~/{symbol}_{year}_mr_directo_equity.png")
-    fig.savefig(ruta, dpi=150, bbox_inches='tight', facecolor=fig.get_facecolor())
-    plt.close(fig)
-    print(f"  Equity chart: {ruta}")
+    ruta = os.path.expanduser(
+        f"~/{symbol}_{year}_mr_directo_equity.png"
+    )
 
+    fig.savefig(
+        ruta,
+        dpi=150,
+        bbox_inches='tight',
+        facecolor=fig.get_facecolor()
+    )
+
+    plt.close(fig)
+
+    print(f"  Equity chart: {ruta}")
 
 def _ma(arr, metodo, lb):
     return FAST_METHODS[metodo](arr, timeperiod=lb)
@@ -646,7 +799,7 @@ def backtest_año(year: int):
             trades_long, CAPITAL_LONG, swap_long_r, swap_mode,
             contract_size, tick_value, tick_size, rollover3days, comision_rt)
         csv_l = os.path.expanduser(f"~/{SYMBOL}_{year}_mr_directo_long.csv")
-        df_l.to_csv(csv_l)
+#        df_l.to_csv(csv_l)
         res_long = _metricas(df_l, CAPITAL_LONG, bal_l, rev_l,
                              comision_rt, swap_long_r, year, "LONG")
         df_l_out = df_l
@@ -659,7 +812,7 @@ def backtest_año(year: int):
             trades_short, CAPITAL_SHORT, swap_short_r, swap_mode,
             contract_size, tick_value, tick_size, rollover3days, comision_rt)
         csv_s = os.path.expanduser(f"~/{SYMBOL}_{year}_mr_directo_short.csv")
-        df_s.to_csv(csv_s)
+        #df_s.to_csv(csv_s)
         res_short = _metricas(df_s, CAPITAL_SHORT, bal_s, rev_s,
                               comision_rt, swap_short_r, year, "SHORT")
         df_s_out = df_s
