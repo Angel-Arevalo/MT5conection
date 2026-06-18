@@ -34,9 +34,6 @@ if LEVERAGE <= 0 or LEVERAGE > 400 or not isinstance(LEVERAGE, int):
 DIRECTION = "SHORT" if IS_SHORT else "LONG"
 MAGIC_NUMBER = manager.get_or_create_magic(SYMBOL, DIRECTION)
 keys.calls = 15
-keys.methods = {"SMA"}
-keys.lookbacks = 3
-
 
 FAST_METHODS: Dict[str, Callable] = {
     "SMA": talib.SMA, "EMA": talib.EMA, "WMA": talib.WMA,
@@ -166,8 +163,8 @@ def verificar_y_optimizar_semana(symbol: str) -> Tuple[str, int, int]:
     data_opt = obtener_data_optimizacion(symbol)
     if data_opt is None or data_opt.empty:
         raise RuntimeError("Datos insuficientes para optimizar")
-    p_l = opti_main(data_opt[['bid', 'ask']], is_bid=True, verbose=False, shorts=False)
-    p_s = opti_main(data_opt[['bid', 'ask']], is_bid=True, verbose=False, shorts=True)
+    p_l = opti_main(data_opt[['bid', 'ask']], is_bid=True, verbose=True, shorts=False)
+    p_s = opti_main(data_opt[['bid', 'ask']], is_bid=True, verbose=True, shorts=True)
     cache_pre[semana_key] = {
         'met_l': p_l[0], 'vela_l': int(p_l[1]), 'lb_l': int(p_l[2]),
         'met_s': p_s[0], 'vela_s': int(p_s[1]), 'lb_s': int(p_s[2]),
@@ -358,7 +355,6 @@ def main():
             ahora = obtener_tiempo_servidor()
 
             if ahora.weekday() == 4 and ahora.hour == 23 and ahora.minute >= 50:
-
                 if verificar_posicion_activa():
                     print(f"[{ts()}] Viernes detectado. Ejecutando Cierre_Viernes")
                     ejecutar_orden(ORDER_CLOSE, "Cierre Viernes")
@@ -367,28 +363,31 @@ def main():
 
             esperar_hasta_siguiente_vela(vela_min)
             posicion_abierta = verificar_posicion_activa()
-            print(posicion_abierta)
-            last_m1_time = actualizar_cache_velas(SYMBOL, vela_min, candles_cache := velas_cache, last_m1_time, max_elementos)
+
+            last_m1_time = actualizar_cache_velas(SYMBOL, vela_min, velas_cache, last_m1_time, max_elementos)
 
             if len(velas_cache['time']) < lookback + 5:
                 continue
 
-            mid_arr = np.array(velas_cache['bid'])[:-1]
-            time_arr = np.array(velas_cache['time'])[:-1]
-            current_closed_time = time_arr[-1]
+            current_bar = velas_cache['time'][-1]
+            while last_processed_closed_time == current_bar:
+                time.sleep(0.5)
+                last_m1_time = actualizar_cache_velas(SYMBOL, vela_min, velas_cache, last_m1_time, max_elementos)
+                current_bar = velas_cache['time'][-1]
 
-            if last_processed_closed_time == current_closed_time:
-                continue
+            last_processed_closed_time = current_bar
 
-            last_processed_closed_time = current_closed_time
-            señal = evaluar_señal_mr(mid_arr, metodo_ma, lookback)
-            print(señal)
+            bid_arr = np.array(velas_cache['bid'])[:-1]
+
+            señal = evaluar_señal_mr(bid_arr, metodo_ma, lookback)
+
             tick_current = mt5.symbol_info_tick(SYMBOL)
-            precio_ejecucion = tick_current.bid if tick_current else mid_arr[-1]
+            precio_ejecucion = tick_current.bid if tick_current else bid_arr[-1]
 
             if señal == TARGET_SALIDA and posicion_abierta:
                 if ejecutar_orden(ORDER_CLOSE, "Cierre Senal"):
                     print(f"[{ts()}] Cierre por senal: {precio_ejecucion:.5f}")
+
             elif señal == TARGET_ENTRADA and not posicion_abierta:
                 if ejecutar_orden(ORDER_OPEN, f"Entrada Directa {DIRECTION}"):
                     print(f"[{ts()}] Entrada ejecutada: {precio_ejecucion:.5f}")
