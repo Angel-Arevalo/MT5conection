@@ -17,12 +17,12 @@ sys.path.append(os.path.abspath('../optimal-moving-average'))
 import keys
 from find_best import opti_main
 
-SYMBOL           = "EC.N"
-keys.calls       = 15
+SYMBOL           = "US100_Spot"
+keys.calls       = 25
 
 CAPITAL_LONG     = 10_000.0
 CAPITAL_SHORT    = 10_000.0
-APALANCAMIENTO   = 1
+APALANCAMIENTO   = 2
 
 YEARS            = [2024, 2025, 2026]
 
@@ -762,8 +762,8 @@ def backtest_año(year: int):
                 if c in df_opt.columns:
                     inp[c] = df_opt[c]
 
-            p_l = opti_main(inp, is_bid=True, verbose=False, shorts=False)
-            p_s = opti_main(inp, is_bid=True, verbose=False, shorts=True)
+            p_l = opti_main(inp, is_bid=True, verbose=True, shorts=False)
+            p_s = opti_main(inp, is_bid=True, verbose=True, shorts=True)
 
             met_l, vela_l, lb_l = p_l[0], int(p_l[1]), int(p_l[2])
             met_s, vela_s, lb_s = p_s[0], int(p_s[1]), int(p_s[2])
