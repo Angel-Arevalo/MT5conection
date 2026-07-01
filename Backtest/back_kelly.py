@@ -495,29 +495,30 @@ def _contabilizar(trades, capital_inicial, swap_rate, swap_mode,
     mae_usd_l = []; mfe_usd_l = []
 
     for _, row in df.iterrows():
-        lotes, pnl_bruto = calcular_lotes_y_pnl(
-            row['precio_entrada'], row['pnl_price'], bal, contract_size)
-        com  = comision_rt * lotes
-        swap = calcular_swap(
-            row['fecha_entrada'], row['fecha_salida'],
-            lotes, swap_rate, swap_mode,
-            row['precio_entrada'], contract_size,
-            tick_value, tick_size, rollover3days)
-        pnl_neto = pnl_bruto - com + swap
-        mae_usd  = row.get('mae_price', 0.0) * contract_size * lotes
-        mfe_usd  = row.get('mfe_price', 0.0) * contract_size * lotes
+
+        if bal <= 0:
+            lotes, pnl_bruto, com, swap, pnl_neto = 0.0, 0.0, 0.0, 0.0, 0.0
+            mae_usd, mfe_usd, ret = 0.0, 0.0, 0.0
+        else:
+
+            lotes, pnl_bruto = calcular_lotes_y_pnl(
+                row['precio_entrada'], row['pnl_price'], bal, contract_size)
+            com  = comision_rt * lotes
+            swap = calcular_swap(
+                row['fecha_entrada'], row['fecha_salida'],
+                lotes, swap_rate, swap_mode,
+                row['precio_entrada'], contract_size,
+                tick_value, tick_size, rollover3days)
+            pnl_neto = pnl_bruto - com + swap
+            mae_usd  = row.get('mae_price', 0.0) * contract_size * lotes
+            mfe_usd  = row.get('mfe_price', 0.0) * contract_size * lotes
 
         prev = bal
         bal += pnl_neto
-        if bal > capital_inicial:
-            res += bal - capital_inicial
-            bal  = capital_inicial
-        elif bal < capital_inicial and res > 0:
-            t    = min(capital_inicial - bal, res)
-            res -= t; bal += t
 
-        pat = bal + res
-        ret = pnl_neto / prev
+        res = 0.0
+        pat = bal
+        ret = pnl_neto / prev if prev > 0 else 0.0
 
         pnl_bruto_l.append(pnl_bruto); pnl_neto_l.append(pnl_neto)
         bal_l.append(bal); res_l.append(res); pat_l.append(pat)
