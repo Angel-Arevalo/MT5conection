@@ -3,6 +3,7 @@ import pandas as pd
 import numpy as np
 from datetime import datetime, timedelta
 import talib
+from typing import Tuple
 import sys
 import os
 
@@ -26,15 +27,18 @@ APALANCAMIENTO   = 2
 
 YEARS            = [2024, 2025, 2026]
 
-COMISION_FALLBACK = 0.0
-RISK_FREE_RATE    = 0.0
+#!Consider setting commission fallback to 0.4 (bps)
+COMISION_FALLBACK = 0.0 #*no round-trip fees if we fail to get them from MT5
+RISK_FREE_RATE    = 0.0 #*baseline return for risk-based metrics (like Sharpe)
 
+#*Swap modes
+#!Must be checked
 SWAP_BY_POINTS   = 0
 SWAP_BY_MONEY    = 1
 SWAP_BY_PCT_OPEN = 2
 SWAP_BY_PCT_CUR  = 3
 
-PRE_CALC_DIR = "pre_calc"
+PRE_CALC_DIR = "pre_calc" #*containing semana,met_l,vela_l,lb_l,met_s,vela_s,lb_s
 
 FAST_METHODS = {
     "SMA": talib.SMA, "EMA": talib.EMA, "WMA": talib.WMA,
@@ -71,6 +75,7 @@ def _cargar_pre_calc(symbol: str) -> dict:
 
 
 def _guardar_pre_calc(symbol: str, cache: dict) -> None:
+    """Overwrites `symbol`.csv file with `chache`'s data"""
     os.makedirs(PRE_CALC_DIR, exist_ok=True)
     ruta = _ruta_pre_calc(symbol)
     filas = [
@@ -314,25 +319,33 @@ def _generar_equity_chart(df_l, df_s, year, symbol):
 
     print(f"  Equity chart: {ruta}")
 
-def _ma(arr, metodo, lb):
+def _ma(arr: np.ndarray, metodo: str, lb: int):
+    """
+    Return fast `metodo` with a `lb` loopback on the array `arr` of bid prices
+    """
     return FAST_METHODS[metodo](arr, timeperiod=lb)
 
 
-def evaluar_señal_mr(arr, metodo, lb):
-
+def evaluar_señal_mr(arr: np.ndarray, metodo: str, lb: int):
+    """
+    Evaluate mean-reversion on the `metodo` strategy with `lb` loopback in the
+    last two ticks of the `arr` series.
+    """
     ma = _ma(arr, metodo, lb)
     if len(ma) < 2 or np.isnan(ma[-1]) or np.isnan(ma[-2]):
         return 0
     if arr[-2] >= ma[-2] and arr[-1] < ma[-1]:
+        #*If bid crosses and drops below signal in the last 2 succesive candles, go long
         return 1
     if arr[-2] <= ma[-2] and arr[-1] > ma[-1]:
+        #*If bid crosses and surpasses signal in the last 2 succesive candles, go short
         return -1
-    return 0
+    return 0 #*If bid stays below or above signal, do nothing
 
 
 
-def calcular_lotes_y_pnl(precio_entrada, pnl_price, capital, contract_size):
-    valor_lote = precio_entrada * contract_size
+def calcular_lotes_y_pnl(precio_entrada: float, pnl_price: float, capital: float, contract_size: float):
+    valor_lote = precio_entrada * contract_size #*ex., 1.08 * 100,000 USD for EURUSD
     if valor_lote <= 0:
         return 0.0, 0.0
     lotes     = (capital * APALANCAMIENTO) / valor_lote
@@ -343,6 +356,7 @@ def calcular_lotes_y_pnl(precio_entrada, pnl_price, capital, contract_size):
 def calcular_swap(f_entrada, f_salida, lotes, swap_rate, swap_mode,
                   precio_entrada, contract_size, tick_value, tick_size,
                   rollover3days):
+    #!Issue: Not charging fee if a position is open at 5 p.m. Instead, only if it is open in at least two distinct trading days
     if f_salida <= f_entrada or swap_rate == 0.0:
         return 0.0
     cur   = f_entrada.replace(hour=0, minute=0, second=0, microsecond=0)
@@ -353,17 +367,21 @@ def calcular_swap(f_entrada, f_salida, lotes, swap_rate, swap_mode,
         if swap_mode == SWAP_BY_POINTS:
             vpp   = (tick_value / tick_size) if tick_size > 0 else 1.0
             noche = swap_rate * vpp * lotes * mult
+            #!Issue: SWAP_BY_PCT_CUR should use current price instead of precio_entrada
         elif swap_mode in (SWAP_BY_PCT_OPEN, SWAP_BY_PCT_CUR):
             valor_lote = precio_entrada * contract_size
             noche = (swap_rate / 100.0 / 365.0) * valor_lote * lotes * mult
-        else:
+        else: #*SWAP_BY_MONEY
             noche = swap_rate * lotes * mult
         total += noche
         cur   += timedelta(days=1)
     return total
 
-
+#!Requires trades being made previously
 def obtener_comision_rt(symbol, year):
+    """
+    Obtain the mean **round-trip** commission per lot of `symbol` between the 1st of Jan of `year` - 1 and the 1st of Jan of `year` + 1
+    """
     deals = mt5.history_deals_get(datetime(year-1, 1, 1), datetime(year+1, 1, 1))
     if deals is None or len(deals) == 0:
         return COMISION_FALLBACK
@@ -393,19 +411,39 @@ def calcular_rachas(pnl):
     return mg, mp
 
 
-def _semana_lado(df_semana, lunes_actual, viernes_actual, metodo, lb, vela_min, es_long=True):
+#!Consider changing arr to bid and vela_min to vela_size
+#!Confirm whether lunes_actual and viernes_actual are str
+def _semana_lado(df_semana: pd.DataFrame | pd.Series, lunes_actual: str, viernes_actual: str, metodo: str, lb: int, vela_min: int, es_long=True) -> list:
+    """
+    Simulates trading in `df_semana` every `vela_min` candle (anchored at the
+    last one of these) using mean-reversion on the given `metodo`, while
+    safeguarding against non-existent data and weekend closure.
+
+    Returns the list of trades done in the `vela_min`-sized `df_semana`
+    intraweek session. The strategy used to determine the trades is: if bid
+    price crosses `metodo`, place a position in the opposite direction
+    (e.g., crossed up -> go short).
+
+    Parameters
+    ----------
+    - vela_min: int
+        Candle size
+    """
     trades      = []
     posicionado = False
     posicion    = None
 
+    #*Find the week's session's starting candle,
+    #*and skip this week cleanly if that data isn't there
     try:
         start = df_semana.index.get_loc(df_semana.loc[lunes_actual:].index[0])
     except IndexError:
         return trades
 
     for i in range(start, len(df_semana), vela_min):
+        #*Convert the df's candles to size vela_min, starting from the most recent one
         w = df_semana.iloc[:i+1].iloc[::-1][::vela_min].iloc[::-1]
-        if len(w) < lb + 5:
+        if len(w) < lb + 5: #*5-candle buffer
             continue
 
         arr  = w['bid'].values
@@ -415,6 +453,18 @@ def _semana_lado(df_semana, lunes_actual, viernes_actual, metodo, lb, vela_min, 
         bid_ = float(arr[-1])
         ask_ = float(ask[-1])
         t    = w.index[-1]
+
+        #!Potential issue: since OHLC values are taken from the asset's bid
+        #!price, when trading with a long strategy, there is a mismatch between
+        #!price_in and high and low by the spread. A correction could be to add
+        #!an offset when es_long:
+        # if posicionado:
+        #     if es_long:
+        #         spread_ofs: float = float(ask[-1] - arr[-1])
+        #     else:
+        #         spread_ofs: float = 0
+        #     posicion['max_high'] = max(posicion['max_high'], float(high[-1]) + spread_ofs)
+        #     posicion['min_low']  = min(posicion['min_low'],  float(low[-1])  + spread_ofs)
 
         if posicionado:
             posicion['max_high'] = max(posicion['max_high'], float(high[-1]))
@@ -439,7 +489,7 @@ def _semana_lado(df_semana, lunes_actual, viernes_actual, metodo, lb, vela_min, 
                     'tipo':           'Cierre_Viernes',
                     'mae_price':      max(0.0, mae_p),
                     'mfe_price':      max(0.0, mfe_p),
-                })
+                }) #*clamping done to account for spread between bid and ask
             break
 
         s              = evaluar_señal_mr(arr, metodo, lb)
@@ -468,6 +518,7 @@ def _semana_lado(df_semana, lunes_actual, viernes_actual, metodo, lb, vela_min, 
             posicionado = False
             posicion    = None
 
+        #*Entered position
         if s == target_entrada and not posicionado:
             precio_in = ask_ if es_long else bid_
             posicion  = {
@@ -482,13 +533,14 @@ def _semana_lado(df_semana, lunes_actual, viernes_actual, metodo, lb, vela_min, 
 
 
 def _contabilizar(trades, capital_inicial, swap_rate, swap_mode,
-                  contract_size, tick_value, tick_size, rollover3days, comision_rt):
+                  contract_size, tick_value, tick_size, rollover3days,
+                  comision_rt) -> Tuple[pd.DataFrame, float, float]:
     df = pd.DataFrame(trades)
     if df.empty:
         return df, capital_inicial, 0.0
 
     bal = capital_inicial
-    res = 0.0
+    res = 0.0 #*reserve
     pnl_bruto_l = []; pnl_neto_l = []; bal_l = []
     res_l = []; pat_l = []; lot_l = []
     swp_l = []; com_l = []; ret_l = []
@@ -512,12 +564,12 @@ def _contabilizar(trades, capital_inicial, swap_rate, swap_mode,
         if bal > capital_inicial:
             res += bal - capital_inicial
             bal  = capital_inicial
-        elif bal < capital_inicial and res > 0:
+        elif bal < capital_inicial and res > 0: #*use reserve to fill balance up to cap_inicial
             t    = min(capital_inicial - bal, res)
             res -= t; bal += t
 
-        pat = bal + res
-        ret = pnl_neto / prev
+        pat = bal + res #*equity
+        ret = pnl_neto / prev #*return
 
         pnl_bruto_l.append(pnl_bruto); pnl_neto_l.append(pnl_neto)
         bal_l.append(bal); res_l.append(res); pat_l.append(pat)
@@ -692,14 +744,14 @@ def backtest_año(year: int):
     if info is None:
         mt5.shutdown(); return None, None
 
-    point         = info.point
+    point         = info.point #*min price increment
     tick_size     = info.trade_tick_size
     tick_value    = info.trade_tick_value
     contract_size = info.trade_contract_size
-    swap_mode     = info.swap_mode
+    swap_mode     = info.swap_mode #*usually 1, which means 'in points' (bps)
     swap_long_r   = info.swap_long
     swap_short_r  = info.swap_short
-    rollover3days = info.swap_rollover3days
+    rollover3days = info.swap_rollover3days #*when are 3 swaps charged (overnight)
 
     comision_rt = obtener_comision_rt(SYMBOL, year)
 
@@ -709,7 +761,7 @@ def backtest_año(year: int):
     rates = mt5.copy_rates_range(
         SYMBOL, mt5.TIMEFRAME_M1,
         datetime(year-1, 12, 1), datetime(year, 12, 28)
-    )
+    ) #*1-minute data from december 1st previous year to end of year
     mt5.shutdown()
 
     if rates is None or len(rates) == 0:
@@ -730,6 +782,7 @@ def backtest_año(year: int):
 
     for lunes in lunes_rango:
 
+        #!Issue: market closes at 23:55:00, so cierre should be 23:49:59
         viernes_cierre = (lunes + timedelta(days=4)).replace(
             hour=23, minute=59, second=59)
         if viernes_cierre >= ahora:
@@ -778,7 +831,7 @@ def backtest_año(year: int):
                   f"Long: {met_l} lb={lb_l} v={vela_l} | "
                   f"Short: {met_s} lb={lb_s} v={vela_s}")
 
-        buf_l = lunes - timedelta(minutes=(lb_l + 25) * vela_l)
+        buf_l = lunes - timedelta(minutes=(lb_l + 25) * vela_l) #?Why so much buffer?
         buf_s = lunes - timedelta(minutes=(lb_s + 25) * vela_s)
 
         sem_l = df.loc[buf_l:viernes]

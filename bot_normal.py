@@ -18,7 +18,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument("--symbol", required=True)
 parser.add_argument("--short", type=str, default="false")
 parser.add_argument("--mon", type=int, default=1000)
-parser.add_argument("--st_mon", type=str, default="false")
+parser.add_argument("--st_mon", type=str, default="false") #?
 parser.add_argument("--leverage", type=int, default=40)
 args = parser.parse_args()
 
@@ -42,7 +42,7 @@ FAST_METHODS: Dict[str, Callable] = {
 }
 
 _LAST_TICK_TIME = 0
-_BROKER_OFFSET_HOURS = 0.0
+_BROKER_OFFSET_HOURS = 0.0 #!Shouldn't this be 3?
 
 def comprobar_conexion() -> bool:
     terminal = mt5.terminal_info()
@@ -68,6 +68,8 @@ def obtener_tiempo_servidor() -> datetime:
     tick = mt5.symbol_info_tick(SYMBOL)
     if tick is None:
         return datetime.now(timezone.utc) + timedelta(hours=_BROKER_OFFSET_HOURS)
+    #!Suggestion: intialize _BROKER_OFFSET_HOURS to None and only enter this
+    #!block if it is set to None. If it is not None, consider adding a re-check
     if _BROKER_OFFSET_HOURS == 0:
         if tick.time != _LAST_TICK_TIME:
             _LAST_TICK_TIME = tick.time
@@ -126,15 +128,20 @@ def verificar_posicion_activa() -> bool:
         return False
     tipo_esperado = mt5.POSITION_TYPE_SELL if IS_SHORT else mt5.POSITION_TYPE_BUY
     for pos in posiciones:
+        #*Checks only whether the *current* position has the right direction and symbol
         if pos.symbol == SYMBOL and pos.magic == MAGIC_NUMBER and pos.type == tipo_esperado:
             return True
     return False
 
 def obtener_data_optimizacion(symbol: str) -> Optional[pd.DataFrame]:
+    """
+    Return a df with columns `time` (also its index), `bid` and `ask` and all
+    available 1-minute entries in the current week.
+    """
     asegurar_conexion()
     ahora = obtener_tiempo_servidor()
     lunes_actual = (ahora - timedelta(days=ahora.weekday())).replace(hour=0, minute=0, second=0, microsecond=0)
-    viernes_fin = (lunes_actual - timedelta(days=3)).replace(hour=23, minute=59, second=59)
+    viernes_fin = (lunes_actual - timedelta(days=3)).replace(hour=23, minute=59, second=59) #!Correct to 23:55
     lunes_inicio = lunes_actual - timedelta(weeks=4)
     rates = mt5.copy_rates_range(symbol, mt5.TIMEFRAME_M1, lunes_inicio, viernes_fin)
     if rates is None or len(rates) == 0:
@@ -152,6 +159,7 @@ def verificar_y_optimizar_semana(symbol: str) -> Tuple[str, int, int]:
     ahora = obtener_tiempo_servidor()
     lunes_actual = (ahora - timedelta(days=ahora.weekday())).replace(hour=0, minute=0, second=0, microsecond=0)
     semana_key = str(lunes_actual.date())
+    #!Suggestion: the content of the if block could be reused for the else case
     if semana_key in cache_pre:
         vals = cache_pre[semana_key]
         print(f"[{ts()}] Parametros cargados de cache para la semana {semana_key}")
@@ -178,6 +186,17 @@ def verificar_y_optimizar_semana(symbol: str) -> Tuple[str, int, int]:
         return vals['met_l'], int(vals['vela_l']), int(vals['lb_l'])
 
 def inicializar_cache_velas(symbol: str, vela_min: int, max_elementos: int) -> Tuple[dict, int]:
+    """
+    Gets `max_elementos * vela_min` candles back from now. Then, for every `vela_min` candles, it stores the very last one's bid and ask (bid + spread). For every stored candle, it calculates its mid and appends its data to a list. Returns cache and the last timestamp (from the initial range).
+
+    Parameters
+    ----------
+    - symbol: str
+    - vela_min: int
+        Candle size
+    - max_elementos: int
+        Loopback of the algorithm
+    """
     asegurar_conexion()
     total_m1 = max_elementos * vela_min
     rates = mt5.copy_rates_from_pos(symbol, mt5.TIMEFRAME_M1, 0, total_m1)
@@ -202,8 +221,11 @@ def inicializar_cache_velas(symbol: str, vela_min: int, max_elementos: int) -> T
     return cache, int(rates[-1]['time'])
 
 def actualizar_cache_velas(symbol: str, vela_min: int, cache: dict, last_m1_time: int, max_elementos: int) -> int:
+    """
+    Add all (if any) `vela_min`-sized candles missing between `last_m1_time` and now
+    """
     asegurar_conexion()
-    ahora_ts = int(obtener_tiempo_servidor().timestamp()) + 3600
+    ahora_ts = int(obtener_tiempo_servidor().timestamp()) + 3600 #*safeguard to guarantee last bar
     rates = mt5.copy_rates_range(symbol, mt5.TIMEFRAME_M1, last_m1_time, ahora_ts)
 
     if rates is None or len(rates) == 0:
@@ -272,7 +294,7 @@ def ejecutar_orden(tipo: int, comentario: str) -> bool:
             ignorar_historial=STATIC_MON
         )
         if volumen <= 0: return False
-        precio = tick.ask if tipo == mt5.ORDER_TYPE_BUY else tick.bid
+        precio = tick.ask if tipo == mt5.ORDER_TYPE_BUY else tick.bid #!Last tick-by-tick price?
         req = {
             "action": mt5.TRADE_ACTION_DEAL,
             "symbol": SYMBOL,
@@ -289,7 +311,7 @@ def ejecutar_orden(tipo: int, comentario: str) -> bool:
     posiciones = mt5.positions_get(symbol=SYMBOL, magic=MAGIC_NUMBER)
     if posiciones is None: return False
     ok = True
-    for p in posiciones:
+    for p in posiciones: #!Why could there be multiple?
         tick_close = mt5.symbol_info_tick(SYMBOL)
         if tick_close is None: return False
         precio = tick_close.bid if p.type == mt5.POSITION_TYPE_BUY else tick_close.ask
@@ -311,6 +333,9 @@ def ejecutar_orden(tipo: int, comentario: str) -> bool:
     return ok
 
 def esperar_hasta_siguiente_vela(vela_min: int) -> None:
+    """
+    Wait till next `vela_min`-sized candle
+    """
     ahora = obtener_tiempo_servidor()
 
     vela_seg = vela_min * 60
@@ -354,7 +379,7 @@ def main():
         while True:
             ahora = obtener_tiempo_servidor()
 
-            if ahora.weekday() == 4 and ahora.hour == 23 and ahora.minute >= 50:
+            if ahora.weekday() == 4 and ahora.hour == 23 and ahora.minute >= 50: #!Same issue as in back_normal
                 if verificar_posicion_activa():
                     print(f"[{ts()}] Viernes detectado. Ejecutando Cierre_Viernes")
                     ejecutar_orden(ORDER_CLOSE, "Cierre Viernes")
@@ -366,7 +391,7 @@ def main():
 
             last_m1_time = actualizar_cache_velas(SYMBOL, vela_min, velas_cache, last_m1_time, max_elementos)
 
-            if len(velas_cache['time']) < lookback + 5:
+            if len(velas_cache['time']) < lookback + 5: #*5-candle buffer at the start of the week
                 continue
 
             current_bar = velas_cache['time'][-1]

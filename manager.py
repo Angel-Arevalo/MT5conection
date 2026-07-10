@@ -161,7 +161,7 @@ def calcular_volumen_estricto(
             )
 
     lote_redondeado: float = float(
-        (lote_exacto // info.volume_step) * info.volume_step
+        (lote_exacto // info.volume_step) * info.volume_step #!Potential issue with floats and //
     )
     volumen_final: float = float(
         max(info.volume_min, min(lote_redondeado, info.volume_max))
