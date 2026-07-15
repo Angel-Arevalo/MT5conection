@@ -110,6 +110,12 @@ class DataIterator:
             if end_time is None:
                 end_time = self._bid_data.index[-1]
 
+            if end_time <= start_time: 
+                raise ValueError("Periodo no válido")
+
+            if end_time > self._bid_data.index[-1] or end_time > self.bid_data.index[self._current_index]:
+                raise ValueError("Datos no vistos")
+
             sub_df = self._bid_data.loc[start_time:end_time]
             
         else:
