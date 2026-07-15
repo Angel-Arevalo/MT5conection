@@ -100,7 +100,7 @@ class DataIterator:
 
             return bid_array, ask_array
 
-     def sub_data(self, start_time: datetime, end_time: Optional[datetime] = None) -> Tuple[pd.DataFrame, pd.DataFrame]:
+    def sub_data(self, start_time: datetime, end_time: Optional[datetime] = None) -> Tuple[pd.DataFrame, pd.DataFrame]:
         sub_df: pd.DataFrame
 
         if self._backtest:
@@ -108,12 +108,14 @@ class DataIterator:
                 return pd.DataFrame(), pd.DataFrame()
 
             if end_time is None:
-                end_time = self._bid_data.index[-1]
+                if self._current_index == 0:
+                    return pd.DataFrame(), pd.DataFrame()
+                end_time = self._bid_data.index[self._current_index - 1]
 
             if end_time <= start_time: 
                 raise ValueError("Periodo no válido")
 
-            if end_time > self._bid_data.index[-1] or end_time > self.bid_data.index[self._current_index]:
+            if self._current_index == 0 or end_time > self._bid_data.index[self._current_index - 1]:
                 raise ValueError("Datos no vistos")
 
             sub_df = self._bid_data.loc[start_time:end_time]
