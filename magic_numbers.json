@@ -1,5 +1,5 @@
 {
-    "last_magic": 1006,
+    "last_magic": 1008,
     "configs": {
         "US500_SPOT_SHORT": 1000,
         "EURUSD__SHORT": 1001,
@@ -7,6 +7,8 @@
         "EUR50_SPOT_SHORT": 1003,
         "GER30_SPOT_SHORT": 1004,
         "EUR50_SPOT_LONG": 1005,
-        "GER30_SPOT_LONG": 1006
+        "GER30_SPOT_LONG": 1006,
+        "AUDCAD__LONG": 1007,
+        "AUDCAD__SHORT": 1008
     }
 }

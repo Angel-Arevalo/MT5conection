@@ -33,7 +33,7 @@ if LEVERAGE <= 0 or LEVERAGE > 400 or not isinstance(LEVERAGE, int):
 
 DIRECTION = "SHORT" if IS_SHORT else "LONG"
 MAGIC_NUMBER = manager.get_or_create_magic(SYMBOL, DIRECTION)
-keys.calls = 15
+keys.calls = 25
 
 FAST_METHODS: Dict[str, Callable] = {
     "SMA": talib.SMA, "EMA": talib.EMA, "WMA": talib.WMA,
