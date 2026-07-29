@@ -48,9 +48,16 @@ class DataIterator:
 
         self._get_bursatil_interval()
 
-    def backtest(self, start_back: datetime, end_back: datetime) -> None:
+    def backtest(self, start_back: datetime, end_back: Optional[datetime] = None) -> None:
         self._backtest = True
-        self._get_mt5_info(start_back, end_back)
+
+        if end_back is None:
+            end_back = start_back
+
+        start_time = start_back.replace(hour=0, minute=0, second=0, microsecond=0)
+        end_time = end_back.replace(hour=23, minute=59, second=59, microsecond=0)
+
+        self._get_mt5_info(start_time, end_time)
 
     def _get_mt5_info(self, start_time: datetime, end_time: datetime) -> None:
         rates: Optional[np.ndarray] = mt5.copy_rates_range(
@@ -68,6 +75,7 @@ class DataIterator:
         data_cruda.index = pd.to_datetime(data_cruda["time"], unit="s")
 
         self._bid_data = data_cruda[['time', 'open', 'high', 'low', 'close', 'spread']].copy()
+        print(self._bid_data)
         self._current_index = 0
         self._total_candles = len(data_cruda.index)
 
@@ -100,6 +108,7 @@ class DataIterator:
     def next_candle(self) -> Tuple[np.ndarray, float]:
         if self._backtest:
             if self._bid_data is None or self._current_index >= self._total_candles:
+                self._backtest = False
                 return np.array([], dtype=np.float64), 0.0
 
             row = self._bid_data.iloc[self._current_index]
@@ -120,8 +129,8 @@ class DataIterator:
                     1
                 )[0][0]
 
-            seconds_to_sleep: float = 60.0 - (now.second) + (.5)
-            print(seconds_to_sleep)
+            seconds_to_sleep: float = 60.0 - (now.second)
+
             sleep(seconds_to_sleep)
 
             new_candle = False
@@ -143,7 +152,6 @@ class DataIterator:
             if rates is None or len(rates) == 0:
                 return np.array([], dtype=np.float64), np.array([], dtype=np.float64)
 
-            print(datetime.fromtimestamp(rates[0][0], tz=timezone.utc))
             closed_candle: np.void = rates[0]
 
             bid_array: np.ndarray = np.array([
@@ -156,8 +164,6 @@ class DataIterator:
             spread_value: float = float(closed_candle['spread'])
 
         self._market.update(self._last_date, self.__market_key)
-
-        print(self._market)
 
         return bid_array, spread_value * self._point_asset
 

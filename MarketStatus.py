@@ -5,6 +5,7 @@ class MarketStatus:
 
     _in_market: bool
     _start_day: time
+
     _end_day: time
     _weekends: bool
 
