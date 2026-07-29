@@ -1,12 +1,9 @@
 from datetime import datetime, timezone, timedelta, time as dtime
 from time import sleep
-
 from typing import Optional, Tuple
 import MetaTrader5 as mt5
-
 import numpy as np
 import pandas as pd
-
 import secrets
 from MarketStatus import MarketStatus
 
@@ -47,6 +44,7 @@ class DataIterator:
         self._point_asset = float(symbol_info.point)
 
         self._get_bursatil_interval()
+        self._update_market()
 
     def backtest(self, start_back: datetime, end_back: Optional[datetime] = None) -> None:
         self._backtest = True
@@ -75,7 +73,6 @@ class DataIterator:
         data_cruda.index = pd.to_datetime(data_cruda["time"], unit="s")
 
         self._bid_data = data_cruda[['time', 'open', 'high', 'low', 'close', 'spread']].copy()
-        print(self._bid_data)
         self._current_index = 0
         self._total_candles = len(data_cruda.index)
 
@@ -92,9 +89,12 @@ class DataIterator:
             wednesday.replace(hour=23, minute=59, second=59, microsecond=0)
         )
  
+        start_day = dtime(0, 0)
+        end_day = dtime(23, 59)
+
         if rates is not None and len(rates) > 0:
             start_day = datetime.fromtimestamp(int(rates[0]['time']), tz=timezone.utc).time()
-            end_day = datetime.fromtimestamp(int(rates[-1]['time']), tz=timezone.utc).time()
+            end_day = (datetime.fromtimestamp(int(rates[-1]['time']), tz=timezone.utc) - timedelta(minutes = 1)).time()
 
         saturday_rates = mt5.copy_rates_range(
             self.name_asset, mt5.TIMEFRAME_M1,
@@ -105,10 +105,28 @@ class DataIterator:
         trades_weekends = saturday_rates is not None and len(saturday_rates) > 0
         self._market = MarketStatus(start_day, end_day, trades_weekends, self.__market_key)
 
+    def _update_market(self) -> None:
+        rates = mt5.copy_rates_from_pos(self.name_asset, mt5.TIMEFRAME_M1, 1, 1)
+
+        if rates is not None and len(rates) > 0:
+            self._market.update(int(rates[0][0]), self.__market_key)
+
+    def __wait_swap_market(self) -> None:
+        while True:
+            rates_init = mt5.copy_rates_from_pos(self.name_asset, mt5.TIMEFRAME_M1, 0, 1)
+            if rates_init is not None and len(rates_init) > 0:
+                if datetime.fromtimestamp(rates_init[0][0], tz=timezone.utc).time() == self._market.start_day:
+                    return
+
+            now: datetime = datetime.now(timezone.utc)
+            sleep(60 - now.second + 10)
+
     def next_candle(self) -> Tuple[np.ndarray, float]:
         if self._backtest:
             if self._bid_data is None or self._current_index >= self._total_candles:
                 self._backtest = False
+                self._last_date = 0
+                self._update_market()
                 return np.array([], dtype=np.float64), 0.0
 
             row = self._bid_data.iloc[self._current_index]
@@ -120,50 +138,58 @@ class DataIterator:
             spread_value: float = float(row['spread'])
 
         else:
+            if self._last_date == 0:
+                rates_init = mt5.copy_rates_from_pos(self.name_asset, mt5.TIMEFRAME_M1, 1, 1)
+                if rates_init is not None and len(rates_init) > 0:
+                    self._last_date = int(rates_init[0][0])
+
+
+            if datetime.fromtimestamp(self._last_date, tz=timezone.utc).time() == self._market.end_day:
+                self.__wait_swap_market()
+
             now: datetime = datetime.now(timezone.utc)
 
-            if self._last_date == 0:
-                self._last_date = mt5.copy_rates_from_pos(self.name_asset, 
-                    mt5.TIMEFRAME_M1, 
-                    1,
-                    1
-                )[0][0]
-
-            seconds_to_sleep: float = 60.0 - (now.second)
-
+            seconds_to_sleep: float = 60.0 - now.second
             sleep(seconds_to_sleep)
 
             new_candle = False
+            rates = None
 
             while not new_candle:
-                rates: Optional[np.ndarray] = mt5.copy_rates_from_pos(
+                rates = mt5.copy_rates_from_pos(
                     self.name_asset,
                     mt5.TIMEFRAME_M1,
                     1,
                     1
                 )
 
-                if rates[0][0] == self._last_date:
+                if rates is None or len(rates) == 0:
                     sleep(1)
+                    continue
+
+                current_candle_time = int(rates[0][0])
+
+                if current_candle_time == self._last_date:
+                    sleep(1)
+                    continue
+
                 else:
                     new_candle = True
-                    self._last_date = rates[0][0]
-
-            if rates is None or len(rates) == 0:
-                return np.array([], dtype=np.float64), np.array([], dtype=np.float64)
+                    self._last_date = current_candle_time
 
             closed_candle: np.void = rates[0]
 
-            bid_array: np.ndarray = np.array([
+            bid_array = np.array([
                 float(closed_candle['open']),
                 float(closed_candle['high']),
                 float(closed_candle['low']),
                 float(closed_candle['close'])
             ], dtype=np.float64)
 
-            spread_value: float = float(closed_candle['spread'])
+            spread_value = float(closed_candle['spread'])
 
         self._market.update(self._last_date, self.__market_key)
+        print(self._market)
 
         return bid_array, spread_value * self._point_asset
 
