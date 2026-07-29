@@ -9,7 +9,7 @@ iterador = DataIterator("BTCUSD")
 
 print(iterador.market)
 
-#iterador.backtest(fecha_fin, fecha_fin)
+iterador.backtest(fecha_fin, fecha_fin)
 
 while True:
     print(iterador.next_candle())

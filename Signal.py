@@ -23,5 +23,5 @@ class Signal:
     def open(self) -> bool:
         return self.__open
 
-    def change_type(self, id: bytes) -> None:
+    def change_type(self) -> None:
         self.__open = False

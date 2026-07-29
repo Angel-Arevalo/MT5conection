@@ -16,7 +16,7 @@ class SignalsGenerator(ABC):
     def __init__(self, beat_form: MoneyManagement, iterator: DataIterator) -> None:
         self.__signals = {}
         self.__management = beat_form
-        self.__iterator = DataIterator
+        self.__iterator = iterator
 
     @abstractmethod
     def generate_signal(self, ohlc_bid: ndarray, spread: float) -> tuple[Signal, bytes]:
