@@ -71,7 +71,7 @@ class DataIterator:
             return
 
         data_cruda: pd.DataFrame = pd.DataFrame(rates)
-        data_cruda.index = pd.to_datetime(data_cruda["time"], unit="s")
+        data_cruda.index = pd.to_datetime(data_cruda["time"], unit="s", utc=true)
 
         self._bid_data = data_cruda[['time', 'open', 'high', 'low', 'close', 'spread']].copy()
         self._current_index = 0
