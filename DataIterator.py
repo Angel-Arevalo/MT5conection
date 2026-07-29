@@ -71,7 +71,7 @@ class DataIterator:
             return
 
         data_cruda: pd.DataFrame = pd.DataFrame(rates)
-        data_cruda.index = pd.to_datetime(data_cruda["time"], unit="s", utc=true)
+        data_cruda.index = pd.to_datetime(data_cruda["time"], unit="s", utc=True)
 
         self._bid_data = data_cruda[['time', 'open', 'high', 'low', 'close', 'spread']].copy()
         self._current_index = 0
@@ -190,7 +190,6 @@ class DataIterator:
             spread_value = float(closed_candle['spread'])
 
         self._market.update(self._last_date, self.__market_key)
-        print(self._market)
 
         return bid_array, spread_value * self._point_asset
 

@@ -1,5 +1,6 @@
 from collections import defaultdict
 from typing import Optional
+import pandas as pd
 
 from datetime import datetime, timedelta
 import MetaTrader5 as mt5
@@ -246,6 +247,52 @@ class Backtester:
         return {
             f"model_{i}_cash": model.management.cash
             for i, model in enumerate(self.__models)
+        }
+
+    def get_trades_df(self, model: SignalsGenerator) -> pd.DataFrame:
+        trades = self.__closed_trades.get(model, [])
+        if not trades:
+            return pd.DataFrame()
+        return pd.DataFrame(trades)
+
+    def get_metrics(self, model: SignalsGenerator) -> dict:
+        df = self.get_trades_df(model)
+ 
+        if df.empty:
+            return {
+                "total_trades": 0,
+                "final_cash": round(model.management.cash, 2)
+            }
+
+        total_trades = len(df)
+        winning_trades = df[df["pnl"] > 0]
+        losing_trades = df[df["pnl"] < 0]
+
+        win_rate = (len(winning_trades) / total_trades) * 100.0 if total_trades > 0 else 0.0
+
+        gross_profit = float(winning_trades["pnl"].sum())
+        gross_loss = abs(float(losing_trades["pnl"].sum()))
+        profit_factor = (gross_profit / gross_loss) if gross_loss > 0 else np.nan
+
+        df["cumulative_pnl"] = df["pnl"].cumsum()
+        running_max = np.maximum.accumulate(df["cumulative_pnl"])
+        drawdown = running_max - df["cumulative_pnl"]
+        max_drawdown = float(drawdown.max())
+
+        return {
+            "total_trades": total_trades,
+            "win_rate_pct": round(win_rate, 2),
+            "net_pnl": round(float(df["pnl"].sum()), 2),
+            "gross_profit": round(gross_profit, 2),
+            "gross_loss": round(gross_loss, 2),
+            "profit_factor": round(profit_factor, 2) if not np.isnan(profit_factor) else "N/A",
+            "max_drawdown_usd": round(max_drawdown, 2),
+            "total_commissions": round(float(df["commission"].sum()), 2),
+            "total_swaps": round(float(df["swap"].sum()), 2),
+            "avg_trade_duration_hrs": round(float(df["duration_hours"].mean()), 2),
+            "avg_mae_usd": round(float(df["mae_usd"].mean()), 2),
+            "avg_mfe_usd": round(float(df["mfe_usd"].mean()), 2),
+            "final_cash": round(model.management.cash, 2)
         }
 
     def add_model(self, new_model: SignalsGenerator) -> None:
