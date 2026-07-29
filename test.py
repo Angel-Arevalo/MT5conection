@@ -5,7 +5,7 @@ from DataIterator import DataIterator
 fecha_inicio = datetime(2026, 6, 15)
 fecha_fin = datetime(2026, 6, 18)
 
-iterador = DataIterator("EURUSD_")
+iterador = DataIterator("BTCUSD")
 
 print(iterador.market)
 

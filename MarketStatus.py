@@ -1,6 +1,15 @@
 from datetime import time, datetime, timezone
 from typing import Optional
 
+weekdays: dict[int, str] = {0: "monday",
+                            1: "tuesday",
+                            2: "wednesday",
+                            3: "thursday",
+                            4: "friday",
+                            5: "saturday",
+                            6: "sunday"
+}
+
 class MarketStatus:
 
     _in_market: bool
@@ -46,6 +55,10 @@ class MarketStatus:
         return self.__minute_to_market_close
 
     @property
+    def day(self) -> Optional[int]:
+        return self._last_updt.weekday() if self._last_updt else None
+
+    @property
     def last_updt(self) -> Optional[datetime]:
         return self._last_updt
 
@@ -85,4 +98,4 @@ class MarketStatus:
             self._last_updt.strftime("%H:%M:%S UTC") if self._last_updt else "Never"
         )
 
-        return f"{self._start_day}-{self._end_day} {schedule_type} | {status} | Last update: {last_update_str}"
+        return f"{self._start_day}-{self._end_day} {schedule_type} | {status} | Last update: {last_update_str} | day: {weekdays[self.day]}"
