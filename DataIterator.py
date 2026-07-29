@@ -5,6 +5,7 @@ import MetaTrader5 as mt5
 import numpy as np
 import pandas as pd
 import secrets
+
 from MarketStatus import MarketStatus
 
 class DataIterator:
@@ -193,9 +194,6 @@ class DataIterator:
 
         return bid_array, spread_value * self._point_asset
 
-    @property
-    def market(self) -> MarketStatus:
-        return self._market
 
     def sub_data(self, start_time: datetime, end_time: Optional[datetime] = None) -> pd.DataFrame:
         if self._backtest:
@@ -242,3 +240,11 @@ class DataIterator:
         result_df['spread'] = result_df['spread'] * self._point_asset
 
         return result_df
+
+    @property
+    def market(self) -> MarketStatus:
+        return self._market
+
+    @property
+    def iterator_type(self) -> bool:
+        return self._backtest

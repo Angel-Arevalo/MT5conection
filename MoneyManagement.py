@@ -22,7 +22,7 @@ class MoneyManagement(ABC):
 
     @property
     def cash(self) -> float:
-        return self._cash
+        return self.__cash
 
     @cash.setter
     def cash(self, value: float) -> None:

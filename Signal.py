@@ -12,7 +12,7 @@ class Signal:
         self.__open = True
 
     @property
-    def type(self) -> bool:
+    def long(self) -> bool:
         return self.__long
 
     @property
