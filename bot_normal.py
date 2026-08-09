@@ -238,8 +238,10 @@ def _cache_vacio() -> dict:
     return {'time': [], 'bid': [], 'ask': [], 'mid': []}
 
 def evaluar_señal_mr(arr: np.ndarray, metodo: str, lb: int) -> int:
+    print(arr)
+   
     ma = FAST_METHODS[metodo](arr, timeperiod=lb)
-
+    print(ma)
     if len(ma) < 2 or np.isnan(ma[-1]) or np.isnan(ma[-2]):
         return 0
     if arr[-2] >= ma[-2] and arr[-1] < ma[-1]:
