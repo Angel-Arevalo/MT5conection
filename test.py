@@ -17,16 +17,18 @@ if mt5.initialize():
     mt5.shutdown()
 
 managament = InitialBudgetMoneyManagement(1000, 200, info)
-start_date = datetime(2025, 1, 1)
-end_date = datetime(2025, 12, 31)
+start_date = datetime(2026, 1, 20)
+end_date = datetime(2026, 1, 21)
 
 iterator = DataIterator(symbol)
 iterator.backtest(start_date, end_date)
-#iterator.next_candle()
 
-strategi = OptimalMA(symbol, managament, iterator)
+while iterator.iterator_type:
+    print(iterator.market.minutes_left)
+    iterator.next_candle()
+#strategi = OptimalMA(symbol, managament, iterator)
 
-strategi.generate_signal([1, 1, 1, 1], 1)
+#strategi.generate_signal([1, 1, 1, 1], 1)
 
 
 """

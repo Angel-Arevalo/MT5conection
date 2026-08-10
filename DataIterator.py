@@ -61,14 +61,17 @@ class DataIterator:
         if end_back is None:
             end_back = start_back
 
-        start_time = start_back.replace(hour=0, minute=0, second=0, microsecond=0)
-        end_time = end_back.replace(hour=23, minute=59, second=59, microsecond=0)
+        start_time = start_back.replace(hour=0, minute=0, second=0, microsecond=0, tzinfo=timezone.utc)
+        end_time = end_back.replace(hour=23, minute=59, second=59, microsecond=0, tzinfo=timezone.utc)
 
         self._get_mt5_info(start_time, end_time)
 
         if self._times is not None and len(self._times) > 0:
             self._last_date = int(self._times[0])
             self._market.update(self._last_date, self.__market_key)
+
+            print(start_time, end_time, len(self._times))
+            print(self._market.start_day, self._market.end_day)
 
     def _get_mt5_info(self, start_time: datetime, end_time: datetime) -> None:
         rates: Optional[np.ndarray] = mt5.copy_rates_range(
