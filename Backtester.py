@@ -20,9 +20,10 @@ class Backtester:
     __iterator: DataIterator
 
     __models: list[SignalsGenerator]
-    __signals: dict[bytes, dict]
+    __open_signals: dict[bytes, dict]
 
-    __closed_trades: dict[SignalsGenerator, list[dict]]
+    __raw_trades: dict[SignalsGenerator, list[dict]]
+    __closed_trades: dict[SignalsGenerator, pd.DataFrame]
 
     __contract_size: float
     __min_lot: float
@@ -42,8 +43,10 @@ class Backtester:
         self.__iterator.backtest(start_day, end_day)
 
         self.__models = []
-        self.__signals = {}
-        self.__closed_trades = defaultdict(list)
+
+        self.__open_signals = {}
+        self.__raw_trades = defaultdict(list)
+        self.__closed_trades = {}
 
         if not mt5.initialize():
             raise RuntimeError(f"Error al inicializar MT5: {mt5.last_error()}")
@@ -139,110 +142,104 @@ class Backtester:
 
         return total_swap
 
-    def start(self) -> dict[str, float]:
+    def _run_simulation(self) -> None:
         data, spread = self.__iterator.next_candle()
 
         while data.size > 0:
             current_time = self.__iterator.market.last_updt
-
-            high_p = data[1]
-            low_p = data[2]
             close_p = data[3]
 
-            for trade_id, trade in self.__signals.items():
-                trade["max_high"] = max(trade["max_high"], high_p)
-                trade["min_low"] = min(trade["min_low"], low_p)
-
             for model in self.__models:
-                signal, id = model.generate_signal(data, spread)
+                signals = model.generate_signal(data, spread)
 
-                if signal is not None:
+                if not signals:
+                    continue
+
+                for signal, sid in signals:
+                    if signal is None:
+                        continue
+
                     if signal.open:
-                        entry_price = (
-                            close_p + spread if signal.long else close_p
-                        )
+                        entry_price = close_p + spread if signal.long else close_p
 
-                        self.__signals[id] = {
+                        self.__open_signals[sid] = {
+                            "model": model,
                             "entry_price": entry_price,
                             "signal": signal,
                             "open_time": current_time,
-                            "max_high": high_p,
-                            "min_low": low_p,
                         }
                     else:
-                        if id in self.__signals:
-                            trade = self.__signals.pop(id)
-                            open_signal = trade["signal"]
-                            entry_price = trade["entry_price"]
+                        if sid not in self.__open_signals:
+                            continue
 
-                            if open_signal.long:
-                                exit_price = close_p
-                                diff = exit_price - entry_price
+                        trade = self.__open_signals.pop(sid)
+                        open_signal = trade["signal"]
+                        entry_price = trade["entry_price"]
 
-                                mfe_p = trade["max_high"] - entry_price
-                                mae_p = entry_price - trade["min_low"]
+                        exit_price = close_p if open_signal.long else close_p + spread
 
-                            else:
-                                exit_price = close_p + spread
-                                diff = entry_price - exit_price
+                        self.__raw_trades[model].append({
+                            "is_long": open_signal.long,
+                            "open_time": trade["open_time"],
+                            "close_time": current_time,
+                            "entry_price": entry_price,
+                            "exit_price": exit_price,
+                            "lot": open_signal.lot,
+                        })
 
-                                mfe_p = entry_price - trade["min_low"]
-                                mae_p = trade["max_high"] - entry_price
-
-                            gross_pnl = diff * open_signal.lot * self.__contract_size
-                            commission = open_signal.lot * self.__commission_per_lot
-
-                            swap = self._calculate_swap(
-                                is_long=open_signal.long,
-                                lot=open_signal.lot,
-                                open_time=trade["open_time"],
-                                close_time=current_time,
-                                entry_price=entry_price,
-                                exit_price=exit_price
-                            )
-
-                            net_pnl = gross_pnl - commission + swap
-
-                            mae_usd = max(
-                                0.0,
-                                mae_p * open_signal.lot * self.__contract_size,
-                            )
-
-                            mfe_usd = max(
-                                0.0,
-                                mfe_p * open_signal.lot * self.__contract_size,
-                            )
-
-                            duration_hrs = (
-                                (current_time - trade["open_time"]).total_seconds() / 3600.0
-                                if trade["open_time"] and current_time
-                                else 0.0
-                            )
-
-                            model.management.cash += net_pnl
-                            model.delete_signal(id)
-
-                            self.__closed_trades[model].append(
-                                {
-                                    "is_long": open_signal.long,
-                                    "open_time": trade["open_time"],
-                                    "close_time": current_time,
-                                    "entry_price": entry_price,
-                                    "exit_price": exit_price,
-                                    "lot": open_signal.lot,
-                                    "pnl": net_pnl,
-                                    "gross_pnl": gross_pnl,
-                                    "mae_usd": mae_usd,
-                                    "mfe_usd": mfe_usd,
-                                    "duration_hours": duration_hrs,
-                                    "swap": swap,
-                                    "commission": commission,
-                                }
-                            )
+                        model.delete_signal(sid)
 
             data, spread = self.__iterator.next_candle()
 
         mt5.shutdown()
+
+    def _compute_trade_financials(self, model: SignalsGenerator) -> pd.DataFrame:
+        raw = self.__raw_trades.get(model, [])
+        if not raw:
+            return pd.DataFrame()
+
+        df = pd.DataFrame(raw)
+
+        diff = np.where(
+            df["is_long"],
+            df["exit_price"] - df["entry_price"],
+            df["entry_price"] - df["exit_price"],
+        )
+
+        df["gross_pnl"] = diff * df["lot"] * self.__contract_size
+        df["commission"] = df["lot"] * self.__commission_per_lot
+
+        df["swap"] = [
+            self._calculate_swap(
+                is_long=row.is_long,
+                lot=row.lot,
+                open_time=row.open_time,
+                close_time=row.close_time,
+                entry_price=row.entry_price,
+                exit_price=row.exit_price,
+            )
+            for row in df.itertuples(index=False)
+        ]
+
+        df["pnl"] = df["gross_pnl"] - df["commission"] + df["swap"]
+
+        df["duration_hours"] = df.apply(
+            lambda r: (r["close_time"] - r["open_time"]).total_seconds() / 3600.0
+            if r["open_time"] and r["close_time"] else 0.0,
+            axis=1,
+        )
+
+        total_pnl = float(df["pnl"].sum())
+        model.management.cash += total_pnl
+
+        self.__closed_trades[model] = df
+        return df
+
+    def start(self) -> dict[str, float]:
+        self._run_simulation()
+
+        for model in self.__models:
+            self._compute_trade_financials(model)
 
         return {
             f"model_{i}_cash": model.management.cash
@@ -250,14 +247,14 @@ class Backtester:
         }
 
     def get_trades_df(self, model: SignalsGenerator) -> pd.DataFrame:
-        trades = self.__closed_trades.get(model, [])
-        if not trades:
+        df = self.__closed_trades.get(model)
+        if df is None:
             return pd.DataFrame()
-        return pd.DataFrame(trades)
+        return df
 
     def get_metrics(self, model: SignalsGenerator) -> dict:
         df = self.get_trades_df(model)
- 
+
         if df.empty:
             return {
                 "total_trades": 0,
@@ -274,6 +271,7 @@ class Backtester:
         gross_loss = abs(float(losing_trades["pnl"].sum()))
         profit_factor = (gross_profit / gross_loss) if gross_loss > 0 else np.nan
 
+        df = df.sort_values("close_time")
         df["cumulative_pnl"] = df["pnl"].cumsum()
         running_max = np.maximum.accumulate(df["cumulative_pnl"])
         drawdown = running_max - df["cumulative_pnl"]
@@ -290,8 +288,6 @@ class Backtester:
             "total_commissions": round(float(df["commission"].sum()), 2),
             "total_swaps": round(float(df["swap"].sum()), 2),
             "avg_trade_duration_hrs": round(float(df["duration_hours"].mean()), 2),
-            "avg_mae_usd": round(float(df["mae_usd"].mean()), 2),
-            "avg_mfe_usd": round(float(df["mfe_usd"].mean()), 2),
             "final_cash": round(model.management.cash, 2)
         }
 
@@ -305,3 +301,7 @@ class Backtester:
     @property
     def lot_step(self) -> float:
         return self.__lot_step
+
+    @property
+    def iterator(self) -> DataIterator:
+        return self.__iterator

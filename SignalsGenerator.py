@@ -19,7 +19,7 @@ class SignalsGenerator(ABC):
         self._iterator = iterator
 
     @abstractmethod
-    def generate_signal(self, ohlc_bid: ndarray, spread: float) -> tuple[Signal, bytes]:
+    def generate_signal(self, ohlc_bid: ndarray, spread: float) -> list[tuple[Signal, bytes]]:
         pass
 
     def gen_id(self, signal: Signal) -> bytes:

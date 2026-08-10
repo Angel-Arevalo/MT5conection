@@ -61,17 +61,10 @@ class DataIterator:
         if end_back is None:
             end_back = start_back
 
-        start_time = start_back.replace(hour=0, minute=0, second=0, microsecond=0, tzinfo=timezone.utc)
-        end_time = end_back.replace(hour=23, minute=59, second=59, microsecond=0, tzinfo=timezone.utc)
+        start_time = start_back.replace(hour=0, minute=0, second=0, microsecond=0)
+        end_time = end_back.replace(hour=23, minute=59, second=59, microsecond=0)
 
         self._get_mt5_info(start_time, end_time)
-
-        if self._times is not None and len(self._times) > 0:
-            self._last_date = int(self._times[0])
-            self._market.update(self._last_date, self.__market_key)
-
-            print(start_time, end_time, len(self._times))
-            print(self._market.start_day, self._market.end_day)
 
     def _get_mt5_info(self, start_time: datetime, end_time: datetime) -> None:
         rates: Optional[np.ndarray] = mt5.copy_rates_range(
@@ -229,6 +222,7 @@ class DataIterator:
             elif end_time.tzinfo is None:
                 end_time = end_time.replace(tzinfo=timezone.utc)
 
+
             start_ts = int(start_time.timestamp())
             end_ts = int(end_time.timestamp())
 
@@ -259,6 +253,78 @@ class DataIterator:
                 return pd.DataFrame()
 
             data_cruda: pd.DataFrame = pd.DataFrame(rates)
+            data_cruda.index = pd.to_datetime(data_cruda["time"], unit="s", utc=True)
+            sub_df = data_cruda[['open', 'high', 'low', 'close', 'spread']].copy()
+
+        if sub_df.empty:
+            return pd.DataFrame()
+
+        result_df = sub_df[['open', 'high', 'low', 'close', 'spread']].copy()
+        result_df['spread'] = result_df['spread'] * self._point_asset
+
+        return result_df
+
+    def last_candles(self, number_of_candles: int) -> pd.DataFrame:
+        if self._backtest:
+            if self._ohlc is None or self._current_index == 0:
+                print("No hay datos cargados o el backtest no ha iniciado.", self._current_index)
+                return pd.DataFrame()
+
+            end_idx = self._current_index
+            start_idx = end_idx - number_of_candles
+
+            if start_idx >= 0:
+
+                sub_df = pd.DataFrame(
+                    self._ohlc[start_idx:end_idx],
+                    columns=['open', 'high', 'low', 'close'],
+                    index=pd.to_datetime(self._times[start_idx:end_idx], unit="s", utc=True)
+                )
+                sub_df['spread'] = self._spreads[start_idx:end_idx]
+            else:
+
+                missing = -start_idx
+                first_loaded_time = datetime.fromtimestamp(int(self._times[0]), tz=timezone.utc)
+
+                rates_before = mt5.copy_rates_from(
+                    self.name_asset,
+                    mt5.TIMEFRAME_M1,
+                    first_loaded_time - timedelta(minutes=1),
+                    missing
+                )
+
+                mem_df = pd.DataFrame(
+                    self._ohlc[0:end_idx],
+                    columns=['open', 'high', 'low', 'close'],
+                    index=pd.to_datetime(self._times[0:end_idx], unit="s", utc=True)
+                )
+                mem_df['spread'] = self._spreads[0:end_idx]
+
+                if rates_before is not None and len(rates_before) > 0:
+                    before_df = pd.DataFrame(rates_before)
+                    before_df.index = pd.to_datetime(before_df["time"], unit="s", utc=True)
+                    before_df = before_df[['open', 'high', 'low', 'close', 'spread']]
+
+                    sub_df = pd.concat([before_df, mem_df])
+                    sub_df = sub_df[~sub_df.index.duplicated(keep='last')].sort_index()
+                else:
+                    sub_df = mem_df
+
+                sub_df = sub_df.tail(number_of_candles)
+
+        else:
+            rates = mt5.copy_rates_from_pos(
+                self.name_asset,
+                mt5.TIMEFRAME_M1,
+                1,
+                number_of_candles
+            )
+
+            if rates is None or len(rates) == 0:
+                print(f"No se pudieron obtener datos en vivo para {self.name_asset}.")
+                return pd.DataFrame()
+
+            data_cruda = pd.DataFrame(rates)
             data_cruda.index = pd.to_datetime(data_cruda["time"], unit="s", utc=True)
             sub_df = data_cruda[['open', 'high', 'low', 'close', 'spread']].copy()
 
