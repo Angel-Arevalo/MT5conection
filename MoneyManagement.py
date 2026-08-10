@@ -1,12 +1,17 @@
 from abc import ABC, abstractmethod
+from typing import Any
 
 class MoneyManagement(ABC):
     __cash: float
     __max_leverage: int
 
-    def __init__(self, cash: float, max_leverage: int) -> None:
+    __symbol_info: Any
+
+    def __init__(self, cash: float, max_leverage: int, symbol_info: Any) -> None:
         self.__cash = cash
         self.__max_leverage = max_leverage
+
+        self.__symbol_info = symbol_info
 
     @abstractmethod
     def _calculate_lot(self, **kwargs) -> float:
@@ -42,3 +47,7 @@ class MoneyManagement(ABC):
     @cash.setter
     def cash(self, value: float) -> None:
         self.__cash = value
+
+    @property
+    def info(self) -> Any:
+        return self.__symbol_info

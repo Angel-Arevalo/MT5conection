@@ -57,6 +57,10 @@ class MarketStatus:
     @property
     def day(self) -> Optional[int]:
         return self._last_updt.weekday() if self._last_updt else None
+ 
+    @property
+    def date(self) -> datetime:
+        return self._last_updt
 
     @property
     def last_updt(self) -> Optional[datetime]:

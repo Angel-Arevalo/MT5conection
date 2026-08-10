@@ -1,3 +1,6 @@
 [submodule "optimal-moving-average"]
 	path = optimal-moving-average
 	url = git@github.com:Angel-Arevalo/optimal-moving-average.git
+[submodule "Examples/Signals/optimal-moving-average"]
+	path = Examples/Signals/optimal-moving-average
+	url = git@github.com:Angel-Arevalo/optimal-moving-average.git

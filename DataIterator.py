@@ -66,6 +66,10 @@ class DataIterator:
 
         self._get_mt5_info(start_time, end_time)
 
+        if self._times is not None and len(self._times) > 0:
+            self._last_date = int(self._times[0])
+            self._market.update(self._last_date, self.__market_key)
+
     def _get_mt5_info(self, start_time: datetime, end_time: datetime) -> None:
         rates: Optional[np.ndarray] = mt5.copy_rates_range(
             self.name_asset,
