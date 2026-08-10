@@ -18,6 +18,10 @@ class DataIterator:
     _current_index: int
     _total_candles: int
 
+    _times: Optional[np.ndarray]
+    _ohlc: Optional[np.ndarray]
+    _spreads: Optional[np.ndarray]
+
     _market: MarketStatus
     __market_key: bytes
 
@@ -33,6 +37,10 @@ class DataIterator:
 
         self._current_index = 0
         self._total_candles = 0
+
+        self._times = None
+        self._ohlc = None
+        self._spreads = None
 
         self._last_date = 0
         self.__market_key: bytes = secrets.token_bytes(16)
@@ -76,6 +84,10 @@ class DataIterator:
         self._bid_data = data_cruda[['time', 'open', 'high', 'low', 'close', 'spread']].copy()
         self._current_index = 0
         self._total_candles = len(data_cruda.index)
+
+        self._times = self._bid_data['time'].to_numpy(dtype=np.int64)
+        self._ohlc = self._bid_data[['open', 'high', 'low', 'close']].to_numpy(dtype=np.float64)
+        self._spreads = self._bid_data['spread'].to_numpy(dtype=np.float64)
 
     def _get_bursatil_interval(self) -> None:
         hoy = datetime.now(timezone.utc)
@@ -124,19 +136,19 @@ class DataIterator:
 
     def next_candle(self) -> Tuple[np.ndarray, float]:
         if self._backtest:
-            if self._bid_data is None or self._current_index >= self._total_candles:
+            if self._ohlc is None or self._current_index >= self._total_candles:
                 self._backtest = False
                 self._last_date = 0
                 self._update_market()
                 return np.array([], dtype=np.float64), 0.0
 
-            row = self._bid_data.iloc[self._current_index]
+            idx = self._current_index
             self._current_index += 1
 
-            self._last_date = int(row['time'])
+            self._last_date = int(self._times[idx])
 
-            bid_array: np.ndarray = row[['open', 'high', 'low', 'close']].to_numpy(dtype=np.float64)
-            spread_value: float = float(row['spread'])
+            bid_array: np.ndarray = self._ohlc[idx]
+            spread_value: float = float(self._spreads[idx])
 
         else:
             if self._last_date == 0:
@@ -210,7 +222,18 @@ class DataIterator:
             elif end_time.tzinfo is None:
                 end_time = end_time.replace(tzinfo=timezone.utc)
 
-            sub_df = self._bid_data.loc[start_time:end_time].copy()
+            start_ts = int(start_time.timestamp())
+            end_ts = int(end_time.timestamp())
+
+            i0 = int(np.searchsorted(self._times, start_ts, side="left"))
+            i1 = int(np.searchsorted(self._times, end_ts, side="right"))
+
+            sub_df = pd.DataFrame(
+                self._ohlc[i0:i1],
+                columns=['open', 'high', 'low', 'close'],
+                index=pd.to_datetime(self._times[i0:i1], unit="s", utc=True)
+            )
+            sub_df['spread'] = self._spreads[i0:i1]
 
         else:
             now_utc = datetime.now(timezone.utc)
