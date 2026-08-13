@@ -2,9 +2,9 @@ import MetaTrader5 as mt5
 import pandas as pd
 import numpy as np
 from datetime import datetime, timedelta
-import talib
 import sys
 import os
+import time
 
 import matplotlib
 matplotlib.use('Agg')
@@ -12,13 +12,16 @@ import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 import matplotlib.ticker as mticker
 
-sys.path.append(os.path.abspath('../optimal-moving-average'))
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from rutas import ruta_oma
+sys.path.append(ruta_oma())
 
 import keys
 from find_best import opti_main
+from ta_warmup import FAST_METHODS, candles_requeridas
 
 SYMBOL           = "AUDCAD_"
-keys.calls       = 25
+keys.calls       = 100
 
 CAPITAL_LONG     = 10_000.0
 CAPITAL_SHORT    = 10_000.0
@@ -34,17 +37,34 @@ SWAP_BY_MONEY    = 1
 SWAP_BY_PCT_OPEN = 2
 SWAP_BY_PCT_CUR  = 3
 
-PRE_CALC_DIR = "pre_calc"
+# Variante con la rejilla del optimizador alineada al ejecutor (origin="epoch",
+# sin velas inventadas, senal sobre bid). Se escribe en carpetas propias para no
+# tocar pre_calc/ ni trades/, de los que dependen las dos corridas anteriores.
+PRE_CALC_DIR = "pre_calc_epoch"
+# Exporte por operacion, insumo del notebook de analisis. Relativo al CWD igual
+# que PRE_CALC_DIR, asi que hay que lanzar el script desde Backtest/.
+TRADES_DIR   = "trades_epoch"
 
-FAST_METHODS = {
-    "SMA": talib.SMA, "EMA": talib.EMA, "WMA": talib.WMA,
-    "DEMA": talib.DEMA, "TEMA": talib.TEMA, "TRIMA": talib.TRIMA,
-    "KAMA": talib.KAMA, "T3": talib.T3, "MIDPOINT": talib.MIDPOINT,
-}
+# Historia previa al 1 de enero que se descarga junto con el año. El peor caso del
+# espacio de busqueda es T3 con lb=110 y vela=100: 660 velas * 100 = 66.000 filas M1
+# ~ 46 dias de mercado ~ 64 dias naturales, mas las 4 semanas que opti_main recorta
+# del mismo DataFrame. 100 dias cubre ambos con holgura.
+DIAS_HISTORIA = 100
+
+
+def _dur(segundos: float) -> str:
+    segundos = int(max(0, segundos))
+    horas, resto = divmod(segundos, 3600)
+    return f"{horas}h{resto // 60:02d}m" if horas else f"{resto // 60}m{resto % 60:02d}s"
 
 
 def _ruta_pre_calc(symbol: str) -> str:
     return os.path.join(PRE_CALC_DIR, f"{symbol}.csv")
+
+
+def _ruta_trades(symbol: str, year: int, lado: str) -> str:
+    os.makedirs(TRADES_DIR, exist_ok=True)
+    return os.path.join(TRADES_DIR, f"{symbol}_{year}_{lado}.csv")
 
 
 def _cargar_pre_calc(symbol: str) -> dict:
@@ -66,7 +86,7 @@ def _cargar_pre_calc(symbol: str) -> dict:
         print(f"  [pre_calc] {len(cache)} semanas cargadas de '{ruta}'")
         return cache
     except Exception as e:
-        print(f"  [pre_calc] Error leyendo caché '{ruta}': {e}")
+        print(f"  [pre_calc] Error leyendo cache '{ruta}': {e}")
         return {}
 
 
@@ -110,7 +130,7 @@ def _generar_equity_chart(df_l, df_s, year, symbol):
             color='#2ecc71',
             lw=1.8,
             zorder=3,
-            label=f'Long  {ret_l:+.1f}%  →  ${pat_fin_l:,.0f}'
+            label=f'Long  {ret_l:+.1f}%  ->  ${pat_fin_l:,.0f}'
         )
 
         ax.fill_between(
@@ -150,7 +170,7 @@ def _generar_equity_chart(df_l, df_s, year, symbol):
             color='#e67e22',
             lw=1.8,
             zorder=3,
-            label=f'Short  {ret_s:+.1f}%  →  ${pat_fin_s:,.0f}'
+            label=f'Short  {ret_s:+.1f}%  ->  ${pat_fin_s:,.0f}'
         )
 
         ax.fill_between(
@@ -192,7 +212,7 @@ def _generar_equity_chart(df_l, df_s, year, symbol):
             lw=2.5,
             ls='--',
             zorder=5,
-            label=f'Total Real  {ret_tot:+.1f}%  →  ${pat_fin_tot:,.0f}'
+            label=f'Total Real  {ret_tot:+.1f}%  ->  ${pat_fin_tot:,.0f}'
         )
 
         ax.axhline(
@@ -393,92 +413,173 @@ def calcular_rachas(pnl):
     return mg, mp
 
 
-def _semana_lado(df_semana, lunes_actual, viernes_actual, metodo, lb, vela_min, es_long=True):
+def _ventana_semana(df, lunes, viernes, metodo, lb, vela_min):
+    """Ventana de la semana con calentamiento medido en filas M1, no en minutos.
+
+    El buffer anterior, (lb+25)*vela minutos naturales, contaba fines de semana
+    como si aportaran filas M1: con lb=110 y vela=100 entregaba ~7.300 filas de
+    las ~11.400 necesarias y la semana no operaba hasta el jueves.
+
+    La rejilla muestreada esta anclada a la posicion absoluta del lunes, no al
+    inicio del buffer: las posiciones cumplen p == start (mod vela_min) y
+    semana_start + start = lunes_abs, de modo que agrandar el calentamiento
+    desplaza origen y start a la vez. Ampliar la ventana no mueve que velas se
+    muestrean.
+    """
+    idx       = df.index
+    pos_lunes = idx.searchsorted(lunes,   side='left')
+    pos_fin   = idx.searchsorted(viernes, side='right')
+    if pos_lunes >= pos_fin:
+        return None, 0, 0, False
+
+    need_candles = candles_requeridas(metodo, lb)
+    pos_ini      = pos_lunes - need_candles * vela_min
+    truncado     = pos_ini < 0
+    pos_ini      = max(0, pos_ini)
+
+    return df.iloc[pos_ini:pos_fin], pos_lunes - pos_ini, need_candles, truncado
+
+
+def _reporte_diagnostico(year, diagnostico, trades_long, trades_short):
+    """Cuanto del backtest estaba vacio y cuanto PnL se estaba borrando."""
+    if not diagnostico:
+        return
+
+    d = pd.DataFrame(diagnostico)
+    print(f"\n{'='*78}\n  DIAGNOSTICO {year}\n{'='*78}")
+    print(f"  {'semana':<12}{'lado':<7}{'metodo':<10}{'lb':>5}{'vela':>6}"
+          f"{'v.lun':>7}{'v.vie':>7}{'req':>6}{'trades':>8}  estado")
+    for _, r in d.iterrows():
+        marca = ' *CV' if r['cierre_viernes'] else ''
+        print(f"  {r['semana']:<12}{r['lado']:<7}{r['metodo']:<10}{r['lb']:>5}{r['vela']:>6}"
+              f"{r['velas_lunes']:>7}{r['velas_viernes']:>7}{r['velas_req']:>6}"
+              f"{r['trades']:>8}  {r['estado']}{marca}")
+
+    cv = [t for t in list(trades_long) + list(trades_short) if t['tipo'] == 'Cierre_Viernes']
+    print(f"\n  Semanas-lado procesadas : {len(d)}")
+    for estado, n in d['estado'].value_counts().items():
+        print(f"    {estado:<22}: {n}")
+    print(f"  Con cero trades         : {int((d['trades'] == 0).sum())}")
+    print(f"  Cierres de viernes      : {len(cv)}"
+          f" | PnL agregado (precio): {sum(t['pnl_price'] for t in cv):+.6f}")
+    if not d.empty:
+        faltantes = d[d['velas_viernes'] < d['velas_req']]
+        if not faltantes.empty:
+            print(f"  Sin velas suficientes   : {len(faltantes)}"
+                  f" -> {sorted(faltantes['metodo'].unique())}")
+    print('='*78)
+
+
+def _cerrar_posicion(posicion, t, bid_, ask_, es_long, tipo):
+    if es_long:
+        mae_p = posicion['precio_in'] - posicion['min_low']
+        mfe_p = posicion['max_high']  - posicion['precio_in']
+        pnl_p = bid_ - posicion['precio_in']
+    else:
+        mae_p = posicion['max_high']  - posicion['precio_in']
+        mfe_p = posicion['precio_in'] - posicion['min_low']
+        pnl_p = posicion['precio_in'] - ask_
+    return {
+        'fecha_entrada':  posicion['fecha'],
+        'fecha_salida':   t,
+        'precio_entrada': posicion['precio_in'],
+        'precio_salida':  bid_ if es_long else ask_,
+        'pnl_price':      pnl_p,
+        'tipo':           tipo,
+        'mae_price':      max(0.0, mae_p),
+        'mfe_price':      max(0.0, mfe_p),
+    }
+
+
+def _semana_lado(df_semana, start, need_candles, metodo, lb, vela_min, es_long=True):
+    """Recorre una semana sobre la rejilla muestreada. Devuelve (trades, diag)."""
     trades      = []
     posicionado = False
     posicion    = None
 
-    try:
-        start = df_semana.index.get_loc(df_semana.loc[lunes_actual:].index[0])
-    except IndexError:
-        return trades
+    # Rejilla muestreada, precalculada una sola vez. Las posiciones cumplen
+    # p == start (mod vela_min), identicas a las del slicing invertido original
+    # df_semana.iloc[:i+1].iloc[::-1][::vela_min].iloc[::-1], pero sin reconstruir
+    # un DataFrame en cada iteracion (el buffer crece ~10x con la ventana por filas).
+    sel = np.arange(start % vela_min, len(df_semana), vela_min)
 
-    for i in range(start, len(df_semana), vela_min):
-        w = df_semana.iloc[:i+1].iloc[::-1][::vela_min].iloc[::-1]
-        if len(w) < lb + 5:
+    bid_grid = df_semana['bid'].values[sel]
+    ask_grid = df_semana['ask'].values[sel]
+    t_grid   = df_semana.index[sel]
+    # Maximo y minimo reales de cada vela, no los de la unica fila M1 muestreada.
+    # Solo afecta a MAE/MFE; el PnL no cambia.
+    hi_grid  = df_semana['high'].rolling(vela_min, min_periods=1).max().values[sel]
+    lo_grid  = df_semana['low'].rolling(vela_min,  min_periods=1).min().values[sel]
+
+    k_lunes = int(np.searchsorted(sel, start, side='left'))
+    diag = {
+        'velas_lunes':    k_lunes + 1,
+        'velas_viernes':  len(sel),
+        'velas_req':      need_candles,
+        'cierre_viernes': False,
+        'trades':         0,
+    }
+
+    if len(sel) < need_candles:
+        diag['estado'] = 'SKIPPED_INSUFFICIENT'
+        return trades, diag
+    diag['estado'] = 'OK'
+
+    target_entrada = 1  if es_long else -1
+    target_salida  = -1 if es_long else  1
+
+    k_last = None
+    for k in range(k_lunes, len(sel)):
+        # Periodo inestable de TA-Lib: por debajo de need_candles la MA es NaN
+        # y evaluar_señal_mr devuelve 0 toda la semana sin avisar.
+        if k + 1 < need_candles:
             continue
 
-        arr  = w['bid'].values
-        ask  = w['ask'].values
-        high = w['high'].values
-        low  = w['low'].values
-        bid_ = float(arr[-1])
-        ask_ = float(ask[-1])
-        t    = w.index[-1]
+        bid_   = float(bid_grid[k])
+        ask_   = float(ask_grid[k])
+        t      = t_grid[k]
+        k_last = k
 
         if posicionado:
-            posicion['max_high'] = max(posicion['max_high'], float(high[-1]))
-            posicion['min_low']  = min(posicion['min_low'],  float(low[-1]))
+            posicion['max_high'] = max(posicion['max_high'], float(hi_grid[k]))
+            posicion['min_low']  = min(posicion['min_low'],  float(lo_grid[k]))
 
-        if t >= viernes_actual:
-            if posicionado:
-                if es_long:
-                    mae_p = posicion['precio_in'] - posicion['min_low']
-                    mfe_p = posicion['max_high']  - posicion['precio_in']
-                    pnl_p = bid_ - posicion['precio_in']
-                else:
-                    mae_p = posicion['max_high']  - posicion['precio_in']
-                    mfe_p = posicion['precio_in'] - posicion['min_low']
-                    pnl_p = posicion['precio_in'] - ask_
-                trades.append({
-                    'fecha_entrada':  posicion['fecha'],
-                    'fecha_salida':   t,
-                    'precio_entrada': posicion['precio_in'],
-                    'precio_salida':  bid_ if es_long else ask_,
-                    'pnl_price':      pnl_p,
-                    'tipo':           'Cierre_Viernes',
-                    'mae_price':      max(0.0, mae_p),
-                    'mfe_price':      max(0.0, mfe_p),
-                })
-            break
-
-        s              = evaluar_señal_mr(arr, metodo, lb)
-        target_entrada = 1  if es_long else -1
-        target_salida  = -1 if es_long else  1
+        s = evaluar_señal_mr(bid_grid[:k+1], metodo, lb)
 
         if s == target_salida and posicionado:
-            if es_long:
-                mae_p = posicion['precio_in'] - posicion['min_low']
-                mfe_p = posicion['max_high']  - posicion['precio_in']
-                pnl_p = bid_ - posicion['precio_in']
-            else:
-                mae_p = posicion['max_high']  - posicion['precio_in']
-                mfe_p = posicion['precio_in'] - posicion['min_low']
-                pnl_p = posicion['precio_in'] - ask_
-            trades.append({
-                'fecha_entrada':  posicion['fecha'],
-                'fecha_salida':   t,
-                'precio_entrada': posicion['precio_in'],
-                'precio_salida':  bid_ if es_long else ask_,
-                'pnl_price':      pnl_p,
-                'tipo':           'Cierre_Señal',
-                'mae_price':      max(0.0, mae_p),
-                'mfe_price':      max(0.0, mfe_p),
-            })
+            trades.append(_cerrar_posicion(posicion, t, bid_, ask_, es_long, 'Cierre_Señal'))
             posicionado = False
             posicion    = None
 
         if s == target_entrada and not posicionado:
-            precio_in = ask_ if es_long else bid_
-            posicion  = {
-                'precio_in': precio_in,
+            posicion = {
+                'precio_in': ask_ if es_long else bid_,
                 'fecha':     t,
-                'max_high':  float(high[-1]),
-                'min_low':   float(low[-1]),
+                'max_high':  float(hi_grid[k]),
+                'min_low':   float(lo_grid[k]),
             }
             posicionado = True
 
-    return trades
+    # Cierre de fin de semana por reloj: ultima fila M1 <= viernes 23:50, con
+    # independencia de donde caiga la rejilla. El chequeo `t >= viernes_actual`
+    # que habia dentro del bucle solo se cumplia si una fila muestreada caia
+    # exactamente en 23:50:00, asi que ~99% de las posiciones abiertas el viernes
+    # se perdian sin contabilizar.
+    if posicionado:
+        cola = df_semana.iloc[sel[k_last] + 1:]
+        if not cola.empty:
+            posicion['max_high'] = max(posicion['max_high'], float(cola['high'].max()))
+            posicion['min_low']  = min(posicion['min_low'],  float(cola['low'].min()))
+        trades.append(_cerrar_posicion(
+            posicion,
+            df_semana.index[-1],
+            float(df_semana['bid'].iloc[-1]),
+            float(df_semana['ask'].iloc[-1]),
+            es_long, 'Cierre_Viernes'))
+        diag['cierre_viernes'] = True
+
+    diag['trades'] = len(trades)
+    return trades, diag
 
 
 def _contabilizar(trades, capital_inicial, swap_rate, swap_mode,
@@ -613,46 +714,46 @@ def _metricas(df_res, capital_inicial, balance_final, reserva_final,
         skew_val = kurt_val = 0.0
 
     w = 60
-    print(f"\n{'═'*w}")
-    print(f"   BACKTEST MR DIRECTO {lado.upper()} {year}  —  {SYMBOL}".center(w))
-    print(f"{'═'*w}")
+    print(f"\n{'='*w}")
+    print(f"   BACKTEST MR DIRECTO {lado.upper()} {year}  -  {SYMBOL}".center(w))
+    print(f"{'='*w}")
     print(f"  Capital Inicial               : ${capital_inicial:>12,.2f}")
-    print(f"  Comisión RT                    : ${comision_rt:>12,.4f} / lote")
+    print(f"  Comision RT                    : ${comision_rt:>12,.4f} / lote")
     print(f"  Swap {lado[:5]:<5}                   : ${swap_rate:>12,.4f} / lote-noche")
-    print(f"{'─'*w}")
+    print(f"{'-'*w}")
     print(f"  Ganancias Apartadas           : ${reserva_final:>12,.2f}")
     print(f"  Capital Operativo Final       : ${balance_final:>12,.2f}")
     print(f"  Patrimonio Total Final        : ${pat:>12,.2f}")
-    print(f"{'─'*w}")
+    print(f"{'-'*w}")
     print(f"  Beneficio Neto                : ${np_:>+12,.2f}")
     print(f"  Retorno sobre Capital         : {ret:>+11.2f}%")
-    print(f"  Esperanza Matemática (Trade)  : ${expectancy:>12,.2f}")
+    print(f"  Esperanza Matematica (Trade)  : ${expectancy:>12,.2f}")
     print(f"  Profit Factor                 : {pf:>12.3f}")
     print(f"  Risk / Reward                 : {rr:>12.3f}")
-    print(f"{'─'*w}")
+    print(f"{'-'*w}")
     print(f"  Sharpe Ratio                  : {sh:>12.4f}")
     print(f"  Sortino Ratio                 : {so:>12.4f}")
     print(f"  Calmar Ratio                  : {cal:>12.4f}")
     print(f"  Value at Risk (95%)           : {var_95*100:>11.2f}%")
     print(f"  Conditional VaR (95%)         : {cvar_95*100:>11.2f}%")
-    print(f"{'─'*w}")
+    print(f"{'-'*w}")
     print(f"  Avg. MAE (Riesgo Latente)     : ${avg_mae:>12,.2f}")
     print(f"  Avg. MFE (Beneficio Latente)  : ${avg_mfe:>12,.2f}")
-    print(f"{'─'*w}")
+    print(f"{'-'*w}")
     print(f"  Max Drawdown ($)              : -${mda:>11,.2f}")
     print(f"  Max Drawdown (%)              : -{mdp:>10.2f}%")
-    print(f"  Max DD Duration (Recuperación): {max_dd_dur_days:>11.2f} días")
-    print(f"  Tiempo Total Expuesto         : {total_duration_days:>11.2f} días")
-    print(f"  Duración Promedio Trade       : {avg_duration_hours:>11.2f} horas")
-    print(f"{'─'*w}")
-    print(f"  Asimetría (Skewness)          : {skew_val:>12.2f}")
+    print(f"  Max DD Duration (Recuperacion): {max_dd_dur_days:>11.2f} dias")
+    print(f"  Tiempo Total Expuesto         : {total_duration_days:>11.2f} dias")
+    print(f"  Duracion Promedio Trade       : {avg_duration_hours:>11.2f} horas")
+    print(f"{'-'*w}")
+    print(f"  Asimetria (Skewness)          : {skew_val:>12.2f}")
     print(f"  Curtosis de Exceso (Kurtosis) : {kurt_val:>12.2f}")
-    print(f"{'─'*w}")
+    print(f"{'-'*w}")
     print(f"  Total Operaciones             : {total:>12}")
     print(f"  Ganadoras                     : {len(gan):>12}")
     print(f"  Perdedoras                    : {len(per):>12}")
     print(f"  Hit Ratio                     : {hr:>12.4f} ({hr*100:.2f}%)")
-    print(f"{'═'*w}")
+    print(f"{'='*w}")
 
     return {
         'year': year, 'lado': lado,
@@ -708,7 +809,7 @@ def backtest_año(year: int):
 
     rates = mt5.copy_rates_range(
         SYMBOL, mt5.TIMEFRAME_M1,
-        datetime(year-1, 12, 1), datetime(year, 12, 28)
+        datetime(year, 1, 1) - timedelta(days=DIAS_HISTORIA), datetime(year, 12, 28)
     )
     mt5.shutdown()
 
@@ -723,17 +824,25 @@ def backtest_año(year: int):
 
     trades_long  = []
     trades_short = []
+    diagnostico  = []
     lunes_rango  = pd.date_range(f'{year}-01-01', f'{year}-12-31', freq='W-MON')
     ahora        = datetime.now()
 
     cache_pre = _cargar_pre_calc(SYMBOL)
 
-    for lunes in lunes_rango:
+    # Semanas que realmente se van a recorrer, para poder mostrar avance y ETA:
+    # con el cache vacio cada semana optimiza y la corrida tarda horas.
+    semanas = [l for l in lunes_rango
+               if (l + timedelta(days=4)).replace(hour=23, minute=59, second=59) < ahora]
+    t_inicio = time.time()
 
-        viernes_cierre = (lunes + timedelta(days=4)).replace(
-            hour=23, minute=59, second=59)
-        if viernes_cierre >= ahora:
-            continue
+    for n_semana, lunes in enumerate(semanas, 1):
+
+        hecho       = n_semana / len(semanas)
+        transcurrido = time.time() - t_inicio
+        eta         = transcurrido / hecho - transcurrido
+        print(f"[{year} {n_semana:>3}/{len(semanas)} {100*hecho:>3.0f}%]  {lunes.date()}"
+              f"   transcurrido {_dur(transcurrido)}   ETA {_dur(eta)}", flush=True)
 
         semana_key = str(lunes.date())
         viernes    = (lunes + timedelta(days=4)).replace(hour=23, minute=50, second=0)
@@ -754,7 +863,7 @@ def backtest_año(year: int):
             if df_opt.empty:
                 continue
             if (df_opt.index[-1] - df_opt.index[0]).days < 20:
-                print(f"  {lunes.date()} | [SKIP] datos insuficientes para optimización")
+                print(f"  {lunes.date()} | [SKIP] datos insuficientes para optimizacion")
                 continue
 
             inp = df_opt[['bid', 'ask']].copy()
@@ -778,18 +887,30 @@ def backtest_año(year: int):
                   f"Long: {met_l} lb={lb_l} v={vela_l} | "
                   f"Short: {met_s} lb={lb_s} v={vela_s}")
 
-        buf_l = lunes - timedelta(minutes=(lb_l + 25) * vela_l)
-        buf_s = lunes - timedelta(minutes=(lb_s + 25) * vela_s)
+        for lado, met, lb, vela, es_long, destino in (
+                ('LONG',  met_l, lb_l, vela_l, True,  trades_long),
+                ('SHORT', met_s, lb_s, vela_s, False, trades_short)):
 
-        sem_l = df.loc[buf_l:viernes]
-        sem_s = df.loc[buf_s:viernes]
+            sem, start, need, truncado = _ventana_semana(df, lunes, viernes, met, lb, vela)
+            if sem is None:
+                diagnostico.append({
+                    'semana': semana_key, 'lado': lado, 'metodo': met, 'lb': lb,
+                    'vela': vela, 'velas_lunes': 0, 'velas_viernes': 0,
+                    'velas_req': candles_requeridas(met, lb), 'trades': 0,
+                    'cierre_viernes': False, 'estado': 'SIN_DATOS',
+                })
+                continue
 
-        if not sem_l.empty:
-            trades_long  += _semana_lado(
-                sem_l, lunes, viernes, met_l, lb_l, vela_l, es_long=True)
-        if not sem_s.empty:
-            trades_short += _semana_lado(
-                sem_s, lunes, viernes, met_s, lb_s, vela_s, es_long=False)
+            trades, diag = _semana_lado(sem, start, need, met, lb, vela, es_long=es_long)
+            destino.extend(trades)
+
+            if truncado and diag['estado'] == 'SKIPPED_INSUFFICIENT':
+                diag['estado'] = 'TRUNCATED_DATASET'
+            diag.update({'semana': semana_key, 'lado': lado,
+                         'metodo': met, 'lb': lb, 'vela': vela})
+            diagnostico.append(diag)
+
+    _reporte_diagnostico(year, diagnostico, trades_long, trades_short)
 
     res_long = res_short = None
     df_l_out = df_s_out  = None
@@ -798,8 +919,8 @@ def backtest_año(year: int):
         df_l, bal_l, rev_l = _contabilizar(
             trades_long, CAPITAL_LONG, swap_long_r, swap_mode,
             contract_size, tick_value, tick_size, rollover3days, comision_rt)
-        csv_l = os.path.expanduser(f"~/{SYMBOL}_{year}_mr_directo_long.csv")
-#        df_l.to_csv(csv_l)
+        csv_l = _ruta_trades(SYMBOL, year, "long")
+        df_l.to_csv(csv_l, index=False)
         res_long = _metricas(df_l, CAPITAL_LONG, bal_l, rev_l,
                              comision_rt, swap_long_r, year, "LONG")
         df_l_out = df_l
@@ -811,8 +932,8 @@ def backtest_año(year: int):
         df_s, bal_s, rev_s = _contabilizar(
             trades_short, CAPITAL_SHORT, swap_short_r, swap_mode,
             contract_size, tick_value, tick_size, rollover3days, comision_rt)
-        csv_s = os.path.expanduser(f"~/{SYMBOL}_{year}_mr_directo_short.csv")
-        #df_s.to_csv(csv_s)
+        csv_s = _ruta_trades(SYMBOL, year, "short")
+        df_s.to_csv(csv_s, index=False)
         res_short = _metricas(df_s, CAPITAL_SHORT, bal_s, rev_s,
                               comision_rt, swap_short_r, year, "SHORT")
         df_s_out = df_s
@@ -860,19 +981,19 @@ def imprimir_tabla(resultados: list, lado: str):
         ("Racha Máx. Perdedoras",    "racha_max_perdedora", "{:>15}"),
         ("Tiempo Expuesto (Días)",   "tiempo_expuesto",     "{:>15.2f}"),
         ("Avg Duración Trade (Hrs)", "avg_duracion_hrs",    "{:>15.2f}"),
-        ("Asimetría (Skewness)",     "skewness",            "{:>15.2f}"),
+        ("Asimetria (Skewness)",     "skewness",            "{:>15.2f}"),
         ("Curtosis",                 "kurtosis",            "{:>15.2f}"),
         ("Swap Total ($)",           "total_swap",          "$ {:>14,.2f}"),
         ("Comisiones Total ($)",     "total_comisiones",    "$ {:>14,.2f}"),
     ]
     secciones = {
-        "Patrimonio Final ($)":    "── Rendimiento ──",
-        "Sharpe Ratio":            "── Ratios de Eficiencia Financiera ──",
-        "Max Drawdown ($)":        "── Riesgo de Caída (Drawdown) ──",
-        "Avg MAE (Riesgo Lat. $)": "── Métricas de Ejecución (MAE/MFE) ──",
-        "Total Operaciones":       "── Operaciones y Rachas ──",
-        "Tiempo Expuesto (Días)":  "── Distribución y Tiempos ──",
-        "Swap Total ($)":          "── Costos Operativos ──",
+        "Patrimonio Final ($)":    "-- Rendimiento --",
+        "Sharpe Ratio":            "-- Ratios de Eficiencia Financiera --",
+        "Max Drawdown ($)":        "-- Riesgo de Caída (Drawdown) --",
+        "Avg MAE (Riesgo Lat. $)": "-- Métricas de Ejecución (MAE/MFE) --",
+        "Total Operaciones":       "-- Operaciones y Rachas --",
+        "Tiempo Expuesto (Días)":  "-- Distribución y Tiempos --",
+        "Swap Total ($)":          "-- Costos Operativos --",
     }
 
     CL, CY = 28, 18
@@ -880,18 +1001,18 @@ def imprimir_tabla(resultados: list, lado: str):
     hd = "".join(f"{y:>{CY}}" for y in years)
     cap = CAPITAL_LONG if lado == "LONG" else CAPITAL_SHORT
 
-    print(f"\n\n{'═'*W}")
-    print(f"  COMPARATIVO AÑO A AÑO  —  {lado}".center(W))
+    print(f"\n\n{'='*W}")
+    print(f"  COMPARATIVO INTERANUAL  -  {lado}".center(W))
     print(f"  {SYMBOL}  |  Capital: ${cap:,.0f}  |  Mean Reversion Directo".center(W))
-    print(f"{'═'*W}")
-    print(f"  {'MÉTRICA':<{CL-2}}{hd}")
-    print(f"{'─'*W}")
+    print(f"{'='*W}")
+    print(f"  {'METRICA':<{CL-2}}{hd}")
+    print(f"{'-'*W}")
 
     for etiq, clave, fmt in filas:
         if etiq in secciones:
-            print(f"{'─'*W}")
+            print(f"{'-'*W}")
             print(f"  {secciones[etiq]}")
-            print(f"{'─'*W}")
+            print(f"{'-'*W}")
         vals = ""
         for r in rs:
             v = r.get(clave, 0)
@@ -902,7 +1023,7 @@ def imprimir_tabla(resultados: list, lado: str):
             vals += f"{c:>{CY}}"
         print(f"  {etiq:<{CL-2}}{vals}")
 
-    print(f"{'═'*W}")
+    print(f"{'='*W}")
 
 
 if __name__ == "__main__":
@@ -911,7 +1032,7 @@ if __name__ == "__main__":
 
     for year in YEARS:
         print(f"\n{'#'*65}")
-        print(f"  Backtest MR Directo {year}  —  {SYMBOL}")
+        print(f"  Backtest MR Directo {year}  -  {SYMBOL}")
         print(f"{'#'*65}")
         r_long, r_short = backtest_año(year)
         if r_long:  todos_long.append(r_long)

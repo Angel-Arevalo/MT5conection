@@ -14,9 +14,9 @@ Asigna un **magic number único** a cada combinación de símbolo + dirección. 
 
 **Ejemplo:**
 ```python
-magic_eurusd_long  = get_or_create_magic("EURUSD", "LONG")   # → 1000
-magic_eurusd_short = get_or_create_magic("EURUSD", "SHORT")  # → 1001
-magic_eurusd_both  = get_or_create_magic("EURUSD", "BOTH")   # → 1002
+magic_eurusd_long  = get_or_create_magic("EURUSD", "LONG")   # -> 1000
+magic_eurusd_short = get_or_create_magic("EURUSD", "SHORT")  # -> 1001
+magic_eurusd_both  = get_or_create_magic("EURUSD", "BOTH")   # -> 1002
 ```
 
 Cada bot tiene su propio historial de P&L aislado del resto.
@@ -57,7 +57,7 @@ Calcula cuántos **lotes** operar respetando capital y apalancamiento.
 **Ejemplo básico:**
 ```python
 volumen = calcular_volumen_estricto("EURUSD", 1000, "LONG")
-# → 0.36 lotes (con capital=$1000, apalancamiento=40x, EURUSD≈1.10)
+# -> 0.36 lotes (con capital=$1000, apalancamiento=40x, EURUSD≈1.10)
 ```
 
 **Ejemplo avanzado:**

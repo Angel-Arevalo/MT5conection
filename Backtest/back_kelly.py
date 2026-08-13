@@ -110,7 +110,7 @@ def _generar_equity_chart(df_l, df_s, year, symbol):
             color='#2ecc71',
             lw=1.8,
             zorder=3,
-            label=f'Long  {ret_l:+.1f}%  →  ${pat_fin_l:,.0f}'
+            label=f'Long  {ret_l:+.1f}%  ->  ${pat_fin_l:,.0f}'
         )
 
         ax.fill_between(
@@ -150,7 +150,7 @@ def _generar_equity_chart(df_l, df_s, year, symbol):
             color='#e67e22',
             lw=1.8,
             zorder=3,
-            label=f'Short  {ret_s:+.1f}%  →  ${pat_fin_s:,.0f}'
+            label=f'Short  {ret_s:+.1f}%  ->  ${pat_fin_s:,.0f}'
         )
 
         ax.fill_between(
@@ -192,7 +192,7 @@ def _generar_equity_chart(df_l, df_s, year, symbol):
             lw=2.5,
             ls='--',
             zorder=5,
-            label=f'Total Real  {ret_tot:+.1f}%  →  ${pat_fin_tot:,.0f}'
+            label=f'Total Real  {ret_tot:+.1f}%  ->  ${pat_fin_tot:,.0f}'
         )
 
         ax.axhline(
@@ -614,46 +614,46 @@ def _metricas(df_res, capital_inicial, balance_final, reserva_final,
         skew_val = kurt_val = 0.0
 
     w = 60
-    print(f"\n{'═'*w}")
+    print(f"\n{'='*w}")
     print(f"   BACKTEST MR DIRECTO {lado.upper()} {year}  —  {SYMBOL}".center(w))
-    print(f"{'═'*w}")
+    print(f"{'='*w}")
     print(f"  Capital Inicial               : ${capital_inicial:>12,.2f}")
     print(f"  Comisión RT                    : ${comision_rt:>12,.4f} / lote")
     print(f"  Swap {lado[:5]:<5}                   : ${swap_rate:>12,.4f} / lote-noche")
-    print(f"{'─'*w}")
+    print(f"{'-'*w}")
     print(f"  Ganancias Apartadas           : ${reserva_final:>12,.2f}")
     print(f"  Capital Operativo Final       : ${balance_final:>12,.2f}")
     print(f"  Patrimonio Total Final        : ${pat:>12,.2f}")
-    print(f"{'─'*w}")
+    print(f"{'-'*w}")
     print(f"  Beneficio Neto                : ${np_:>+12,.2f}")
     print(f"  Retorno sobre Capital         : {ret:>+11.2f}%")
     print(f"  Esperanza Matemática (Trade)  : ${expectancy:>12,.2f}")
     print(f"  Profit Factor                 : {pf:>12.3f}")
     print(f"  Risk / Reward                 : {rr:>12.3f}")
-    print(f"{'─'*w}")
+    print(f"{'-'*w}")
     print(f"  Sharpe Ratio                  : {sh:>12.4f}")
     print(f"  Sortino Ratio                 : {so:>12.4f}")
     print(f"  Calmar Ratio                  : {cal:>12.4f}")
     print(f"  Value at Risk (95%)           : {var_95*100:>11.2f}%")
     print(f"  Conditional VaR (95%)         : {cvar_95*100:>11.2f}%")
-    print(f"{'─'*w}")
+    print(f"{'-'*w}")
     print(f"  Avg. MAE (Riesgo Latente)     : ${avg_mae:>12,.2f}")
     print(f"  Avg. MFE (Beneficio Latente)  : ${avg_mfe:>12,.2f}")
-    print(f"{'─'*w}")
+    print(f"{'-'*w}")
     print(f"  Max Drawdown ($)              : -${mda:>11,.2f}")
     print(f"  Max Drawdown (%)              : -{mdp:>10.2f}%")
     print(f"  Max DD Duration (Recuperación): {max_dd_dur_days:>11.2f} días")
     print(f"  Tiempo Total Expuesto         : {total_duration_days:>11.2f} días")
     print(f"  Duración Promedio Trade       : {avg_duration_hours:>11.2f} horas")
-    print(f"{'─'*w}")
+    print(f"{'-'*w}")
     print(f"  Asimetría (Skewness)          : {skew_val:>12.2f}")
     print(f"  Curtosis de Exceso (Kurtosis) : {kurt_val:>12.2f}")
-    print(f"{'─'*w}")
+    print(f"{'-'*w}")
     print(f"  Total Operaciones             : {total:>12}")
     print(f"  Ganadoras                     : {len(gan):>12}")
     print(f"  Perdedoras                    : {len(per):>12}")
     print(f"  Hit Ratio                     : {hr:>12.4f} ({hr*100:.2f}%)")
-    print(f"{'═'*w}")
+    print(f"{'='*w}")
 
     return {
         'year': year, 'lado': lado,
@@ -867,13 +867,13 @@ def imprimir_tabla(resultados: list, lado: str):
         ("Comisiones Total ($)",     "total_comisiones",    "$ {:>14,.2f}"),
     ]
     secciones = {
-        "Patrimonio Final ($)":    "── Rendimiento ──",
-        "Sharpe Ratio":            "── Ratios de Eficiencia Financiera ──",
-        "Max Drawdown ($)":        "── Riesgo de Caída (Drawdown) ──",
-        "Avg MAE (Riesgo Lat. $)": "── Métricas de Ejecución (MAE/MFE) ──",
-        "Total Operaciones":       "── Operaciones y Rachas ──",
-        "Tiempo Expuesto (Días)":  "── Distribución y Tiempos ──",
-        "Swap Total ($)":          "── Costos Operativos ──",
+        "Patrimonio Final ($)":    "-- Rendimiento --",
+        "Sharpe Ratio":            "-- Ratios de Eficiencia Financiera --",
+        "Max Drawdown ($)":        "-- Riesgo de Caída (Drawdown) --",
+        "Avg MAE (Riesgo Lat. $)": "-- Métricas de Ejecución (MAE/MFE) --",
+        "Total Operaciones":       "-- Operaciones y Rachas --",
+        "Tiempo Expuesto (Días)":  "-- Distribución y Tiempos --",
+        "Swap Total ($)":          "-- Costos Operativos --",
     }
 
     CL, CY = 28, 18
@@ -881,18 +881,18 @@ def imprimir_tabla(resultados: list, lado: str):
     hd = "".join(f"{y:>{CY}}" for y in years)
     cap = CAPITAL_LONG if lado == "LONG" else CAPITAL_SHORT
 
-    print(f"\n\n{'═'*W}")
+    print(f"\n\n{'='*W}")
     print(f"  COMPARATIVO AÑO A AÑO  —  {lado}".center(W))
     print(f"  {SYMBOL}  |  Capital: ${cap:,.0f}  |  Mean Reversion Directo".center(W))
-    print(f"{'═'*W}")
+    print(f"{'='*W}")
     print(f"  {'MÉTRICA':<{CL-2}}{hd}")
-    print(f"{'─'*W}")
+    print(f"{'-'*W}")
 
     for etiq, clave, fmt in filas:
         if etiq in secciones:
-            print(f"{'─'*W}")
+            print(f"{'-'*W}")
             print(f"  {secciones[etiq]}")
-            print(f"{'─'*W}")
+            print(f"{'-'*W}")
         vals = ""
         for r in rs:
             v = r.get(clave, 0)
@@ -903,7 +903,7 @@ def imprimir_tabla(resultados: list, lado: str):
             vals += f"{c:>{CY}}"
         print(f"  {etiq:<{CL-2}}{vals}")
 
-    print(f"{'═'*W}")
+    print(f"{'='*W}")
 
 
 if __name__ == "__main__":
