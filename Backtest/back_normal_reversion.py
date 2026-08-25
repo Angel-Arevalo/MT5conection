@@ -8,33 +8,31 @@ import os
 
 import matplotlib
 matplotlib.use('Agg')
-import matplotlib.pyplot as plt
-import matplotlib.dates as mdates
-import matplotlib.ticker as mticker
 
 sys.path.append(os.path.abspath('../optimal-moving-average'))
 
 import keys
 from find_best import opti_main
 
-SYMBOL           = "AUDCAD_"
-keys.calls       = 25
+SYMBOL               = "AUDCAD_"
+keys.calls           = 25
 
-CAPITAL_LONG     = 10_000.0
-CAPITAL_SHORT    = 10_000.0
-APALANCAMIENTO   = 2
+CAPITAL_LONG         = 10_000.0
+CAPITAL_SHORT        = 10_000.0
+APALANCAMIENTO       = 2
 
-YEARS            = [2024, 2025, 2026]
+YEARS                = [2026]
 
-COMISION_FALLBACK = 0.0
-RISK_FREE_RATE    = 0.0
+# Límite estricto de historial para igualar la memoria de medias exponenciales con el live
+MAX_VELAS_HISTORIAL  = 300
 
-SWAP_BY_POINTS   = 0
-SWAP_BY_MONEY    = 1
-SWAP_BY_PCT_OPEN = 2
-SWAP_BY_PCT_CUR  = 3
+COMISION_FALLBACK    = 0.0
+SWAP_BY_POINTS       = 0
+SWAP_BY_MONEY        = 1
+SWAP_BY_PCT_OPEN     = 2
+SWAP_BY_PCT_CUR      = 3
 
-PRE_CALC_DIR = "pre_calc"
+PRE_CALC_DIR         = "pre_calc"
 
 FAST_METHODS = {
     "SMA": talib.SMA, "EMA": talib.EMA, "WMA": talib.WMA,
@@ -56,12 +54,8 @@ def _cargar_pre_calc(symbol: str) -> dict:
         cache = {}
         for _, row in df.iterrows():
             cache[row['semana']] = {
-                'met_l':  row['met_l'],
-                'vela_l': int(row['vela_l']),
-                'lb_l':   int(row['lb_l']),
-                'met_s':  row['met_s'],
-                'vela_s': int(row['vela_s']),
-                'lb_s':   int(row['lb_s']),
+                'met_l':  row['met_l'],  'vela_l': int(row['vela_l']),  'lb_l': int(row['lb_l']),
+                'met_s':  row['met_s'],  'vela_s': int(row['vela_s']),  'lb_s': int(row['lb_s']),
             }
         print(f"  [pre_calc] {len(cache)} semanas cargadas de '{ruta}'")
         return cache
@@ -84,242 +78,11 @@ def _guardar_pre_calc(symbol: str, cache: dict) -> None:
     pd.DataFrame(filas).to_csv(ruta, index=False)
 
 
-def _generar_equity_chart(df_l, df_s, year, symbol):
-    fig, ax = plt.subplots(figsize=(14, 6))
-    fig.patch.set_facecolor('#0f0f1a')
-    ax.set_facecolor('#161625')
-
-    ts_l = ts_s = None
-
-    if df_l is not None and not df_l.empty:
-        t0 = df_l['fecha_entrada'].iloc[0]
-
-        pts_l = pd.concat([
-            pd.Series([CAPITAL_LONG], index=[t0]),
-            df_l.set_index('fecha_salida')['patrimonio_total']
-        ]).sort_index()
-
-        ts_l = pts_l
-
-        pat_fin_l = pts_l.iloc[-1]
-        ret_l = (pat_fin_l / CAPITAL_LONG - 1) * 100
-
-        ax.plot(
-            pts_l.index,
-            pts_l.values,
-            color='#2ecc71',
-            lw=1.8,
-            zorder=3,
-            label=f'Long  {ret_l:+.1f}%  →  ${pat_fin_l:,.0f}'
-        )
-
-        ax.fill_between(
-            pts_l.index,
-            CAPITAL_LONG,
-            pts_l.values,
-            where=pts_l.values >= CAPITAL_LONG,
-            color='#2ecc71',
-            alpha=0.13
-        )
-
-        ax.fill_between(
-            pts_l.index,
-            CAPITAL_LONG,
-            pts_l.values,
-            where=pts_l.values < CAPITAL_LONG,
-            color='#e74c3c',
-            alpha=0.13
-        )
-
-    if df_s is not None and not df_s.empty:
-        t0 = df_s['fecha_entrada'].iloc[0]
-
-        pts_s = pd.concat([
-            pd.Series([CAPITAL_SHORT], index=[t0]),
-            df_s.set_index('fecha_salida')['patrimonio_total']
-        ]).sort_index()
-
-        ts_s = pts_s
-
-        pat_fin_s = pts_s.iloc[-1]
-        ret_s = (pat_fin_s / CAPITAL_SHORT - 1) * 100
-
-        ax.plot(
-            pts_s.index,
-            pts_s.values,
-            color='#e67e22',
-            lw=1.8,
-            zorder=3,
-            label=f'Short  {ret_s:+.1f}%  →  ${pat_fin_s:,.0f}'
-        )
-
-        ax.fill_between(
-            pts_s.index,
-            CAPITAL_SHORT,
-            pts_s.values,
-            where=pts_s.values >= CAPITAL_SHORT,
-            color='#e67e22',
-            alpha=0.13
-        )
-
-        ax.fill_between(
-            pts_s.index,
-            CAPITAL_SHORT,
-            pts_s.values,
-            where=pts_s.values < CAPITAL_SHORT,
-            color='#e74c3c',
-            alpha=0.13
-        )
-
-    if ts_l is not None and ts_s is not None:
-
-        idx = ts_l.index.union(ts_s.index).sort_values()
-
-        eq_l = ts_l.reindex(idx).ffill().bfill()
-        eq_s = ts_s.reindex(idx).ffill().bfill()
-
-        ts_tot = eq_l + eq_s - CAPITAL_LONG
-
-        cap_tot = CAPITAL_LONG
-
-        pat_fin_tot = ts_tot.iloc[-1]
-        ret_tot = (pat_fin_tot / cap_tot - 1) * 100
-
-        ax.plot(
-            ts_tot.index,
-            ts_tot.values,
-            color='#5dade2',
-            lw=2.5,
-            ls='--',
-            zorder=5,
-            label=f'Total Real  {ret_tot:+.1f}%  →  ${pat_fin_tot:,.0f}'
-        )
-
-        ax.axhline(
-            cap_tot,
-            color='#7f8c8d',
-            ls=':',
-            lw=1,
-            alpha=0.55,
-            label=f'Capital Real  ${cap_tot:,.0f}'
-        )
-
-        ax.fill_between(
-            ts_tot.index,
-            cap_tot,
-            ts_tot.values,
-            where=ts_tot.values >= cap_tot,
-            color='#3498db',
-            alpha=0.08
-        )
-
-        ax.fill_between(
-            ts_tot.index,
-            cap_tot,
-            ts_tot.values,
-            where=ts_tot.values < cap_tot,
-            color='#e74c3c',
-            alpha=0.08
-        )
-
-    elif ts_l is not None:
-
-        ax.axhline(
-            CAPITAL_LONG,
-            color='#7f8c8d',
-            ls=':',
-            lw=1,
-            alpha=0.55
-        )
-
-    elif ts_s is not None:
-
-        ax.axhline(
-            CAPITAL_SHORT,
-            color='#7f8c8d',
-            ls=':',
-            lw=1,
-            alpha=0.55
-        )
-
-    col_txt = '#c8d0d8'
-
-    ax.set_title(
-        f'{symbol}  ·  Equity MR Directo {year}',
-        fontsize=14,
-        fontweight='bold',
-        color='white',
-        pad=14
-    )
-
-    ax.set_ylabel(
-        'Patrimonio ($)',
-        color=col_txt,
-        fontsize=10
-    )
-
-    ax.tick_params(
-        colors=col_txt,
-        labelsize=9
-    )
-
-    for spine in ax.spines.values():
-        spine.set_color('#2c3e50')
-
-    ax.yaxis.set_major_formatter(
-        mticker.FuncFormatter(lambda x, _: f'${x:,.0f}')
-    )
-
-    ax.xaxis.set_major_formatter(
-        mdates.DateFormatter('%b')
-    )
-
-    ax.xaxis.set_major_locator(
-        mdates.MonthLocator()
-    )
-
-    ax.grid(
-        True,
-        color='#1e2030',
-        linewidth=0.8
-    )
-
-    ax.legend(
-        facecolor='#0f0f1a',
-        edgecolor='#2c3e50',
-        labelcolor=col_txt,
-        fontsize=9,
-        loc='upper left'
-    )
-
-    fig.autofmt_xdate(
-        rotation=0,
-        ha='center'
-    )
-
-    fig.tight_layout(pad=1.5)
-
-    ruta = os.path.expanduser(
-        f"~/{symbol}_{year}_mr_directo_equity.png"
-    )
-
-    fig.savefig(
-        ruta,
-        dpi=150,
-        bbox_inches='tight',
-        facecolor=fig.get_facecolor()
-    )
-
-    plt.close(fig)
-
-    print(f"  Equity chart: {ruta}")
-
 def _ma(arr, metodo, lb):
     return FAST_METHODS[metodo](arr, timeperiod=lb)
 
 
 def evaluar_señal_mr(arr, metodo, lb):
-
     ma = _ma(arr, metodo, lb)
     if len(ma) < 2 or np.isnan(ma[-1]) or np.isnan(ma[-2]):
         return 0
@@ -328,7 +91,6 @@ def evaluar_señal_mr(arr, metodo, lb):
     if arr[-2] <= ma[-2] and arr[-1] > ma[-1]:
         return -1
     return 0
-
 
 
 def calcular_lotes_y_pnl(precio_entrada, pnl_price, capital, contract_size):
@@ -374,109 +136,123 @@ def obtener_comision_rt(symbol, year):
     return (df['commission'].abs() / df['volume']).mean() * 2
 
 
-def calcular_sharpe(rets, rf=0.0):
-    r = np.asarray(rets)
-    if len(r) < 2:
-        return 0.0
-    ex  = r - rf
-    std = ex.std(ddof=1)
-    return 0.0 if std <= 1e-14 else np.sqrt(len(ex)) * ex.mean() / std
-
-
-def calcular_rachas(pnl):
-    mg = mp = rg = rp = 0
-    for v in pnl:
-        if v > 0:
-            rg += 1; rp = 0; mg = max(mg, rg)
-        else:
-            rp += 1; rg = 0; mp = max(mp, rp)
-    return mg, mp
-
-
 def _semana_lado(df_semana, lunes_actual, viernes_actual, metodo, lb, vela_min, es_long=True):
-    trades      = []
-    posicionado = False
-    posicion    = None
-
-    try:
-        start = df_semana.index.get_loc(df_semana.loc[lunes_actual:].index[0])
-    except IndexError:
+    trades = []
+    if df_semana.empty:
         return trades
 
-    for i in range(start, len(df_semana), vela_min):
-        w = df_semana.iloc[:i+1].iloc[::-1][::vela_min].iloc[::-1]
-        if len(w) < lb + 5:
-            continue
+    vela_seg = vela_min * 60
+    ts_sec = df_semana.index.astype('datetime64[s]').astype('int64')
+    custom_ts = (ts_sec // vela_seg) * vela_seg
 
-        arr  = w['bid'].values
-        ask  = w['ask'].values
-        high = w['high'].values
-        low  = w['low'].values
-        bid_ = float(arr[-1])
-        ask_ = float(ask[-1])
-        t    = w.index[-1]
+    df_temp = df_semana.copy()
+    df_temp['custom_open'] = pd.to_datetime(custom_ts, unit='s')
 
-        if posicionado:
-            posicion['max_high'] = max(posicion['max_high'], float(high[-1]))
-            posicion['min_low']  = min(posicion['min_low'],  float(low[-1]))
+    df_custom = df_temp.groupby('custom_open').agg({
+        'bid': ['first', 'last'],
+        'ask': ['first', 'last'],
+        'high': 'max',
+        'low': 'min'
+    })
+    df_custom.columns = ['bid_open', 'bid_close', 'ask_open', 'ask_close', 'high', 'low']
 
-        if t >= viernes_actual:
+    custom_times = df_custom.index
+    start_indices = np.where(custom_times >= lunes_actual)[0]
+    if len(start_indices) == 0:
+        return trades
+
+    start_idx = start_indices[0]
+    posicionado = False
+    posicion = None
+
+    target_entrada = 1 if es_long else -1
+    target_salida = -1 if es_long else 1
+
+    for i in range(start_idx, len(df_custom)):
+        t = custom_times[i]
+
+        bid_open  = float(df_custom['bid_open'].iloc[i])
+        ask_open  = float(df_custom['ask_open'].iloc[i])
+        high_curr = float(df_custom['high'].iloc[i])
+        low_curr  = float(df_custom['low'].iloc[i])
+
+        # Cierre forzado garantizado de Fin de Semana (Viernes >= 23:50)
+        es_fin_de_semana = (t >= viernes_actual) or (t.weekday() == 4 and (t.hour > 23 or (t.hour == 23 and t.minute >= 50)))
+
+        if es_fin_de_semana:
             if posicionado:
+                precio_salida = bid_open if es_long else ask_open
                 if es_long:
-                    mae_p = posicion['precio_in'] - posicion['min_low']
-                    mfe_p = posicion['max_high']  - posicion['precio_in']
-                    pnl_p = bid_ - posicion['precio_in']
+                    mae_p = posicion['precio_in'] - min(posicion['min_low'], low_curr)
+                    mfe_p = max(posicion['max_high'], high_curr) - posicion['precio_in']
+                    pnl_p = precio_salida - posicion['precio_in']
                 else:
-                    mae_p = posicion['max_high']  - posicion['precio_in']
-                    mfe_p = posicion['precio_in'] - posicion['min_low']
-                    pnl_p = posicion['precio_in'] - ask_
+                    mae_p = max(posicion['max_high'], high_curr) - posicion['precio_in']
+                    mfe_p = posicion['precio_in'] - min(posicion['min_low'], low_curr)
+                    pnl_p = posicion['precio_in'] - precio_salida
+
                 trades.append({
-                    'fecha_entrada':  posicion['fecha'],
-                    'fecha_salida':   t,
+                    'fecha_entrada': posicion['fecha'],
+                    'fecha_salida':  t,
                     'precio_entrada': posicion['precio_in'],
-                    'precio_salida':  bid_ if es_long else ask_,
+                    'precio_salida':  precio_salida,
                     'pnl_price':      pnl_p,
                     'tipo':           'Cierre_Viernes',
                     'mae_price':      max(0.0, mae_p),
                     'mfe_price':      max(0.0, mfe_p),
                 })
+                posicionado = False
+                posicion = None
             break
 
-        s              = evaluar_señal_mr(arr, metodo, lb)
-        target_entrada = 1  if es_long else -1
-        target_salida  = -1 if es_long else  1
+        # Recortar el historial para igualar la ventana exacta usada en el entorno LIVE
+        bid_arr = df_custom['bid_close'].iloc[:i].values
+        if len(bid_arr) > MAX_VELAS_HISTORIAL:
+            bid_arr = bid_arr[-MAX_VELAS_HISTORIAL:]
 
-        if s == target_salida and posicionado:
-            if es_long:
-                mae_p = posicion['precio_in'] - posicion['min_low']
-                mfe_p = posicion['max_high']  - posicion['precio_in']
-                pnl_p = bid_ - posicion['precio_in']
-            else:
-                mae_p = posicion['max_high']  - posicion['precio_in']
-                mfe_p = posicion['precio_in'] - posicion['min_low']
-                pnl_p = posicion['precio_in'] - ask_
-            trades.append({
-                'fecha_entrada':  posicion['fecha'],
-                'fecha_salida':   t,
-                'precio_entrada': posicion['precio_in'],
-                'precio_salida':  bid_ if es_long else ask_,
-                'pnl_price':      pnl_p,
-                'tipo':           'Cierre_Señal',
-                'mae_price':      max(0.0, mae_p),
-                'mfe_price':      max(0.0, mfe_p),
-            })
-            posicionado = False
-            posicion    = None
+        if len(bid_arr) < lb + 5:
+            continue
 
-        if s == target_entrada and not posicionado:
-            precio_in = ask_ if es_long else bid_
-            posicion  = {
-                'precio_in': precio_in,
-                'fecha':     t,
-                'max_high':  float(high[-1]),
-                'min_low':   float(low[-1]),
-            }
-            posicionado = True
+        s = evaluar_señal_mr(bid_arr, metodo, lb)
+
+        if posicionado:
+            posicion['max_high'] = max(posicion['max_high'], high_curr)
+            posicion['min_low']  = min(posicion['min_low'],  low_curr)
+
+            if s == target_salida:
+                precio_salida = bid_open if es_long else ask_open
+                if es_long:
+                    mae_p = posicion['precio_in'] - posicion['min_low']
+                    mfe_p = posicion['max_high']  - posicion['precio_in']
+                    pnl_p = precio_salida - posicion['precio_in']
+                else:
+                    mae_p = posicion['max_high']  - posicion['precio_in']
+                    mfe_p = posicion['precio_in'] - posicion['min_low']
+                    pnl_p = posicion['precio_in'] - precio_salida
+
+                trades.append({
+                    'fecha_entrada': posicion['fecha'],
+                    'fecha_salida':  t,
+                    'precio_entrada': posicion['precio_in'],
+                    'precio_salida':  precio_salida,
+                    'pnl_price':      pnl_p,
+                    'tipo':           'Cierre_Señal',
+                    'mae_price':      max(0.0, mae_p),
+                    'mfe_price':      max(0.0, mfe_p),
+                })
+                posicionado = False
+                posicion = None
+
+        elif not posicionado:
+            if s == target_entrada:
+                precio_in = ask_open if es_long else bid_open
+                posicion = {
+                    'precio_in': precio_in,
+                    'fecha':     t,
+                    'max_high':  high_curr,
+                    'min_low':   low_curr,
+                }
+                posicionado = True
 
     return trades
 
@@ -543,141 +319,80 @@ def _contabilizar(trades, capital_inicial, swap_rate, swap_mode,
     return df, bal, res
 
 
-def _metricas(df_res, capital_inicial, balance_final, reserva_final,
-              comision_rt, swap_rate, year, lado):
-    total = len(df_res)
-    gan   = df_res[df_res['pnl_neto_usd'] > 0]  if total else pd.DataFrame()
-    per   = df_res[df_res['pnl_neto_usd'] <= 0] if total else pd.DataFrame()
+def imprimir_tabla(lista_dfs, lado: str):
+    dfs_validos = [df for df in lista_dfs if isinstance(df, pd.DataFrame) and not df.empty]
+    if not dfs_validos:
+        print(f"\n[{lado}] Sin operaciones registradas.")
+        return
 
-    gp  = gan['pnl_neto_usd'].sum() if not gan.empty else 0.0
-    gl  = abs(per['pnl_neto_usd'].sum()) if not per.empty else 1e-9
-    np_ = gp - gl
-    hr  = len(gan) / total if total else 0
-    pf  = gp / gl
-    ret = np_ / capital_inicial * 100
-    aw  = gan['pnl_neto_usd'].mean() if not gan.empty else 0.0
-    al  = abs(per['pnl_neto_usd'].mean()) if not per.empty else 1e-9
-    rr  = aw / al
-    mda = df_res['drawdown_abs'].max() if total else 0.0
-    mdp = df_res['drawdown_pct'].max() if total else 0.0
-    sh  = calcular_sharpe(df_res['retorno_trade'].values, RISK_FREE_RATE) if total else 0.0
-    cal = ret / mdp if mdp > 0 else float('inf')
-    ts  = df_res['swap_usd'].sum()      if total else 0.0
-    tc  = df_res['comision_usd'].sum()  if total else 0.0
-    pat = df_res['patrimonio_total'].iloc[-1] if total else capital_inicial
-    mg, mp = calcular_rachas(df_res['pnl_neto_usd'].values) if total else (0, 0)
+    df = pd.concat(dfs_validos, ignore_index=True)
 
-    expectancy = (hr * aw) - ((1.0 - hr) * al)
-    avg_mae    = df_res['mae_usd'].mean() if total else 0.0
-    avg_mfe    = df_res['mfe_usd'].mean() if total else 0.0
+    total_trades = len(df)
+    wins         = df[df['pnl_neto_usd'] > 0]
+    losses       = df[df['pnl_neto_usd'] <= 0]
+    num_wins     = len(wins)
+    num_losses   = len(losses)
+    win_rate     = (num_wins / total_trades * 100) if total_trades > 0 else 0.0
 
-    r = df_res['retorno_trade'].values if total else np.array([])
-    if total:
-        ex       = r - RISK_FREE_RATE
-        downside = ex[ex < 0]
-        so = (float('inf') if len(downside) < 2
-              else (0.0 if downside.std(ddof=1) <= 1e-14
-                    else np.sqrt(len(ex)) * ex.mean() / downside.std(ddof=1)))
-        var_95  = np.percentile(r, 5)
-        cvar_95 = r[r <= var_95].mean() if len(r[r <= var_95]) > 0 else var_95
-    else:
-        so = var_95 = cvar_95 = 0.0
+    pnl_bruto    = df['pnl_bruto_usd'].sum()
+    comisiones   = df['comision_usd'].sum()
+    swaps        = df['swap_usd'].sum()
+    pnl_neto     = df['pnl_neto_usd'].sum()
 
-    durations = []
-    peak_val  = capital_inicial
-    peak_time = df_res['fecha_entrada'].iloc[0] if total else None
-    for _, row in df_res.iterrows():
-        if row['patrimonio_total'] >= peak_val:
-            peak_val  = row['patrimonio_total']
-            peak_time = row['fecha_salida']
-        elif peak_time is not None:
-            durations.append(row['fecha_salida'] - peak_time)
-    max_dd_dur_days = (max(d.total_seconds() / 86400.0 for d in durations)
-                       if durations else 0.0)
+    gross_profit  = wins['pnl_neto_usd'].sum()
+    gross_loss    = abs(losses['pnl_neto_usd'].sum())
+    profit_factor = (gross_profit / gross_loss) if gross_loss > 0 else np.inf
+    max_dd_pct    = df['drawdown_pct'].max() if 'drawdown_pct' in df.columns else 0.0
 
-    if total > 0:
-        total_dur           = (df_res['fecha_salida'] - df_res['fecha_entrada']).sum()
-        total_duration_days = total_dur.total_seconds() / 86400.0
-        avg_duration_hours  = total_dur.total_seconds() / 3600.0 / total
-    else:
-        total_duration_days = avg_duration_hours = 0.0
+    print(f"\n{'='*65}")
+    print(f" RESUMEN DE RESULTADOS — {lado}")
+    print(f"{'='*65}")
+    print(f"  Total Trades        : {total_trades}")
+    print(f"  Trades Ganadores    : {num_wins} ({win_rate:.2f}%)")
+    print(f"  Trades Perdedores   : {num_losses}")
+    print(f"  -------------------------------------------")
+    print(f"  PnL Bruto (USD)     : ${pnl_bruto:,.2f}")
+    print(f"  Comisiones (USD)    : ${comisiones:,.2f}")
+    print(f"  Swaps (USD)         : ${swaps:,.2f}")
+    print(f"  -------------------------------------------")
+    print(f"  PnL Neto Total (USD): ${pnl_neto:,.2f}")
+    print(f"  Profit Factor       : {profit_factor:.2f}")
+    print(f"  Max Drawdown (%)    : {max_dd_pct:.2f}%")
+    print(f"{'='*65}\n")
 
-    if total >= 3:
-        mean_r, std_r = np.mean(r), np.std(r, ddof=1)
-        if std_r > 1e-14:
-            skew_val = np.sum(((r - mean_r) / std_r) ** 3) / total
-            kurt_val = np.sum(((r - mean_r) / std_r) ** 4) / total - 3.0
-        else:
-            skew_val = kurt_val = 0.0
-    else:
-        skew_val = kurt_val = 0.0
 
-    w = 60
-    print(f"\n{'═'*w}")
-    print(f"   BACKTEST MR DIRECTO {lado.upper()} {year}  —  {SYMBOL}".center(w))
-    print(f"{'═'*w}")
-    print(f"  Capital Inicial               : ${capital_inicial:>12,.2f}")
-    print(f"  Comisión RT                    : ${comision_rt:>12,.4f} / lote")
-    print(f"  Swap {lado[:5]:<5}                   : ${swap_rate:>12,.4f} / lote-noche")
-    print(f"{'─'*w}")
-    print(f"  Ganancias Apartadas           : ${reserva_final:>12,.2f}")
-    print(f"  Capital Operativo Final       : ${balance_final:>12,.2f}")
-    print(f"  Patrimonio Total Final        : ${pat:>12,.2f}")
-    print(f"{'─'*w}")
-    print(f"  Beneficio Neto                : ${np_:>+12,.2f}")
-    print(f"  Retorno sobre Capital         : {ret:>+11.2f}%")
-    print(f"  Esperanza Matemática (Trade)  : ${expectancy:>12,.2f}")
-    print(f"  Profit Factor                 : {pf:>12.3f}")
-    print(f"  Risk / Reward                 : {rr:>12.3f}")
-    print(f"{'─'*w}")
-    print(f"  Sharpe Ratio                  : {sh:>12.4f}")
-    print(f"  Sortino Ratio                 : {so:>12.4f}")
-    print(f"  Calmar Ratio                  : {cal:>12.4f}")
-    print(f"  Value at Risk (95%)           : {var_95*100:>11.2f}%")
-    print(f"  Conditional VaR (95%)         : {cvar_95*100:>11.2f}%")
-    print(f"{'─'*w}")
-    print(f"  Avg. MAE (Riesgo Latente)     : ${avg_mae:>12,.2f}")
-    print(f"  Avg. MFE (Beneficio Latente)  : ${avg_mfe:>12,.2f}")
-    print(f"{'─'*w}")
-    print(f"  Max Drawdown ($)              : -${mda:>11,.2f}")
-    print(f"  Max Drawdown (%)              : -{mdp:>10.2f}%")
-    print(f"  Max DD Duration (Recuperación): {max_dd_dur_days:>11.2f} días")
-    print(f"  Tiempo Total Expuesto         : {total_duration_days:>11.2f} días")
-    print(f"  Duración Promedio Trade       : {avg_duration_hours:>11.2f} horas")
-    print(f"{'─'*w}")
-    print(f"  Asimetría (Skewness)          : {skew_val:>12.2f}")
-    print(f"  Curtosis de Exceso (Kurtosis) : {kurt_val:>12.2f}")
-    print(f"{'─'*w}")
-    print(f"  Total Operaciones             : {total:>12}")
-    print(f"  Ganadoras                     : {len(gan):>12}")
-    print(f"  Perdedoras                    : {len(per):>12}")
-    print(f"  Hit Ratio                     : {hr:>12.4f} ({hr*100:.2f}%)")
-    print(f"{'═'*w}")
+def filtrar_trades_por_fecha(lista_dfs, fecha_inicio: str, fecha_fin: str, lado: str = "LONG"):
+    dfs_validos = [df for df in lista_dfs if isinstance(df, pd.DataFrame) and not df.empty]
+    if not dfs_validos:
+        print(f"\n[{lado}] No hay datos para filtrar.")
+        return pd.DataFrame()
 
-    return {
-        'year': year, 'lado': lado,
-        'total_trades': total, 'ganadoras': len(gan), 'perdedoras': len(per),
-        'hit_ratio_pct': round(hr*100, 2),
-        'gross_profit': round(gp, 2), 'gross_loss': round(gl, 2),
-        'net_profit': round(np_, 2), 'retorno_pct': round(ret, 2),
-        'profit_factor': round(pf, 3), 'risk_reward': round(rr, 3),
-        'avg_win': round(aw, 2), 'avg_loss': round(al, 2),
-        'sharpe_ratio': round(sh, 4), 'calmar_ratio': round(cal, 4),
-        'max_dd_abs': round(mda, 2), 'max_dd_pct': round(mdp, 2),
-        'total_swap': round(ts, 2), 'total_comisiones': round(tc, 2),
-        'patrimonio_final': round(pat, 2),
-        'racha_max_ganadora': mg, 'racha_max_perdedora': mp,
-        'expectancy': round(expectancy, 2),
-        'avg_mae': round(avg_mae, 2), 'avg_mfe': round(avg_mfe, 2),
-        'sortino_ratio': round(so, 4) if so != float('inf') else float('inf'),
-        'var_95_pct': round(var_95 * 100, 2),
-        'cvar_95_pct': round(cvar_95 * 100, 2),
-        'max_dd_duration': round(max_dd_dur_days, 2),
-        'tiempo_expuesto': round(total_duration_days, 2),
-        'avg_duracion_hrs': round(avg_duration_hours, 2),
-        'skewness': round(skew_val, 2),
-        'kurtosis': round(kurt_val, 2),
-    }
+    df_total = pd.concat(dfs_validos, ignore_index=True)
+    f_ini = pd.to_datetime(fecha_inicio)
+    f_fin = pd.to_datetime(fecha_fin).replace(hour=23, minute=59, second=59)
+
+    mask = (df_total['fecha_entrada'] >= f_ini) & (df_total['fecha_entrada'] <= f_fin)
+    df_filtrado = df_total.loc[mask].copy()
+
+    if df_filtrado.empty:
+        print(f"\n[{lado}] No se encontraron trades entre {fecha_inicio} y {fecha_fin}.")
+        return df_filtrado
+
+    cols_ver = [
+        'fecha_entrada', 'fecha_salida', 'tipo', 
+        'precio_entrada', 'precio_salida', 'lotes', 
+        'pnl_bruto_usd', 'swap_usd', 'pnl_neto_usd'
+    ]
+    cols_existentes = [c for c in cols_ver if c in df_filtrado.columns]
+
+    print(f"\n{'='*105}")
+    print(f" DETALLE DE TRADES {lado} — ({fecha_inicio} a {fecha_fin}) | Total: {len(df_filtrado)}")
+    print(f"{'='*105}")
+    pd.set_option('display.max_columns', None)
+    pd.set_option('display.width', 1000)
+    print(df_filtrado[cols_existentes].to_string(index=False))
+    print(f"{'='*105}\n")
+    return df_filtrado
 
 
 def backtest_año(year: int):
@@ -708,7 +423,7 @@ def backtest_año(year: int):
 
     rates = mt5.copy_rates_range(
         SYMBOL, mt5.TIMEFRAME_M1,
-        datetime(year-1, 12, 1), datetime(year, 12, 28)
+        datetime(year-1, 6, 1), datetime(year, 12, 28)
     )
     mt5.shutdown()
 
@@ -718,6 +433,7 @@ def backtest_año(year: int):
     df = pd.DataFrame(rates)
     df['time'] = pd.to_datetime(df['time'], unit='s')
     df.set_index('time', inplace=True)
+    df.sort_index(inplace=True)
     df['bid'] = df['close'].astype(float)
     df['ask'] = (df['close'] + df['spread'] * point).astype(float)
 
@@ -729,7 +445,6 @@ def backtest_año(year: int):
     cache_pre = _cargar_pre_calc(SYMBOL)
 
     for lunes in lunes_rango:
-
         viernes_cierre = (lunes + timedelta(days=4)).replace(
             hour=23, minute=59, second=59)
         if viernes_cierre >= ahora:
@@ -751,10 +466,7 @@ def backtest_año(year: int):
                 hour=23, minute=59, second=59)
             df_opt = df.loc[l_ini:v_fin].copy()
 
-            if df_opt.empty:
-                continue
-            if (df_opt.index[-1] - df_opt.index[0]).days < 20:
-                print(f"  {lunes.date()} | [SKIP] datos insuficientes para optimización")
+            if df_opt.empty or (df_opt.index[-1] - df_opt.index[0]).days < 20:
                 continue
 
             inp = df_opt[['bid', 'ask']].copy()
@@ -774,136 +486,69 @@ def backtest_año(year: int):
             }
             _guardar_pre_calc(SYMBOL, cache_pre)
 
-            print(f"  {lunes.date()} | [NUEVO] "
-                  f"Long: {met_l} lb={lb_l} v={vela_l} | "
-                  f"Short: {met_s} lb={lb_s} v={vela_s}")
+        velas_req_l = (lb_l * 6) + 100
+        velas_req_s = (lb_s * 6) + 100
 
-        buf_l = lunes - timedelta(minutes=(lb_l + 25) * vela_l)
-        buf_s = lunes - timedelta(minutes=(lb_s + 25) * vela_s)
+        dias_hist_l = int((velas_req_l * vela_l) / 1440 * 1.5) + 5
+        dias_hist_s = int((velas_req_s * vela_s) / 1440 * 1.5) + 5
+
+        buf_l = lunes - timedelta(days=dias_hist_l)
+        buf_s = lunes - timedelta(days=dias_hist_s)
 
         sem_l = df.loc[buf_l:viernes]
         sem_s = df.loc[buf_s:viernes]
 
         if not sem_l.empty:
-            trades_long  += _semana_lado(
-                sem_l, lunes, viernes, met_l, lb_l, vela_l, es_long=True)
+            trades_long  += _semana_lado(sem_l, lunes, viernes, met_l, lb_l, vela_l, es_long=True)
         if not sem_s.empty:
-            trades_short += _semana_lado(
-                sem_s, lunes, viernes, met_s, lb_s, vela_s, es_long=False)
+            trades_short += _semana_lado(sem_s, lunes, viernes, met_s, lb_s, vela_s, es_long=False)
 
-    res_long = res_short = None
-    df_l_out = df_s_out  = None
+    df_long, _, _ = _contabilizar(
+        trades_long, CAPITAL_LONG, swap_long_r, swap_mode,
+        contract_size, tick_value, tick_size, rollover3days, comision_rt)
 
-    if trades_long:
-        df_l, bal_l, rev_l = _contabilizar(
-            trades_long, CAPITAL_LONG, swap_long_r, swap_mode,
-            contract_size, tick_value, tick_size, rollover3days, comision_rt)
-        csv_l = os.path.expanduser(f"~/{SYMBOL}_{year}_mr_directo_long.csv")
-#        df_l.to_csv(csv_l)
-        res_long = _metricas(df_l, CAPITAL_LONG, bal_l, rev_l,
-                             comision_rt, swap_long_r, year, "LONG")
-        df_l_out = df_l
-        print(f"  CSV guardado: {csv_l}")
-    else:
-        print(f"[{year}] Sin operaciones LONG.")
+    df_short, _, _ = _contabilizar(
+        trades_short, CAPITAL_SHORT, swap_short_r, swap_mode,
+        contract_size, tick_value, tick_size, rollover3days, comision_rt)
 
-    if trades_short:
-        df_s, bal_s, rev_s = _contabilizar(
-            trades_short, CAPITAL_SHORT, swap_short_r, swap_mode,
-            contract_size, tick_value, tick_size, rollover3days, comision_rt)
-        csv_s = os.path.expanduser(f"~/{SYMBOL}_{year}_mr_directo_short.csv")
-        #df_s.to_csv(csv_s)
-        res_short = _metricas(df_s, CAPITAL_SHORT, bal_s, rev_s,
-                              comision_rt, swap_short_r, year, "SHORT")
-        df_s_out = df_s
-        print(f"  CSV guardado: {csv_s}")
-    else:
-        print(f"[{year}] Sin operaciones SHORT.")
+    return df_long, df_short
 
-    if df_l_out is not None or df_s_out is not None:
-        _generar_equity_chart(df_l_out, df_s_out, year, SYMBOL)
+def filtrar_trades_por_fecha(lista_dfs, fecha_inicio: str, fecha_fin: str, lado: str = "LONG"):
+    dfs_validos = [df for df in lista_dfs if isinstance(df, pd.DataFrame) and not df.empty]
+    if not dfs_validos:
+        print(f"\n[{lado}] No hay datos para filtrar.")
+        return pd.DataFrame()
 
-    return res_long, res_short
+    df_total = pd.concat(dfs_validos, ignore_index=True)
 
-def imprimir_tabla(resultados: list, lado: str):
-    rs = [r for r in resultados if r and r.get('lado') == lado]
-    if not rs:
-        return
+    f_ini = pd.to_datetime(fecha_inicio)
+    f_fin = pd.to_datetime(fecha_fin).replace(hour=23, minute=59, second=59)
 
-    years = [str(r['year']) for r in rs]
-    filas = [
-        ("Patrimonio Final ($)",     "patrimonio_final",    "$ {:>14,.2f}"),
-        ("Beneficio Neto ($)",       "net_profit",          "${:>+14,.2f}"),
-        ("Retorno (%)",              "retorno_pct",          "{:>+13.2f} %"),
-        ("Gross Profit ($)",         "gross_profit",        "$ {:>14,.2f}"),
-        ("Gross Loss ($)",           "gross_loss",          "$ {:>14,.2f}"),
-        ("Profit Factor",            "profit_factor",       "{:>15.3f}"),
-        ("Risk / Reward",            "risk_reward",         "{:>15.3f}"),
-        ("Esperanza Matemática ($)", "expectancy",          "$ {:>14,.2f}"),
-        ("Sharpe Ratio",             "sharpe_ratio",        "{:>15.4f}"),
-        ("Sortino Ratio",            "sortino_ratio",       "{:>15.4f}"),
-        ("Calmar Ratio",             "calmar_ratio",        "{:>15.4f}"),
-        ("VaR 95% (%)",              "var_95_pct",          "{:>13.2f} %"),
-        ("cVaR 95% (%)",             "cvar_95_pct",         "{:>13.2f} %"),
-        ("Max Drawdown ($)",         "max_dd_abs",          "-${:>13,.2f}"),
-        ("Max Drawdown (%)",         "max_dd_pct",          "-{:>13.2f} %"),
-        ("Max DD Duration (Días)",   "max_dd_duration",     "{:>15.2f}"),
-        ("Avg MAE (Riesgo Lat. $)",  "avg_mae",             "$ {:>14,.2f}"),
-        ("Avg MFE (Benef. Lat. $)",  "avg_mfe",             "$ {:>14,.2f}"),
-        ("Total Operaciones",        "total_trades",        "{:>15}"),
-        ("Ganadoras",                "ganadoras",           "{:>15}"),
-        ("Perdedoras",               "perdedoras",          "{:>15}"),
-        ("Hit Ratio (%)",            "hit_ratio_pct",       "{:>14.2f} %"),
-        ("Avg Ganancia / op ($)",    "avg_win",             "$ {:>14,.2f}"),
-        ("Avg Pérdida / op ($)",     "avg_loss",            "$ {:>14,.2f}"),
-        ("Racha Máx. Ganadoras",     "racha_max_ganadora",  "{:>15}"),
-        ("Racha Máx. Perdedoras",    "racha_max_perdedora", "{:>15}"),
-        ("Tiempo Expuesto (Días)",   "tiempo_expuesto",     "{:>15.2f}"),
-        ("Avg Duración Trade (Hrs)", "avg_duracion_hrs",    "{:>15.2f}"),
-        ("Asimetría (Skewness)",     "skewness",            "{:>15.2f}"),
-        ("Curtosis",                 "kurtosis",            "{:>15.2f}"),
-        ("Swap Total ($)",           "total_swap",          "$ {:>14,.2f}"),
-        ("Comisiones Total ($)",     "total_comisiones",    "$ {:>14,.2f}"),
+    mask = (df_total['fecha_entrada'] >= f_ini) & (df_total['fecha_entrada'] <= f_fin)
+    df_filtrado = df_total.loc[mask].copy()
+
+    if df_filtrado.empty:
+        print(f"\n[{lado}] No se encontraron trades entre {fecha_inicio} y {fecha_fin}.")
+        return df_filtrado
+
+    cols_ver = [
+        'fecha_entrada', 'fecha_salida', 'tipo', 
+        'precio_entrada', 'precio_salida', 'lotes', 
+        'pnl_bruto_usd', 'swap_usd', 'pnl_neto_usd'
     ]
-    secciones = {
-        "Patrimonio Final ($)":    "── Rendimiento ──",
-        "Sharpe Ratio":            "── Ratios de Eficiencia Financiera ──",
-        "Max Drawdown ($)":        "── Riesgo de Caída (Drawdown) ──",
-        "Avg MAE (Riesgo Lat. $)": "── Métricas de Ejecución (MAE/MFE) ──",
-        "Total Operaciones":       "── Operaciones y Rachas ──",
-        "Tiempo Expuesto (Días)":  "── Distribución y Tiempos ──",
-        "Swap Total ($)":          "── Costos Operativos ──",
-    }
+    cols_existentes = [c for c in cols_ver if c in df_filtrado.columns]
 
-    CL, CY = 28, 18
-    W  = CL + CY * len(years) + 2
-    hd = "".join(f"{y:>{CY}}" for y in years)
-    cap = CAPITAL_LONG if lado == "LONG" else CAPITAL_SHORT
+    print(f"\n{'='*105}")
+    print(f" DETALLE DE TRADES {lado} — ({fecha_inicio} a {fecha_fin}) | Total: {len(df_filtrado)}")
+    print(f"{'='*105}")
 
-    print(f"\n\n{'═'*W}")
-    print(f"  COMPARATIVO AÑO A AÑO  —  {lado}".center(W))
-    print(f"  {SYMBOL}  |  Capital: ${cap:,.0f}  |  Mean Reversion Directo".center(W))
-    print(f"{'═'*W}")
-    print(f"  {'MÉTRICA':<{CL-2}}{hd}")
-    print(f"{'─'*W}")
+    pd.set_option('display.max_columns', None)
+    pd.set_option('display.width', 1000)
 
-    for etiq, clave, fmt in filas:
-        if etiq in secciones:
-            print(f"{'─'*W}")
-            print(f"  {secciones[etiq]}")
-            print(f"{'─'*W}")
-        vals = ""
-        for r in rs:
-            v = r.get(clave, 0)
-            try:
-                c = fmt.format(v)
-            except (TypeError, ValueError):
-                c = f"{str(v):>{CY}}"
-            vals += f"{c:>{CY}}"
-        print(f"  {etiq:<{CL-2}}{vals}")
+    print(df_filtrado[cols_existentes].to_string(index=False))
+    print(f"{'='*105}\n")
 
-    print(f"{'═'*W}")
-
+    return df_filtrado
 
 if __name__ == "__main__":
     todos_long  = []
@@ -913,9 +558,17 @@ if __name__ == "__main__":
         print(f"\n{'#'*65}")
         print(f"  Backtest MR Directo {year}  —  {SYMBOL}")
         print(f"{'#'*65}")
-        r_long, r_short = backtest_año(year)
-        if r_long:  todos_long.append(r_long)
-        if r_short: todos_short.append(r_short)
+        df_l, df_s = backtest_año(year)
+        if df_l is not None and not df_l.empty:
+            todos_long.append(df_l)
+        if df_s is not None and not df_s.empty:
+            todos_short.append(df_s)
 
     imprimir_tabla(todos_long,  "LONG")
     imprimir_tabla(todos_short, "SHORT")
+
+    fecha_desde = "2026-01-01"
+    fecha_hasta = "2026-12-31"
+
+    filtrar_trades_por_fecha(todos_long,  fecha_desde, fecha_hasta, lado="LONG")
+    filtrar_trades_por_fecha(todos_short, fecha_desde, fecha_hasta, lado="SHORT")
