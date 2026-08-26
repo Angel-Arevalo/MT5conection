@@ -1,0 +1,4197 @@
+{
+    "2025-01-06": {
+        "longs": {
+            "parametros": {
+                "ma_method": "TEMA",
+                "ma_candle": 100,
+                "ma_lookback": 103,
+                "name": "VOL_RATIO",
+                "candle": 71,
+                "window": 55,
+                "follow_tend": 1.4755818012071105
+            },
+            "kpis": {
+                "score": 46.9470075190994,
+                "hr": 0.9615384615384616,
+                "rr": 35.15636363638129,
+                "pr": 878.9090909095323,
+                "tr": 52,
+                "mae": 0.000873453694713606
+            }
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "EMA",
+                "ma_candle": 53,
+                "ma_lookback": 69,
+                "name": "SHANNON",
+                "candle": 72,
+                "window": 88,
+                "bins": 6,
+                "follow_tend": 0.8667058299634872
+            },
+            "kpis": {
+                "score": 42.40168234476713,
+                "hr": 0.9375,
+                "rr": 10.813436692506134,
+                "pr": 162.20155038759202,
+                "tr": 80,
+                "mae": 0.0015350812816089347
+            }
+        }
+    },
+    "2025-01-13": {
+        "longs": {
+            "parametros": {
+                "ma_method": "KAMA",
+                "ma_candle": 41,
+                "ma_lookback": 63,
+                "name": "VOL_RATIO",
+                "candle": 21,
+                "window": 44,
+                "follow_tend": 1.3749963987842666
+            },
+            "kpis": {
+                "score": 40.19135643753465,
+                "hr": 0.8829787234042553,
+                "rr": 15.11281489594388,
+                "pr": 114.0330578512129,
+                "tr": 94,
+                "mae": 0.000386355100962027
+            }
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "SMA",
+                "ma_candle": 31,
+                "ma_lookback": 30,
+                "name": "VOL_RATIO",
+                "candle": 34,
+                "window": 91,
+                "follow_tend": 1.9874132112806269
+            },
+            "kpis": {
+                "score": 33.96470871113152,
+                "hr": 0.8854166666666666,
+                "rr": 6.487116368285255,
+                "pr": 50.12771739129515,
+                "tr": 192,
+                "mae": 0.000686668621331231
+            }
+        }
+    },
+    "2025-01-20": {
+        "longs": {
+            "parametros": {
+                "ma_method": "KAMA",
+                "ma_candle": 98,
+                "ma_lookback": 69,
+                "name": "VOL_RATIO",
+                "candle": 44,
+                "window": 52,
+                "follow_tend": 1.4171450927664124
+            },
+            "kpis": {
+                "score": 42.757715400314794,
+                "hr": 0.9807692307692307,
+                "rr": 8.404295051356572,
+                "pr": 428.6190476191851,
+                "tr": 52,
+                "mae": 0.0010027342069891829
+            }
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "MIDPOINT",
+                "ma_candle": 55,
+                "ma_lookback": 101,
+                "name": "ADX",
+                "candle": 83,
+                "window": 41,
+                "follow_tend": 11.17056023975134
+            },
+            "kpis": {
+                "score": 40.54434608202638,
+                "hr": 0.9629629629629629,
+                "rr": 12.071906354517356,
+                "pr": 313.8695652174512,
+                "tr": 54,
+                "mae": 0.002158368996186358
+            }
+        }
+    },
+    "2025-01-27": {
+        "longs": {
+            "parametros": {
+                "ma_method": "T3",
+                "ma_candle": 47,
+                "ma_lookback": 35,
+                "name": "SHANNON",
+                "candle": 33,
+                "window": 93,
+                "bins": 6,
+                "follow_tend": 0.9989468020726273
+            },
+            "kpis": {
+                "score": 41.857766938551826,
+                "hr": 0.92,
+                "rr": 8.619656558274329,
+                "pr": 99.1260504201548,
+                "tr": 100,
+                "mae": 0.00045866777601911426
+            }
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "TEMA",
+                "ma_candle": 33,
+                "ma_lookback": 67,
+                "name": "VOL_RATIO",
+                "candle": 21,
+                "window": 82,
+                "follow_tend": 2.0629477687538085
+            },
+            "kpis": {
+                "score": 33.58323484027581,
+                "hr": 0.8911917098445595,
+                "rr": 5.739734738372054,
+                "pr": 47.01116071428539,
+                "tr": 193,
+                "mae": 0.0001727728388214079
+            }
+        }
+    },
+    "2025-02-03": {
+        "longs": {
+            "parametros": {
+                "ma_method": "EMA",
+                "ma_candle": 33,
+                "ma_lookback": 83,
+                "name": "VOL_RATIO",
+                "candle": 28,
+                "window": 44,
+                "follow_tend": 1.3398750764401859
+            },
+            "kpis": {
+                "score": 72.66944520082609,
+                "hr": 0.959349593495935,
+                "rr": 82.90556900711316,
+                "pr": 1956.5714285678707,
+                "tr": 123,
+                "mae": 0.0021982360586564444
+            }
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "EMA",
+                "ma_candle": 47,
+                "ma_lookback": 32,
+                "name": "VOL_RATIO",
+                "candle": 70,
+                "window": 44,
+                "follow_tend": 1.1761032824973385
+            },
+            "kpis": {
+                "score": 38.24821377221297,
+                "hr": 0.8978102189781022,
+                "rr": 8.542110663824243,
+                "pr": 75.048543689313,
+                "tr": 137,
+                "mae": 0.0007644142385307321
+            }
+        }
+    },
+    "2025-02-10": {
+        "longs": {
+            "parametros": {
+                "ma_method": "T3",
+                "ma_candle": 72,
+                "ma_lookback": 21,
+                "name": "VOL_RATIO",
+                "candle": 25,
+                "window": 89,
+                "follow_tend": 1.3711423694209623
+            },
+            "kpis": {
+                "score": 51.99279626984461,
+                "hr": 0.9746835443037974,
+                "rr": 10.654220779221072,
+                "pr": 410.1875000000113,
+                "tr": 79,
+                "mae": 0.0006230025839574863
+            }
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "SMA",
+                "ma_candle": 63,
+                "ma_lookback": 10,
+                "name": "SHANNON",
+                "candle": 21,
+                "window": 14,
+                "bins": 6,
+                "follow_tend": 0.9910290734449205
+            },
+            "kpis": {
+                "score": 46.22600535760968,
+                "hr": 0.9411764705882353,
+                "rr": 8.79687500000051,
+                "pr": 140.75000000000816,
+                "tr": 153,
+                "mae": 0.000543760692474231
+            }
+        }
+    },
+    "2025-02-17": {
+        "longs": {
+            "parametros": {
+                "ma_method": "WMA",
+                "ma_candle": 69,
+                "ma_lookback": 21,
+                "name": "SHANNON",
+                "candle": 79,
+                "window": 68,
+                "bins": 11,
+                "follow_tend": 0.9281007564082486
+            },
+            "kpis": {
+                "score": 47.425691763087876,
+                "hr": 0.9357142857142857,
+                "rr": 11.270776902240556,
+                "pr": 164.05241935483477,
+                "tr": 140,
+                "mae": 0.001453272011714149
+            }
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "WMA",
+                "ma_candle": 50,
+                "ma_lookback": 37,
+                "name": "VOL_RATIO",
+                "candle": 40,
+                "window": 57,
+                "follow_tend": 1.199787951932481
+            },
+            "kpis": {
+                "score": 53.43798559968333,
+                "hr": 0.9506172839506173,
+                "rr": 14.643578643572987,
+                "pr": 281.88888888878,
+                "tr": 162,
+                "mae": 0.00024983027676486226
+            }
+        }
+    },
+    "2025-02-24": {
+        "longs": {
+            "parametros": {
+                "ma_method": "EMA",
+                "ma_candle": 60,
+                "ma_lookback": 32,
+                "name": "SHANNON",
+                "candle": 22,
+                "window": 13,
+                "bins": 20,
+                "follow_tend": 0.9119094586682567
+            },
+            "kpis": {
+                "score": 51.78668619359431,
+                "hr": 0.9519230769230769,
+                "rr": 11.916131007038143,
+                "pr": 235.9393939393552,
+                "tr": 104,
+                "mae": 0.00041678114375387287
+            }
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "TRIMA",
+                "ma_candle": 80,
+                "ma_lookback": 2,
+                "name": "VOL_RATIO",
+                "candle": 79,
+                "window": 26,
+                "follow_tend": 1.2083446897896388
+            },
+            "kpis": {
+                "score": 35.564549010608594,
+                "hr": 0.9099378881987578,
+                "rr": 5.312836235321002,
+                "pr": 53.677966101691496,
+                "tr": 322,
+                "mae": 0.00041491404855206835
+            }
+        }
+    },
+    "2025-03-03": {
+        "longs": {
+            "parametros": {
+                "ma_method": "KAMA",
+                "ma_candle": 42,
+                "ma_lookback": 67,
+                "name": "SHANNON",
+                "candle": 69,
+                "window": 56,
+                "bins": 5,
+                "follow_tend": 0.9717535470748295
+            },
+            "kpis": {
+                "score": 49.37208234594285,
+                "hr": 0.9339622641509434,
+                "rr": 14.352999693906403,
+                "pr": 202.99242424239054,
+                "tr": 106,
+                "mae": 0.0017427967064126064
+            }
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "TEMA",
+                "ma_candle": 41,
+                "ma_lookback": 80,
+                "name": "ADX",
+                "candle": 68,
+                "window": 10,
+                "follow_tend": 11.18967859189821
+            },
+            "kpis": {
+                "score": 33.70869119769529,
+                "hr": 0.9207317073170732,
+                "rr": 3.6591622857918993,
+                "pr": 42.50257731958283,
+                "tr": 164,
+                "mae": 0.0002413812672811953
+            }
+        }
+    },
+    "2025-03-10": {
+        "longs": {
+            "parametros": {
+                "ma_method": "T3",
+                "ma_candle": 75,
+                "ma_lookback": 20,
+                "name": "VOL_RATIO",
+                "candle": 76,
+                "window": 95,
+                "follow_tend": 1.654463429718111
+            },
+            "kpis": {
+                "score": 69.65930191318878,
+                "hr": 0.9873417721518988,
+                "rr": 36.01794871795262,
+                "pr": 2809.4000000003048,
+                "tr": 79,
+                "mae": 0.0006178447444739071
+            }
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "EMA",
+                "ma_candle": 50,
+                "ma_lookback": 51,
+                "name": "VOL_RATIO",
+                "candle": 15,
+                "window": 39,
+                "follow_tend": 1.1425601420026676
+            },
+            "kpis": {
+                "score": 36.55472851423357,
+                "hr": 0.9652173913043478,
+                "rr": 1.7255048151599048,
+                "pr": 47.88275862068736,
+                "tr": 115,
+                "mae": 0.0003261541953573194
+            }
+        }
+    },
+    "2025-03-17": {
+        "longs": {
+            "parametros": {
+                "ma_method": "TEMA",
+                "ma_candle": 99,
+                "ma_lookback": 29,
+                "name": "VOL_RATIO",
+                "candle": 1,
+                "window": 84,
+                "follow_tend": 1.0799294665455652
+            },
+            "kpis": {
+                "score": 47.93504830935992,
+                "hr": 0.9622641509433962,
+                "rr": 5.909834800061776,
+                "pr": 150.7007874015753,
+                "tr": 106,
+                "mae": 0.0006022644814266646
+            }
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "DEMA",
+                "ma_candle": 75,
+                "ma_lookback": 50,
+                "name": "VOL_RATIO",
+                "candle": 48,
+                "window": 47,
+                "follow_tend": 1.644048597121957
+            },
+            "kpis": {
+                "score": 49.8884236850463,
+                "hr": 0.9662921348314607,
+                "rr": 8.507417802722939,
+                "pr": 243.87931034472425,
+                "tr": 89,
+                "mae": 0.002246752605048019
+            }
+        }
+    },
+    "2025-03-24": {
+        "longs": {
+            "parametros": {
+                "ma_method": "WMA",
+                "ma_candle": 62,
+                "ma_lookback": 86,
+                "name": "VOL_RATIO",
+                "candle": 33,
+                "window": 78,
+                "follow_tend": 1.9493100112332593
+            },
+            "kpis": {
+                "score": 49.76699122458033,
+                "hr": 0.96,
+                "rr": 16.847222222229618,
+                "pr": 404.33333333351084,
+                "tr": 75,
+                "mae": 0.003655002329999754
+            }
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "DEMA",
+                "ma_candle": 75,
+                "ma_lookback": 53,
+                "name": "SHANNON",
+                "candle": 16,
+                "window": 26,
+                "bins": 5,
+                "follow_tend": 0.9751935538227381
+            },
+            "kpis": {
+                "score": 51.99415665404072,
+                "hr": 0.9634146341463414,
+                "rr": 14.950297840645236,
+                "pr": 393.69117647032454,
+                "tr": 82,
+                "mae": 0.001329676242798799
+            }
+        }
+    },
+    "2025-03-31": {
+        "longs": {
+            "parametros": {
+                "ma_method": "EMA",
+                "ma_candle": 66,
+                "ma_lookback": 56,
+                "name": "VOL_RATIO",
+                "candle": 71,
+                "window": 96,
+                "follow_tend": 1.1514812074253618
+            },
+            "kpis": {
+                "score": 51.18099813300931,
+                "hr": 0.9746835443037974,
+                "rr": 9.717827626920272,
+                "pr": 374.1363636364305,
+                "tr": 79,
+                "mae": 0.0014489128575035462
+            }
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "T3",
+                "ma_candle": 44,
+                "ma_lookback": 37,
+                "name": "VOL_RATIO",
+                "candle": 36,
+                "window": 42,
+                "follow_tend": 0.9095684586697728
+            },
+            "kpis": {
+                "score": 40.23093010310351,
+                "hr": 0.9148936170212766,
+                "rr": 9.095137420718883,
+                "pr": 97.772727272728,
+                "tr": 94,
+                "mae": 0.0004927341200212808
+            }
+        }
+    },
+    "2025-04-07": {
+        "longs": {
+            "parametros": {
+                "ma_method": "WMA",
+                "ma_candle": 72,
+                "ma_lookback": 51,
+                "name": "VOL_RATIO",
+                "candle": 71,
+                "window": 82,
+                "follow_tend": 1.403398154224384
+            },
+            "kpis": {
+                "score": 68.2390794326639,
+                "hr": 0.9848484848484849,
+                "rr": 77.96410256416925,
+                "pr": 5067.666666671002,
+                "tr": 66,
+                "mae": 0.0006931220113233896
+            }
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "KAMA",
+                "ma_candle": 88,
+                "ma_lookback": 15,
+                "name": "SHANNON",
+                "candle": 86,
+                "window": 17,
+                "bins": 20,
+                "follow_tend": 0.9498529963760722
+            },
+            "kpis": {
+                "score": 71.00455655136156,
+                "hr": 0.9864864864864865,
+                "rr": 59.073059360781066,
+                "pr": 4312.333333337018,
+                "tr": 74,
+                "mae": 0.0007769330892326736
+            }
+        }
+    },
+    "2025-04-14": {
+        "longs": {
+            "parametros": {
+                "ma_method": "EMA",
+                "ma_candle": 67,
+                "ma_lookback": 26,
+                "name": "VOL_RATIO",
+                "candle": 38,
+                "window": 68,
+                "follow_tend": 1.4573692126910471
+            },
+            "kpis": {
+                "score": 63.86502444304932,
+                "hr": 0.954954954954955,
+                "rr": 38.17975067384666,
+                "pr": 809.4107142855491,
+                "tr": 111,
+                "mae": 0.0015292115512889712
+            }
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "DEMA",
+                "ma_candle": 61,
+                "ma_lookback": 98,
+                "name": "SHANNON",
+                "candle": 7,
+                "window": 23,
+                "bins": 19,
+                "follow_tend": 0.916436832183481
+            },
+            "kpis": {
+                "score": 50.59166017029633,
+                "hr": 0.96,
+                "rr": 18.584821428575072,
+                "pr": 446.03571428580176,
+                "tr": 75,
+                "mae": 0.004362088618030156
+            }
+        }
+    },
+    "2025-04-21": {
+        "longs": {
+            "parametros": {
+                "ma_method": "EMA",
+                "ma_candle": 59,
+                "ma_lookback": 45,
+                "name": "VOL_RATIO",
+                "candle": 67,
+                "window": 43,
+                "follow_tend": 1.3160993208693221
+            },
+            "kpis": {
+                "score": 54.13004526023862,
+                "hr": 0.9565217391304348,
+                "rr": 16.862727272729284,
+                "pr": 370.9800000000443,
+                "tr": 92,
+                "mae": 0.000635631708174549
+            }
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "DEMA",
+                "ma_candle": 76,
+                "ma_lookback": 88,
+                "name": "VOL_RATIO",
+                "candle": 25,
+                "window": 62,
+                "follow_tend": 1.5055085854023453
+            },
+            "kpis": {
+                "score": 69.05332750558506,
+                "hr": 0.9821428571428571,
+                "rr": 218.96363636463315,
+                "pr": 12043.000000054823,
+                "tr": 56,
+                "mae": 0.0010149224833880513
+            }
+        }
+    },
+    "2025-04-28": {
+        "longs": {
+            "parametros": {
+                "ma_method": "DEMA",
+                "ma_candle": 86,
+                "ma_lookback": 18,
+                "name": "VOL_RATIO",
+                "candle": 3,
+                "window": 53,
+                "follow_tend": 1.4409253947897045
+            },
+            "kpis": {
+                "score": 50.96374700906165,
+                "hr": 0.96875,
+                "rr": 6.3850806451613344,
+                "pr": 197.93750000000136,
+                "tr": 128,
+                "mae": 0.0005406816412927408
+            }
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "DEMA",
+                "ma_candle": 63,
+                "ma_lookback": 24,
+                "name": "VOL_RATIO",
+                "candle": 91,
+                "window": 53,
+                "follow_tend": 1.8489609902481856
+            },
+            "kpis": {
+                "score": 36.025061225472015,
+                "hr": 0.9470198675496688,
+                "rr": 2.725371014527717,
+                "pr": 48.71600688468295,
+                "tr": 151,
+                "mae": 0.001458124012683325
+            }
+        }
+    },
+    "2025-05-05": {
+        "longs": {
+            "parametros": {
+                "ma_method": "KAMA",
+                "ma_candle": 70,
+                "ma_lookback": 12,
+                "name": "SHANNON",
+                "candle": 67,
+                "window": 20,
+                "bins": 8,
+                "follow_tend": 0.9763917399116195
+            },
+            "kpis": {
+                "score": 67.2865104136478,
+                "hr": 0.9824561403508771,
+                "rr": 16.972842261919233,
+                "pr": 950.479166667477,
+                "tr": 114,
+                "mae": 0.002302055409688978
+            }
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "MIDPOINT",
+                "ma_candle": 93,
+                "ma_lookback": 105,
+                "name": "ADX",
+                "candle": 70,
+                "window": 42,
+                "follow_tend": 11.202989892051763
+            },
+            "kpis": {
+                "score": 34.088429052454266,
+                "hr": 0.9393939393939394,
+                "rr": 36.18114143924713,
+                "pr": 560.8076923083305,
+                "tr": 33,
+                "mae": 0.006537291474309384
+            }
+        }
+    },
+    "2025-05-12": {
+        "longs": {
+            "parametros": {
+                "ma_method": "EMA",
+                "ma_candle": 86,
+                "ma_lookback": 76,
+                "name": "ADX",
+                "candle": 69,
+                "window": 20,
+                "follow_tend": 11.94083802436986
+            },
+            "kpis": {
+                "score": 58.665781613582844,
+                "hr": 0.9787234042553191,
+                "rr": 136.47826086942837,
+                "pr": 6277.999999993705,
+                "tr": 47,
+                "mae": 0.0015605607038818624
+            }
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "TRIMA",
+                "ma_candle": 90,
+                "ma_lookback": 34,
+                "name": "SHANNON",
+                "candle": 47,
+                "window": 11,
+                "bins": 6,
+                "follow_tend": 0.9922181529909935
+            },
+            "kpis": {
+                "score": 36.68626326120717,
+                "hr": 0.9473684210526315,
+                "rr": 9.669934640521138,
+                "pr": 174.05882352938048,
+                "tr": 57,
+                "mae": 0.001031772774175778
+            }
+        }
+    },
+    "2025-05-19": {
+        "longs": {
+            "parametros": {
+                "ma_method": "DEMA",
+                "ma_candle": 82,
+                "ma_lookback": 69,
+                "name": "VOL_RATIO",
+                "candle": 16,
+                "window": 68,
+                "follow_tend": 1.4056915758776347
+            },
+            "kpis": {
+                "score": 57.69204150755497,
+                "hr": 0.9850746268656716,
+                "rr": 19.515151515157054,
+                "pr": 1288.0000000003656,
+                "tr": 67,
+                "mae": 0.0007801963335167296
+            }
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "MIDPOINT",
+                "ma_candle": 59,
+                "ma_lookback": 13,
+                "name": "LO_MACKINLAY",
+                "candle": 68,
+                "window": 71,
+                "k": 2,
+                "follow_tend": 0.5193695098176794
+            },
+            "kpis": {
+                "score": 54.150263600615745,
+                "hr": 0.9513888888888888,
+                "rr": 15.435870698641265,
+                "pr": 302.1020408162648,
+                "tr": 144,
+                "mae": 0.00039827845517343194
+            }
+        }
+    },
+    "2025-05-26": {
+        "longs": {
+            "parametros": {
+                "ma_method": "EMA",
+                "ma_candle": 41,
+                "ma_lookback": 48,
+                "name": "ADX",
+                "candle": 63,
+                "window": 4,
+                "follow_tend": 34.118694786476645
+            },
+            "kpis": {
+                "score": 39.518451754085,
+                "hr": 0.9172932330827067,
+                "rr": 7.086918455453591,
+                "pr": 78.60036832412165,
+                "tr": 133,
+                "mae": 0.0010296309094847968
+            }
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "EMA",
+                "ma_candle": 80,
+                "ma_lookback": 79,
+                "name": "SHANNON",
+                "candle": 52,
+                "window": 8,
+                "bins": 5,
+                "follow_tend": 0.9996730179007631
+            },
+            "kpis": {
+                "score": 48.724053718043564,
+                "hr": 0.9787234042553191,
+                "rr": 31.136645962726718,
+                "pr": 1432.285714285429,
+                "tr": 47,
+                "mae": 0.0013274392049863564
+            }
+        }
+    },
+    "2025-06-02": {
+        "longs": {
+            "parametros": {
+                "ma_method": "EMA",
+                "ma_candle": 79,
+                "ma_lookback": 43,
+                "name": "VOL_RATIO",
+                "candle": 5,
+                "window": 92,
+                "follow_tend": 1.6333646233416586
+            },
+            "kpis": {
+                "score": 49.41537109955252,
+                "hr": 0.9733333333333334,
+                "rr": 9.795765877957777,
+                "pr": 357.5454545454589,
+                "tr": 75,
+                "mae": 0.0008026496435633988
+            }
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "EMA",
+                "ma_candle": 60,
+                "ma_lookback": 79,
+                "name": "VOL_RATIO",
+                "candle": 5,
+                "window": 100,
+                "follow_tend": 1.9434516029036515
+            },
+            "kpis": {
+                "score": 60.42856814918959,
+                "hr": 0.9696969696969697,
+                "rr": 67.26250000000772,
+                "pr": 2152.400000000247,
+                "tr": 66,
+                "mae": 0.0007280909632497235
+            }
+        }
+    },
+    "2025-06-09": {
+        "longs": {
+            "parametros": {
+                "ma_method": "SMA",
+                "ma_candle": 47,
+                "ma_lookback": 35,
+                "name": "SHANNON",
+                "candle": 71,
+                "window": 34,
+                "bins": 13,
+                "follow_tend": 0.9822642978667702
+            },
+            "kpis": {
+                "score": 50.50998914022959,
+                "hr": 0.9326923076923077,
+                "rr": 16.62340812613674,
+                "pr": 230.35294117646623,
+                "tr": 104,
+                "mae": 0.0014093628240586789
+            }
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "TEMA",
+                "ma_candle": 50,
+                "ma_lookback": 100,
+                "name": "ADX",
+                "candle": 29,
+                "window": 20,
+                "follow_tend": 11.45901654797769
+            },
+            "kpis": {
+                "score": 45.684337031199604,
+                "hr": 0.9230769230769231,
+                "rr": 15.359318996414077,
+                "pr": 184.31182795696893,
+                "tr": 91,
+                "mae": 0.0006006668578894575
+            }
+        }
+    },
+    "2025-06-16": {
+        "longs": {
+            "parametros": {
+                "ma_method": "DEMA",
+                "ma_candle": 44,
+                "ma_lookback": 101,
+                "name": "VOL_RATIO",
+                "candle": 49,
+                "window": 27,
+                "follow_tend": 1.2732852845164822
+            },
+            "kpis": {
+                "score": 42.81293068984045,
+                "hr": 0.9479166666666666,
+                "rr": 5.779474762525442,
+                "pr": 105.18644067796305,
+                "tr": 96,
+                "mae": 0.002130223104146811
+            }
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "EMA",
+                "ma_candle": 52,
+                "ma_lookback": 21,
+                "name": "VOL_RATIO",
+                "candle": 49,
+                "window": 51,
+                "follow_tend": 1.4793491554724525
+            },
+            "kpis": {
+                "score": 57.21461511189877,
+                "hr": 0.9735099337748344,
+                "rr": 9.873083561782064,
+                "pr": 362.8358208954908,
+                "tr": 151,
+                "mae": 0.0009113225100281462
+            }
+        }
+    },
+    "2025-06-23": {
+        "longs": {
+            "parametros": {
+                "ma_method": "KAMA",
+                "ma_candle": 42,
+                "ma_lookback": 38,
+                "name": "VOL_RATIO",
+                "candle": 8,
+                "window": 63,
+                "follow_tend": 1.002960595552386
+            },
+            "kpis": {
+                "score": 54.03605247335745,
+                "hr": 0.9491525423728814,
+                "rr": 16.20608108108193,
+                "pr": 302.51351351352935,
+                "tr": 118,
+                "mae": 0.00042988087318385855
+            }
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "DEMA",
+                "ma_candle": 32,
+                "ma_lookback": 105,
+                "name": "VOL_RATIO",
+                "candle": 28,
+                "window": 70,
+                "follow_tend": 1.888187558120121
+            },
+            "kpis": {
+                "score": 57.290345342422576,
+                "hr": 0.9699248120300752,
+                "rr": 11.587407055843174,
+                "pr": 373.6938775509423,
+                "tr": 133,
+                "mae": 0.0017209759566736533
+            }
+        }
+    },
+    "2025-06-30": {
+        "longs": {
+            "parametros": {
+                "ma_method": "EMA",
+                "ma_candle": 70,
+                "ma_lookback": 74,
+                "name": "VOL_RATIO",
+                "candle": 56,
+                "window": 86,
+                "follow_tend": 1.51078952524588
+            },
+            "kpis": {
+                "score": 45.83759214981469,
+                "hr": 0.9655172413793104,
+                "rr": 18.430000000002007,
+                "pr": 516.0400000000562,
+                "tr": 58,
+                "mae": 0.001006839506450104
+            }
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "KAMA",
+                "ma_candle": 42,
+                "ma_lookback": 95,
+                "name": "VOL_RATIO",
+                "candle": 88,
+                "window": 27,
+                "follow_tend": 1.0096851090630339
+            },
+            "kpis": {
+                "score": 40.52654502398873,
+                "hr": 0.9021739130434783,
+                "rr": 12.229566916312018,
+                "pr": 112.7837837837664,
+                "tr": 92,
+                "mae": 0.0005537056248107459
+            }
+        }
+    },
+    "2025-07-07": {
+        "longs": {
+            "parametros": {
+                "ma_method": "DEMA",
+                "ma_candle": 61,
+                "ma_lookback": 77,
+                "name": "VOL_RATIO",
+                "candle": 82,
+                "window": 95,
+                "follow_tend": 1.8616011202955571
+            },
+            "kpis": {
+                "score": 50.79859002520112,
+                "hr": 0.9367088607594937,
+                "rr": 30.584459459454337,
+                "pr": 452.6499999999242,
+                "tr": 79,
+                "mae": 0.0007196144669112979
+            }
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "TEMA",
+                "ma_candle": 38,
+                "ma_lookback": 59,
+                "name": "SHANNON",
+                "candle": 82,
+                "window": 20,
+                "bins": 18,
+                "follow_tend": 0.9379184482702723
+            },
+            "kpis": {
+                "score": 36.598090028156854,
+                "hr": 0.9162303664921466,
+                "rr": 5.323858557284658,
+                "pr": 58.22970297030095,
+                "tr": 191,
+                "mae": 0.00021138000977188878
+            }
+        }
+    },
+    "2025-07-14": {
+        "longs": {
+            "parametros": {
+                "ma_method": "DEMA",
+                "ma_candle": 76,
+                "ma_lookback": 50,
+                "name": "ADX",
+                "candle": 95,
+                "window": 3,
+                "follow_tend": 10.688506861081168
+            },
+            "kpis": {
+                "score": 56.98529914809329,
+                "hr": 0.971830985915493,
+                "rr": 30.71611253196859,
+                "pr": 1059.7058823529164,
+                "tr": 71,
+                "mae": 0.0010123056822028016
+            }
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "KAMA",
+                "ma_candle": 71,
+                "ma_lookback": 47,
+                "name": "VOL_RATIO",
+                "candle": 84,
+                "window": 89,
+                "follow_tend": 2.328114206333188
+            },
+            "kpis": {
+                "score": 51.64221805664638,
+                "hr": 0.967741935483871,
+                "rr": 29.51222222220357,
+                "pr": 885.3666666661071,
+                "tr": 62,
+                "mae": 0.004841053236243223
+            }
+        }
+    },
+    "2025-07-21": {
+        "longs": {
+            "parametros": {
+                "ma_method": "WMA",
+                "ma_candle": 68,
+                "ma_lookback": 110,
+                "name": "VOL_RATIO",
+                "candle": 31,
+                "window": 87,
+                "follow_tend": 1.0709190899789895
+            },
+            "kpis": {
+                "score": 38.876803120386,
+                "hr": 0.9615384615384616,
+                "rr": 11.121481481481771,
+                "pr": 278.0370370370443,
+                "tr": 52,
+                "mae": 0.0011801875483323993
+            }
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "KAMA",
+                "ma_candle": 68,
+                "ma_lookback": 19,
+                "name": "ADX",
+                "candle": 38,
+                "window": 23,
+                "follow_tend": 10.92878837308642
+            },
+            "kpis": {
+                "score": 46.447690388956936,
+                "hr": 0.9583333333333334,
+                "rr": 6.334436042847927,
+                "pr": 145.69202898550233,
+                "tr": 96,
+                "mae": 0.0007857867760769767
+            }
+        }
+    },
+    "2025-07-28": {
+        "longs": {
+            "parametros": {
+                "ma_method": "KAMA",
+                "ma_candle": 40,
+                "ma_lookback": 84,
+                "name": "VOL_RATIO",
+                "candle": 80,
+                "window": 12,
+                "follow_tend": 0.748036943618196
+            },
+            "kpis": {
+                "score": 43.16481165350399,
+                "hr": 0.9659090909090909,
+                "rr": 4.306505190311916,
+                "pr": 122.01764705883762,
+                "tr": 88,
+                "mae": 0.0008719106921893605
+            }
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "WMA",
+                "ma_candle": 92,
+                "ma_lookback": 53,
+                "name": "VOL_RATIO",
+                "candle": 30,
+                "window": 44,
+                "follow_tend": 1.2749535879685108
+            },
+            "kpis": {
+                "score": 49.71975887714761,
+                "hr": 0.9811320754716981,
+                "rr": 20.42132867131847,
+                "pr": 1061.9090909085605,
+                "tr": 53,
+                "mae": 0.0011234720457013664
+            }
+        }
+    },
+    "2025-08-04": {
+        "longs": {
+            "parametros": {
+                "ma_method": "EMA",
+                "ma_candle": 58,
+                "ma_lookback": 29,
+                "name": "ADX",
+                "candle": 91,
+                "window": 9,
+                "follow_tend": 11.406722402389313
+            },
+            "kpis": {
+                "score": 54.546297860839495,
+                "hr": 0.9797979797979798,
+                "rr": 5.665837184500257,
+                "pr": 274.79310344826246,
+                "tr": 99,
+                "mae": 0.00043380242338154044
+            }
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "DEMA",
+                "ma_candle": 71,
+                "ma_lookback": 44,
+                "name": "VOL_RATIO",
+                "candle": 20,
+                "window": 50,
+                "follow_tend": 1.1032411304692744
+            },
+            "kpis": {
+                "score": 47.93160157778042,
+                "hr": 0.9230769230769231,
+                "rr": 19.72101449275129,
+                "pr": 236.6521739130155,
+                "tr": 91,
+                "mae": 0.0005934831689478757
+            }
+        }
+    },
+    "2025-08-11": {
+        "longs": {
+            "parametros": {
+                "ma_method": "MIDPOINT",
+                "ma_candle": 68,
+                "ma_lookback": 63,
+                "name": "VOL_RATIO",
+                "candle": 80,
+                "window": 90,
+                "follow_tend": 1.298292120063771
+            },
+            "kpis": {
+                "score": 48.13621374849929,
+                "hr": 0.9807692307692307,
+                "rr": 17.85539215686966,
+                "pr": 910.6250000003527,
+                "tr": 52,
+                "mae": 0.001203805518167168
+            }
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "KAMA",
+                "ma_candle": 38,
+                "ma_lookback": 75,
+                "name": "VOL_RATIO",
+                "candle": 22,
+                "window": 91,
+                "follow_tend": 0.6143236614567994
+            },
+            "kpis": {
+                "score": 40.33094316920516,
+                "hr": 0.9494949494949495,
+                "rr": 4.026112185686564,
+                "pr": 75.69090909090741,
+                "tr": 99,
+                "mae": 0.0004210840560488836
+            }
+        }
+    },
+    "2025-08-18": {
+        "longs": {
+            "parametros": {
+                "ma_method": "TEMA",
+                "ma_candle": 98,
+                "ma_lookback": 72,
+                "name": "VOL_RATIO",
+                "candle": 58,
+                "window": 98,
+                "follow_tend": 1.7431497897111388
+            },
+            "kpis": {
+                "score": 63.75805697071201,
+                "hr": 0.9803921568627451,
+                "rr": 180.46000000082157,
+                "pr": 9023.000000041078,
+                "tr": 51,
+                "mae": 0.000986285001377137
+            }
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "KAMA",
+                "ma_candle": 89,
+                "ma_lookback": 18,
+                "name": "VOL_RATIO",
+                "candle": 84,
+                "window": 64,
+                "follow_tend": 1.4763216922134719
+            },
+            "kpis": {
+                "score": 46.81357480998189,
+                "hr": 0.9705882352941176,
+                "rr": 10.697811447810594,
+                "pr": 353.0277777777496,
+                "tr": 68,
+                "mae": 0.0016275586175080099
+            }
+        }
+    },
+    "2025-08-25": {
+        "longs": {
+            "parametros": {
+                "ma_method": "DEMA",
+                "ma_candle": 67,
+                "ma_lookback": 55,
+                "name": "VOL_RATIO",
+                "candle": 87,
+                "window": 81,
+                "follow_tend": 2.054371422133218
+            },
+            "kpis": {
+                "score": 51.11812392766925,
+                "hr": 0.961038961038961,
+                "rr": 17.642506142509273,
+                "pr": 435.18181818189544,
+                "tr": 77,
+                "mae": 0.0005153904177439494
+            }
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "SMA",
+                "ma_candle": 80,
+                "ma_lookback": 8,
+                "name": "VOL_RATIO",
+                "candle": 12,
+                "window": 82,
+                "follow_tend": 2.279634069553115
+            },
+            "kpis": {
+                "score": 65.91442668239239,
+                "hr": 0.9922480620155039,
+                "rr": 6.051858836206603,
+                "pr": 774.6379310344452,
+                "tr": 129,
+                "mae": 0.0007851329982611569
+            }
+        }
+    },
+    "2025-09-01": {
+        "longs": {
+            "parametros": {
+                "ma_method": "TEMA",
+                "ma_candle": 67,
+                "ma_lookback": 101,
+                "name": "VOL_RATIO",
+                "candle": 89,
+                "window": 93,
+                "follow_tend": 2.514052708164294
+            },
+            "kpis": {
+                "score": 37.12791991075742,
+                "hr": 0.9152542372881356,
+                "rr": 18.69293712317272,
+                "pr": 201.88372093026535,
+                "tr": 59,
+                "mae": 0.0006383091597068629
+            }
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "MIDPOINT",
+                "ma_candle": 46,
+                "ma_lookback": 96,
+                "name": "VOL_RATIO",
+                "candle": 98,
+                "window": 69,
+                "follow_tend": 1.3653285857473145
+            },
+            "kpis": {
+                "score": 34.170664116825,
+                "hr": 0.9420289855072463,
+                "rr": 5.119692307692284,
+                "pr": 83.19499999999961,
+                "tr": 69,
+                "mae": 0.0013439356096594849
+            }
+        }
+    },
+    "2025-09-08": {
+        "longs": {
+            "parametros": {
+                "ma_method": "WMA",
+                "ma_candle": 89,
+                "ma_lookback": 21,
+                "name": "VOL_RATIO",
+                "candle": 67,
+                "window": 53,
+                "follow_tend": 1.5931760324361381
+            },
+            "kpis": {
+                "score": 47.719053114759014,
+                "hr": 0.9479166666666666,
+                "rr": 9.65223399354968,
+                "pr": 175.67065868260417,
+                "tr": 96,
+                "mae": 0.0022737884369289797
+            }
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "KAMA",
+                "ma_candle": 89,
+                "ma_lookback": 102,
+                "name": "VOL_RATIO",
+                "candle": 94,
+                "window": 74,
+                "follow_tend": 1.1518730746321943
+            },
+            "kpis": {
+                "score": 51.38799811229454,
+                "hr": 0.9714285714285714,
+                "rr": 225.08823529514166,
+                "pr": 7653.000000034816,
+                "tr": 35,
+                "mae": 0.0012765192268518134
+            }
+        }
+    },
+    "2025-09-15": {
+        "longs": {
+            "parametros": {
+                "ma_method": "DEMA",
+                "ma_candle": 94,
+                "ma_lookback": 20,
+                "name": "VOL_RATIO",
+                "candle": 55,
+                "window": 51,
+                "follow_tend": 1.4666357299657609
+            },
+            "kpis": {
+                "score": 45.387292504349894,
+                "hr": 0.9122807017543859,
+                "rr": 14.395979020979105,
+                "pr": 149.7181818181827,
+                "tr": 114,
+                "mae": 0.0004055439137297092
+            }
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "TEMA",
+                "ma_candle": 72,
+                "ma_lookback": 101,
+                "name": "ADX",
+                "candle": 66,
+                "window": 31,
+                "follow_tend": 10.88015617329221
+            },
+            "kpis": {
+                "score": 38.089247954991606,
+                "hr": 0.9333333333333333,
+                "rr": 14.243935309969222,
+                "pr": 199.41509433956912,
+                "tr": 60,
+                "mae": 0.00074671827808806
+            }
+        }
+    },
+    "2025-09-22": {
+        "longs": {
+            "parametros": {
+                "ma_method": "KAMA",
+                "ma_candle": 72,
+                "ma_lookback": 68,
+                "name": "VOL_RATIO",
+                "candle": 8,
+                "window": 59,
+                "follow_tend": 1.7081618449837066
+            },
+            "kpis": {
+                "score": 42.15022762955276,
+                "hr": 0.9705882352941176,
+                "rr": 52.23484848479604,
+                "pr": 1723.7499999982695,
+                "tr": 34,
+                "mae": 0.0012116398830932518
+            }
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "DEMA",
+                "ma_candle": 99,
+                "ma_lookback": 35,
+                "name": "VOL_RATIO",
+                "candle": 82,
+                "window": 29,
+                "follow_tend": 1.182456906587401
+            },
+            "kpis": {
+                "score": 55.02050319514155,
+                "hr": 0.9848484848484849,
+                "rr": 15.026666666668234,
+                "pr": 976.7333333334352,
+                "tr": 66,
+                "mae": 0.0008954687551157495
+            }
+        }
+    },
+    "2025-09-29": {
+        "longs": {
+            "parametros": {
+                "ma_method": "EMA",
+                "ma_candle": 51,
+                "ma_lookback": 88,
+                "name": "SHANNON",
+                "candle": 60,
+                "window": 47,
+                "bins": 17,
+                "follow_tend": 0.9340616169986343
+            },
+            "kpis": {
+                "score": 37.76130880368889,
+                "hr": 0.9538461538461539,
+                "rr": 6.818181818182511,
+                "pr": 140.90909090910523,
+                "tr": 65,
+                "mae": 0.003490203489407323
+            }
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "KAMA",
+                "ma_candle": 93,
+                "ma_lookback": 14,
+                "name": "ADX",
+                "candle": 47,
+                "window": 17,
+                "follow_tend": 10.874118473490087
+            },
+            "kpis": {
+                "score": 50.80238571447948,
+                "hr": 0.9733333333333334,
+                "rr": 11.522070015219768,
+                "pr": 420.55555555552155,
+                "tr": 75,
+                "mae": 0.0006313861222086203
+            }
+        }
+    },
+    "2025-10-06": {
+        "longs": {
+            "parametros": {
+                "ma_method": "TEMA",
+                "ma_candle": 100,
+                "ma_lookback": 19,
+                "name": "ADX",
+                "candle": 16,
+                "window": 9,
+                "follow_tend": 10.921025872888226
+            },
+            "kpis": {
+                "score": 39.02508953309269,
+                "hr": 0.9421487603305785,
+                "rr": 4.116891064871034,
+                "pr": 67.0465116278997,
+                "tr": 121,
+                "mae": 0.00048563218181336146
+            }
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "TRIMA",
+                "ma_candle": 93,
+                "ma_lookback": 16,
+                "name": "VOL_RATIO",
+                "candle": 5,
+                "window": 84,
+                "follow_tend": 1.0450617920629541
+            },
+            "kpis": {
+                "score": 39.84939675756437,
+                "hr": 0.9390243902439024,
+                "rr": 7.346653346653472,
+                "pr": 113.13846153846347,
+                "tr": 82,
+                "mae": 0.0006311956229414109
+            }
+        }
+    },
+    "2025-10-13": {
+        "longs": {
+            "parametros": {
+                "ma_method": "TEMA",
+                "ma_candle": 64,
+                "ma_lookback": 49,
+                "name": "VOL_RATIO",
+                "candle": 6,
+                "window": 40,
+                "follow_tend": 1.8159839458354128
+            },
+            "kpis": {
+                "score": 38.66502982557981,
+                "hr": 0.9304347826086956,
+                "rr": 5.07928851371664,
+                "pr": 67.93548387096007,
+                "tr": 115,
+                "mae": 0.0009800331983168694
+            }
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "TEMA",
+                "ma_candle": 49,
+                "ma_lookback": 107,
+                "name": "VOL_RATIO",
+                "candle": 84,
+                "window": 77,
+                "follow_tend": 2.556557712245704
+            },
+            "kpis": {
+                "score": 46.65445150577187,
+                "hr": 0.9659090909090909,
+                "rr": 6.265678554887003,
+                "pr": 177.52755905513175,
+                "tr": 88,
+                "mae": 0.0012153884919854816
+            }
+        }
+    },
+    "2025-10-20": {
+        "longs": {
+            "parametros": {
+                "ma_method": "EMA",
+                "ma_candle": 86,
+                "ma_lookback": 87,
+                "name": "VOL_RATIO",
+                "candle": 88,
+                "window": 81,
+                "follow_tend": 2.4150606938995605
+            },
+            "kpis": {
+                "score": 49.844022092677086,
+                "hr": 0.9705882352941176,
+                "rr": 202.89393939260813,
+                "pr": 6695.499999956069,
+                "tr": 34,
+                "mae": 0.014760716804338339
+            }
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "DEMA",
+                "ma_candle": 70,
+                "ma_lookback": 61,
+                "name": "ADX",
+                "candle": 61,
+                "window": 3,
+                "follow_tend": 35.91150089564185
+            },
+            "kpis": {
+                "score": 56.65027686833942,
+                "hr": 0.9629629629629629,
+                "rr": 26.792510121453795,
+                "pr": 696.6052631577987,
+                "tr": 81,
+                "mae": 0.0009900401774142085
+            }
+        }
+    },
+    "2025-10-27": {
+        "longs": {
+            "parametros": {
+                "ma_method": "TEMA",
+                "ma_candle": 66,
+                "ma_lookback": 65,
+                "name": "VOL_RATIO",
+                "candle": 95,
+                "window": 68,
+                "follow_tend": 1.0671900864599522
+            },
+            "kpis": {
+                "score": 33.53079950720685,
+                "hr": 0.9294117647058824,
+                "rr": 4.09613843935267,
+                "pr": 53.93248945147682,
+                "tr": 85,
+                "mae": 0.0006165004319490802
+            }
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "TEMA",
+                "ma_candle": 83,
+                "ma_lookback": 38,
+                "name": "VOL_RATIO",
+                "candle": 91,
+                "window": 93,
+                "follow_tend": 1.143679197038346
+            },
+            "kpis": {
+                "score": 50.02899723181588,
+                "hr": 0.9607843137254902,
+                "rr": 7.664825930370883,
+                "pr": 187.78823529408663,
+                "tr": 102,
+                "mae": 0.0004732062949886584
+            }
+        }
+    },
+    "2025-11-03": {
+        "longs": {
+            "parametros": {
+                "ma_method": "DEMA",
+                "ma_candle": 65,
+                "ma_lookback": 36,
+                "name": "VOL_RATIO",
+                "candle": 84,
+                "window": 73,
+                "follow_tend": 0.7117998134245827
+            },
+            "kpis": {
+                "score": 49.70127190102164,
+                "hr": 0.9495798319327731,
+                "rr": 10.23568948134479,
+                "pr": 192.77215189866024,
+                "tr": 119,
+                "mae": 0.00034593121641735805
+            }
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "EMA",
+                "ma_candle": 77,
+                "ma_lookback": 31,
+                "name": "SHANNON",
+                "candle": 15,
+                "window": 4,
+                "bins": 11,
+                "follow_tend": 0.9925388754773579
+            },
+            "kpis": {
+                "score": 80.24850151324411,
+                "hr": 0.9746835443037974,
+                "rr": 274.07792207916697,
+                "pr": 10552.000000047929,
+                "tr": 79,
+                "mae": 0.0005836849698093014
+            }
+        }
+    },
+    "2025-11-10": {
+        "longs": {
+            "parametros": {
+                "ma_method": "EMA",
+                "ma_candle": 100,
+                "ma_lookback": 32,
+                "name": "ADX",
+                "candle": 9,
+                "window": 37,
+                "follow_tend": 11.378268481964852
+            },
+            "kpis": {
+                "score": 37.60388679775654,
+                "hr": 0.9444444444444444,
+                "rr": 13.593867334168468,
+                "pr": 231.095744680864,
+                "tr": 54,
+                "mae": 0.0024178261733542195
+            }
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "TEMA",
+                "ma_candle": 74,
+                "ma_lookback": 80,
+                "name": "SHANNON",
+                "candle": 85,
+                "window": 86,
+                "bins": 5,
+                "follow_tend": 0.9669165264614819
+            },
+            "kpis": {
+                "score": 52.136112513043905,
+                "hr": 0.971830985915493,
+                "rr": 17.062801932360298,
+                "pr": 588.6666666664303,
+                "tr": 71,
+                "mae": 0.0006812539280008492
+            }
+        }
+    },
+    "2025-11-17": {
+        "longs": {
+            "parametros": {
+                "ma_method": "TEMA",
+                "ma_candle": 67,
+                "ma_lookback": 103,
+                "name": "SHANNON",
+                "candle": 75,
+                "window": 3,
+                "bins": 14,
+                "follow_tend": 0.5326076892663814
+            },
+            "kpis": {
+                "score": 27.897689497611,
+                "hr": 0.9298245614035088,
+                "rr": 4.313399424368513,
+                "pr": 57.1525423728828,
+                "tr": 57,
+                "mae": 0.0009102932095326018
+            }
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "KAMA",
+                "ma_candle": 78,
+                "ma_lookback": 86,
+                "name": "VOL_RATIO",
+                "candle": 35,
+                "window": 76,
+                "follow_tend": 0.8487847338924579
+            },
+            "kpis": {
+                "score": 41.39931611532779,
+                "hr": 0.9574468085106383,
+                "rr": 24.66296296296084,
+                "pr": 554.916666666619,
+                "tr": 47,
+                "mae": 0.001244268988051114
+            }
+        }
+    },
+    "2025-11-24": {
+        "longs": {
+            "parametros": {
+                "ma_method": "EMA",
+                "ma_candle": 68,
+                "ma_lookback": 41,
+                "name": "VOL_RATIO",
+                "candle": 95,
+                "window": 29,
+                "follow_tend": 1.2126988056027965
+            },
+            "kpis": {
+                "score": 61.31532405230383,
+                "hr": 0.96875,
+                "rr": 88.3104838708786,
+                "pr": 2737.624999997236,
+                "tr": 64,
+                "mae": 0.0032447691856564826
+            }
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "KAMA",
+                "ma_candle": 100,
+                "ma_lookback": 8,
+                "name": "VOL_RATIO",
+                "candle": 32,
+                "window": 91,
+                "follow_tend": 2.265515089141385
+            },
+            "kpis": {
+                "score": 71.10963595446667,
+                "hr": 0.975,
+                "rr": 89.39423076938884,
+                "pr": 3486.375000006165,
+                "tr": 80,
+                "mae": 0.0013401261046042201
+            }
+        }
+    },
+    "2025-12-01": {
+        "longs": {
+            "parametros": {
+                "ma_method": "EMA",
+                "ma_candle": 59,
+                "ma_lookback": 99,
+                "name": "VOL_RATIO",
+                "candle": 48,
+                "window": 68,
+                "follow_tend": 1.2215901847666295
+            },
+            "kpis": {
+                "score": 44.350821906338695,
+                "hr": 0.9666666666666667,
+                "rr": 13.089341692789842,
+                "pr": 379.59090909090537,
+                "tr": 60,
+                "mae": 0.000734660417282216
+            }
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "KAMA",
+                "ma_candle": 68,
+                "ma_lookback": 10,
+                "name": "SHANNON",
+                "candle": 11,
+                "window": 39,
+                "bins": 8,
+                "follow_tend": 0.9410530795506042
+            },
+            "kpis": {
+                "score": 52.236919906770666,
+                "hr": 0.9428571428571428,
+                "rr": 15.7782475922034,
+                "pr": 260.3410852713561,
+                "tr": 105,
+                "mae": 0.0009335308519474492
+            }
+        }
+    },
+    "2025-12-08": {
+        "longs": {
+            "parametros": {
+                "ma_method": "WMA",
+                "ma_candle": 63,
+                "ma_lookback": 99,
+                "name": "ADX",
+                "candle": 21,
+                "window": 2,
+                "follow_tend": 14.79808800454233
+            },
+            "kpis": {
+                "score": 53.92747419181984,
+                "hr": 0.967741935483871,
+                "rr": 39.726190476181394,
+                "pr": 1191.7857142854418,
+                "tr": 62,
+                "mae": 0.0009521897102478253
+            }
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "EMA",
+                "ma_candle": 100,
+                "ma_lookback": 12,
+                "name": "VOL_RATIO",
+                "candle": 41,
+                "window": 96,
+                "follow_tend": 2.066148946580934
+            },
+            "kpis": {
+                "score": 71.95721390540321,
+                "hr": 0.978494623655914,
+                "rr": 45.23390894825624,
+                "pr": 2058.142857145659,
+                "tr": 93,
+                "mae": 0.0014229697033354266
+            }
+        }
+    },
+    "2025-12-15": {
+        "longs": {
+            "parametros": {
+                "ma_method": "KAMA",
+                "ma_candle": 67,
+                "ma_lookback": 17,
+                "name": "VOL_RATIO",
+                "candle": 18,
+                "window": 94,
+                "follow_tend": 1.2437706817506042
+            },
+            "kpis": {
+                "score": 70.98719241116584,
+                "hr": 0.9891304347826086,
+                "rr": 19.60439560437567,
+                "pr": 1783.9999999981862,
+                "tr": 92,
+                "mae": 0.00041832470926820317
+            }
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "WMA",
+                "ma_candle": 54,
+                "ma_lookback": 50,
+                "name": "VOL_RATIO",
+                "candle": 82,
+                "window": 46,
+                "follow_tend": 1.1940745927305032
+            },
+            "kpis": {
+                "score": 51.56972823885133,
+                "hr": 0.972972972972973,
+                "rr": 13.342592592596622,
+                "pr": 480.3333333334784,
+                "tr": 74,
+                "mae": 0.0005103655223467552
+            }
+        }
+    },
+    "2025-12-22": {
+        "longs": {
+            "parametros": {
+                "ma_method": "TEMA",
+                "ma_candle": 95,
+                "ma_lookback": 30,
+                "name": "VOL_RATIO",
+                "candle": 28,
+                "window": 90,
+                "follow_tend": 0.913606528428097
+            },
+            "kpis": {
+                "score": 48.063066088056644,
+                "hr": 0.9494949494949495,
+                "rr": 8.886665262271165,
+                "pr": 167.06930693069793,
+                "tr": 99,
+                "mae": 0.0005108394897864454
+            }
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "MIDPOINT",
+                "ma_candle": 26,
+                "ma_lookback": 83,
+                "name": "ADX",
+                "candle": 78,
+                "window": 20,
+                "follow_tend": 11.466044704946361
+            },
+            "kpis": {
+                "score": 32.96144229918635,
+                "hr": 0.9067796610169492,
+                "rr": 4.272113855818685,
+                "pr": 41.556016597509036,
+                "tr": 118,
+                "mae": 0.0024493036967821813
+            }
+        }
+    },
+    "2025-12-29": {
+        "longs": {
+            "parametros": {
+                "ma_method": "EMA",
+                "ma_candle": 67,
+                "ma_lookback": 31,
+                "name": "VOL_RATIO",
+                "candle": 3,
+                "window": 84,
+                "follow_tend": 2.404065823632402
+            },
+            "kpis": {
+                "score": 55.27038718231376,
+                "hr": 0.9753086419753086,
+                "rr": 13.909741331861602,
+                "pr": 549.4347826085333,
+                "tr": 81,
+                "mae": 0.001680024724151938
+            }
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "DEMA",
+                "ma_candle": 80,
+                "ma_lookback": 62,
+                "name": "SHANNON",
+                "candle": 78,
+                "window": 55,
+                "bins": 5,
+                "follow_tend": 0.9606390745805742
+            },
+            "kpis": {
+                "score": 56.10390660821884,
+                "hr": 0.9642857142857143,
+                "rr": 88.4675925925033,
+                "pr": 2388.624999997589,
+                "tr": 56,
+                "mae": 0.00375920599568893
+            }
+        }
+    },
+    "2024-01-08": {
+        "longs": {
+            "parametros": {
+                "ma_method": "MIDPOINT",
+                "ma_candle": 100,
+                "ma_lookback": 4,
+                "name": "VOL_RATIO",
+                "candle": 70,
+                "window": 45,
+                "follow_tend": 1.711177071385196
+            },
+            "kpis": {
+                "score": 53.681157657332854,
+                "hr": 0.9559748427672956,
+                "rr": 12.909491568729253,
+                "pr": 280.3203883495495,
+                "tr": 159,
+                "mae": 0.001086730738166476
+            }
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "EMA",
+                "ma_candle": 60,
+                "ma_lookback": 11,
+                "name": "SHANNON",
+                "candle": 35,
+                "window": 84,
+                "bins": 5,
+                "follow_tend": 0.9226425776059726
+            },
+            "kpis": {
+                "score": 48.23376015157895,
+                "hr": 0.9810126582278481,
+                "rr": 2.745448403985845,
+                "pr": 141.84816753926864,
+                "tr": 158,
+                "mae": 0.0016837505548309801
+            }
+        }
+    },
+    "2024-01-15": {
+        "longs": {
+            "parametros": {
+                "ma_method": "KAMA",
+                "ma_candle": 96,
+                "ma_lookback": 12,
+                "name": "SHANNON",
+                "candle": 82,
+                "window": 3,
+                "bins": 20,
+                "follow_tend": 0.7553300315446496
+            },
+            "kpis": {
+                "score": 63.55611650138095,
+                "hr": 0.948051948051948,
+                "rr": 114.35616438344651,
+                "pr": 2086.999999997899,
+                "tr": 77,
+                "mae": 0.0008231134758639213
+            }
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "KAMA",
+                "ma_candle": 46,
+                "ma_lookback": 99,
+                "name": "VOL_RATIO",
+                "candle": 99,
+                "window": 38,
+                "follow_tend": 0.693211319396299
+            },
+            "kpis": {
+                "score": 61.46663096353163,
+                "hr": 0.9761904761904762,
+                "rr": 23.660412757960184,
+                "pr": 970.0769230763676,
+                "tr": 84,
+                "mae": 0.0005104041963847538
+            }
+        }
+    },
+    "2024-01-22": {
+        "longs": {
+            "parametros": {
+                "ma_method": "DEMA",
+                "ma_candle": 59,
+                "ma_lookback": 110,
+                "name": "VOL_RATIO",
+                "candle": 19,
+                "window": 77,
+                "follow_tend": 2.4297517622386473
+            },
+            "kpis": {
+                "score": 61.02697978270766,
+                "hr": 0.9859154929577465,
+                "rr": 22.25714285713812,
+                "pr": 1557.9999999996685,
+                "tr": 71,
+                "mae": 0.0012077753132930494
+            }
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "T3",
+                "ma_candle": 88,
+                "ma_lookback": 30,
+                "name": "VOL_RATIO",
+                "candle": 21,
+                "window": 43,
+                "follow_tend": 1.043437530914796
+            },
+            "kpis": {
+                "score": 63.12388928810749,
+                "hr": 0.9795918367346939,
+                "rr": 207.54166666760992,
+                "pr": 9962.000000045275,
+                "tr": 49,
+                "mae": 0.000922638298325209
+            }
+        }
+    },
+    "2024-01-29": {
+        "longs": {
+            "parametros": {
+                "ma_method": "SMA",
+                "ma_candle": 73,
+                "ma_lookback": 68,
+                "name": "VOL_RATIO",
+                "candle": 11,
+                "window": 92,
+                "follow_tend": 2.8051733295477455
+            },
+            "kpis": {
+                "score": 44.36741860884523,
+                "hr": 0.9863013698630136,
+                "rr": 2.762452107279546,
+                "pr": 198.8965517241273,
+                "tr": 73,
+                "mae": 0.0006375091435584144
+            }
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "DEMA",
+                "ma_candle": 49,
+                "ma_lookback": 34,
+                "name": "VOL_RATIO",
+                "candle": 9,
+                "window": 84,
+                "follow_tend": 1.2207595788417773
+            },
+            "kpis": {
+                "score": 48.298714600878654,
+                "hr": 0.9407894736842105,
+                "rr": 11.000148787383495,
+                "pr": 174.78014184398222,
+                "tr": 152,
+                "mae": 0.0002735278309610958
+            }
+        }
+    },
+    "2024-02-05": {
+        "longs": {
+            "parametros": {
+                "ma_method": "KAMA",
+                "ma_candle": 53,
+                "ma_lookback": 105,
+                "name": "VOL_RATIO",
+                "candle": 20,
+                "window": 85,
+                "follow_tend": 1.9142826015008587
+            },
+            "kpis": {
+                "score": 54.139875030354176,
+                "hr": 0.9605263157894737,
+                "rr": 26.676067687348297,
+                "pr": 649.1176470588086,
+                "tr": 76,
+                "mae": 0.0006007061821327746
+            }
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "WMA",
+                "ma_candle": 86,
+                "ma_lookback": 30,
+                "name": "VOL_RATIO",
+                "candle": 66,
+                "window": 65,
+                "follow_tend": 1.074572164726897
+            },
+            "kpis": {
+                "score": 45.95097084938705,
+                "hr": 0.972972972972973,
+                "rr": 6.887544802865396,
+                "pr": 247.95161290315423,
+                "tr": 74,
+                "mae": 0.001126130042424904
+            }
+        }
+    },
+    "2024-02-12": {
+        "longs": {
+            "parametros": {
+                "ma_method": "T3",
+                "ma_candle": 100,
+                "ma_lookback": 11,
+                "name": "VOL_RATIO",
+                "candle": 70,
+                "window": 70,
+                "follow_tend": 1.9651395482584164
+            },
+            "kpis": {
+                "score": 54.77258612686091,
+                "hr": 0.9833333333333333,
+                "rr": 22.671802773509206,
+                "pr": 1337.6363636370434,
+                "tr": 60,
+                "mae": 0.007181085236036738
+            }
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "WMA",
+                "ma_candle": 71,
+                "ma_lookback": 34,
+                "name": "VOL_RATIO",
+                "candle": 10,
+                "window": 84,
+                "follow_tend": 2.2344565880272995
+            },
+            "kpis": {
+                "score": 68.85762239682909,
+                "hr": 0.9885057471264368,
+                "rr": 20.46511627906195,
+                "pr": 1759.9999999993277,
+                "tr": 87,
+                "mae": 0.0018143648797586045
+            }
+        }
+    },
+    "2024-02-19": {
+        "longs": {
+            "parametros": {
+                "ma_method": "TEMA",
+                "ma_candle": 71,
+                "ma_lookback": 82,
+                "name": "VOL_RATIO",
+                "candle": 51,
+                "window": 71,
+                "follow_tend": 1.1809780890904058
+            },
+            "kpis": {
+                "score": 53.869083274117614,
+                "hr": 0.9746835443037974,
+                "rr": 13.19851576993633,
+                "pr": 508.14285714254873,
+                "tr": 79,
+                "mae": 0.0006884957460304385
+            }
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "TEMA",
+                "ma_candle": 67,
+                "ma_lookback": 105,
+                "name": "SHANNON",
+                "candle": 100,
+                "window": 98,
+                "bins": 5,
+                "follow_tend": 0.8722238620430065
+            },
+            "kpis": {
+                "score": 47.782167319237914,
+                "hr": 0.9436619718309859,
+                "rr": 24.67064676618094,
+                "pr": 413.23333333353077,
+                "tr": 71,
+                "mae": 0.0007166306811689255
+            }
+        }
+    },
+    "2024-02-26": {
+        "longs": {
+            "parametros": {
+                "ma_method": "SMA",
+                "ma_candle": 89,
+                "ma_lookback": 15,
+                "name": "VOL_RATIO",
+                "candle": 7,
+                "window": 60,
+                "follow_tend": 1.4293521931331399
+            },
+            "kpis": {
+                "score": 53.31394362541419,
+                "hr": 0.974025974025974,
+                "rr": 13.815000000000484,
+                "pr": 518.0625000000181,
+                "tr": 77,
+                "mae": 0.0007006851811601118
+            }
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "EMA",
+                "ma_candle": 67,
+                "ma_lookback": 64,
+                "name": "VOL_RATIO",
+                "candle": 1,
+                "window": 99,
+                "follow_tend": 2.120104060272259
+            },
+            "kpis": {
+                "score": 64.17101257362829,
+                "hr": 0.971830985915493,
+                "rr": 73.60144927528835,
+                "pr": 2539.249999997448,
+                "tr": 71,
+                "mae": 0.0008551084443491402
+            }
+        }
+    },
+    "2024-03-04": {
+        "longs": {
+            "parametros": {
+                "ma_method": "TRIMA",
+                "ma_candle": 73,
+                "ma_lookback": 22,
+                "name": "SHANNON",
+                "candle": 60,
+                "window": 27,
+                "bins": 20,
+                "follow_tend": 0.9680727849527138
+            },
+            "kpis": {
+                "score": 49.13344822124414,
+                "hr": 0.95,
+                "rr": 17.389228886176067,
+                "pr": 330.3953488373453,
+                "tr": 80,
+                "mae": 0.000932825669599534
+            }
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "T3",
+                "ma_candle": 66,
+                "ma_lookback": 41,
+                "name": "VOL_RATIO",
+                "candle": 91,
+                "window": 33,
+                "follow_tend": 1.1038950704056631
+            },
+            "kpis": {
+                "score": 43.974768280614775,
+                "hr": 0.9375,
+                "rr": 23.85263157895802,
+                "pr": 357.7894736843703,
+                "tr": 64,
+                "mae": 0.000791913746143231
+            }
+        }
+    },
+    "2024-03-11": {
+        "longs": {
+            "parametros": {
+                "ma_method": "MIDPOINT",
+                "ma_candle": 64,
+                "ma_lookback": 74,
+                "name": "SHANNON",
+                "candle": 92,
+                "window": 3,
+                "bins": 13,
+                "follow_tend": 0.4516063805619943
+            },
+            "kpis": {
+                "score": 49.27232306514141,
+                "hr": 0.972972972972973,
+                "rr": 10.175120772943842,
+                "pr": 366.3043478259783,
+                "tr": 74,
+                "mae": 0.0007576151007196583
+            }
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "KAMA",
+                "ma_candle": 100,
+                "ma_lookback": 48,
+                "name": "VOL_RATIO",
+                "candle": 22,
+                "window": 80,
+                "follow_tend": 1.213204157975352
+            },
+            "kpis": {
+                "score": 63.783540351101756,
+                "hr": 0.9807692307692307,
+                "rr": 162.05882352834857,
+                "pr": 8264.999999945776,
+                "tr": 52,
+                "mae": 0.0012879409822673773
+            }
+        }
+    },
+    "2024-03-18": {
+        "longs": {
+            "parametros": {
+                "ma_method": "TEMA",
+                "ma_candle": 76,
+                "ma_lookback": 35,
+                "name": "ADX",
+                "candle": 57,
+                "window": 9,
+                "follow_tend": 17.138584416238338
+            },
+            "kpis": {
+                "score": 42.9363804396626,
+                "hr": 0.9215686274509803,
+                "rr": 9.375886524821677,
+                "pr": 110.16666666665472,
+                "tr": 102,
+                "mae": 0.0004770518708298152
+            }
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "DEMA",
+                "ma_candle": 67,
+                "ma_lookback": 58,
+                "name": "VOL_RATIO",
+                "candle": 16,
+                "window": 100,
+                "follow_tend": 2.742942280311378
+            },
+            "kpis": {
+                "score": 53.825566055926885,
+                "hr": 0.9662921348314607,
+                "rr": 13.002906976743184,
+                "pr": 372.74999999997124,
+                "tr": 89,
+                "mae": 0.0010525265893065292
+            }
+        }
+    },
+    "2024-03-25": {
+        "longs": {
+            "parametros": {
+                "ma_method": "EMA",
+                "ma_candle": 76,
+                "ma_lookback": 71,
+                "name": "VOL_RATIO",
+                "candle": 26,
+                "window": 80,
+                "follow_tend": 1.178203787901406
+            },
+            "kpis": {
+                "score": 59.302143039162644,
+                "hr": 0.984375,
+                "rr": 29.711111111048254,
+                "pr": 1871.79999999604,
+                "tr": 64,
+                "mae": 0.0007747917438462931
+            }
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "SMA",
+                "ma_candle": 57,
+                "ma_lookback": 31,
+                "name": "VOL_RATIO",
+                "candle": 5,
+                "window": 88,
+                "follow_tend": 1.0205765766702672
+            },
+            "kpis": {
+                "score": 62.03278522416474,
+                "hr": 0.9693877551020408,
+                "rr": 20.471052631580893,
+                "pr": 648.2500000000616,
+                "tr": 98,
+                "mae": 0.0004588819294291521
+            }
+        }
+    },
+    "2024-04-01": {
+        "longs": {
+            "parametros": {
+                "ma_method": "SMA",
+                "ma_candle": 36,
+                "ma_lookback": 84,
+                "name": "VOL_RATIO",
+                "candle": 29,
+                "window": 61,
+                "follow_tend": 1.2896350681212057
+            },
+            "kpis": {
+                "score": 45.985683022586244,
+                "hr": 0.9175257731958762,
+                "rr": 15.035112359553734,
+                "pr": 167.26562500003527,
+                "tr": 97,
+                "mae": 0.00037472874111216253
+            }
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "DEMA",
+                "ma_candle": 32,
+                "ma_lookback": 66,
+                "name": "VOL_RATIO",
+                "candle": 50,
+                "window": 82,
+                "follow_tend": 1.7173705644696535
+            },
+            "kpis": {
+                "score": 45.053785203587466,
+                "hr": 0.9265536723163842,
+                "rr": 10.63608165429367,
+                "pr": 134.1782608695509,
+                "tr": 177,
+                "mae": 0.00029096982345191166
+            }
+        }
+    },
+    "2024-04-08": {
+        "longs": {
+            "parametros": {
+                "ma_method": "DEMA",
+                "ma_candle": 61,
+                "ma_lookback": 69,
+                "name": "ADX",
+                "candle": 10,
+                "window": 10,
+                "follow_tend": 12.436328240615659
+            },
+            "kpis": {
+                "score": 63.03306332757409,
+                "hr": 0.9647058823529412,
+                "rr": 44.032317073175214,
+                "pr": 1203.5500000001225,
+                "tr": 85,
+                "mae": 0.0006671937165555962
+            }
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "KAMA",
+                "ma_candle": 90,
+                "ma_lookback": 76,
+                "name": "VOL_RATIO",
+                "candle": 61,
+                "window": 77,
+                "follow_tend": 1.5755427966158204
+            },
+            "kpis": {
+                "score": 46.049745219591884,
+                "hr": 0.975609756097561,
+                "rr": 39.96562499995964,
+                "pr": 1598.6249999983854,
+                "tr": 41,
+                "mae": 0.003851646070004428
+            }
+        }
+    },
+    "2024-04-15": {
+        "longs": {
+            "parametros": {
+                "ma_method": "WMA",
+                "ma_candle": 61,
+                "ma_lookback": 69,
+                "name": "SHANNON",
+                "candle": 1,
+                "window": 77,
+                "bins": 20,
+                "follow_tend": 0.9665298193005472
+            },
+            "kpis": {
+                "score": 50.64174877443653,
+                "hr": 0.9642857142857143,
+                "rr": 11.621399176953696,
+                "pr": 313.7777777777498,
+                "tr": 84,
+                "mae": 0.0004861925228940111
+            }
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "TEMA",
+                "ma_candle": 60,
+                "ma_lookback": 64,
+                "name": "VOL_RATIO",
+                "candle": 1,
+                "window": 66,
+                "follow_tend": 1.1357773073982593
+            },
+            "kpis": {
+                "score": 61.12590524004795,
+                "hr": 0.96875,
+                "rr": 20.413978494628118,
+                "pr": 632.8333333334716,
+                "tr": 96,
+                "mae": 0.0004034453037796654
+            }
+        }
+    },
+    "2024-04-22": {
+        "longs": {
+            "parametros": {
+                "ma_method": "EMA",
+                "ma_candle": 97,
+                "ma_lookback": 46,
+                "name": "VOL_RATIO",
+                "candle": 1,
+                "window": 92,
+                "follow_tend": 1.3523831900435115
+            },
+            "kpis": {
+                "score": 43.92196784926928,
+                "hr": 0.9803921568627451,
+                "rr": 10.73529411764674,
+                "pr": 536.764705882337,
+                "tr": 51,
+                "mae": 0.000900848715493326
+            }
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "SMA",
+                "ma_candle": 55,
+                "ma_lookback": 53,
+                "name": "VOL_RATIO",
+                "candle": 16,
+                "window": 60,
+                "follow_tend": 1.159669611462551
+            },
+            "kpis": {
+                "score": 60.58288025030215,
+                "hr": 0.9625,
+                "rr": 44.627087198506054,
+                "pr": 1145.428571428322,
+                "tr": 80,
+                "mae": 0.0007034775832678068
+            }
+        }
+    },
+    "2024-04-29": {
+        "longs": {
+            "parametros": {
+                "ma_method": "EMA",
+                "ma_candle": 57,
+                "ma_lookback": 33,
+                "name": "SHANNON",
+                "candle": 59,
+                "window": 74,
+                "bins": 18,
+                "follow_tend": 0.9999152280831263
+            },
+            "kpis": {
+                "score": 54.19747813315184,
+                "hr": 0.9504950495049505,
+                "rr": 15.89617300724183,
+                "pr": 305.2065217390432,
+                "tr": 101,
+                "mae": 0.0005749059278785485
+            }
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "DEMA",
+                "ma_candle": 54,
+                "ma_lookback": 77,
+                "name": "VOL_RATIO",
+                "candle": 51,
+                "window": 89,
+                "follow_tend": 1.5270435988883575
+            },
+            "kpis": {
+                "score": 54.516418501573256,
+                "hr": 0.968421052631579,
+                "rr": 10.701086956520689,
+                "pr": 328.16666666663446,
+                "tr": 95,
+                "mae": 0.00037879429122571304
+            }
+        }
+    },
+    "2024-05-06": {
+        "longs": {
+            "parametros": {
+                "ma_method": "DEMA",
+                "ma_candle": 44,
+                "ma_lookback": 87,
+                "name": "SHANNON",
+                "candle": 75,
+                "window": 83,
+                "bins": 9,
+                "follow_tend": 0.9093918762883889
+            },
+            "kpis": {
+                "score": 41.10040034295708,
+                "hr": 0.9067796610169492,
+                "rr": 10.022946584603506,
+                "pr": 97.49593495932501,
+                "tr": 118,
+                "mae": 0.0005334519253453093
+            }
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "EMA",
+                "ma_candle": 52,
+                "ma_lookback": 91,
+                "name": "VOL_RATIO",
+                "candle": 74,
+                "window": 71,
+                "follow_tend": 1.581209634452882
+            },
+            "kpis": {
+                "score": 48.57416323375405,
+                "hr": 0.9836065573770492,
+                "rr": 9.396874999997067,
+                "pr": 563.812499999824,
+                "tr": 61,
+                "mae": 0.0007984653815913292
+            }
+        }
+    },
+    "2024-05-13": {
+        "longs": {
+            "parametros": {
+                "ma_method": "EMA",
+                "ma_candle": 65,
+                "ma_lookback": 55,
+                "name": "ADX",
+                "candle": 65,
+                "window": 4,
+                "follow_tend": 27.257098378446535
+            },
+            "kpis": {
+                "score": 41.79775993072197,
+                "hr": 0.9428571428571428,
+                "rr": 12.446969696966615,
+                "pr": 205.37499999994913,
+                "tr": 70,
+                "mae": 0.0007655252333070235
+            }
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "KAMA",
+                "ma_candle": 52,
+                "ma_lookback": 37,
+                "name": "VOL_RATIO",
+                "candle": 26,
+                "window": 26,
+                "follow_tend": 1.3952837661480597
+            },
+            "kpis": {
+                "score": 54.34277175240728,
+                "hr": 0.95,
+                "rr": 16.35789473683471,
+                "pr": 310.79999999985944,
+                "tr": 100,
+                "mae": 0.0010618306129894287
+            }
+        }
+    },
+    "2024-05-20": {
+        "longs": {
+            "parametros": {
+                "ma_method": "SMA",
+                "ma_candle": 87,
+                "ma_lookback": 84,
+                "name": "VOL_RATIO",
+                "candle": 62,
+                "window": 55,
+                "follow_tend": 1.1471885814790626
+            },
+            "kpis": {
+                "score": 29.915311964334894,
+                "hr": 0.9705882352941176,
+                "rr": 6.151515151513806,
+                "pr": 202.9999999999556,
+                "tr": 34,
+                "mae": 0.0012714168793735152
+            }
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "SMA",
+                "ma_candle": 60,
+                "ma_lookback": 53,
+                "name": "VOL_RATIO",
+                "candle": 1,
+                "window": 37,
+                "follow_tend": 1.621267994379821
+            },
+            "kpis": {
+                "score": 46.999476272875484,
+                "hr": 0.96875,
+                "rr": 14.079877112139597,
+                "pr": 436.47619047632753,
+                "tr": 64,
+                "mae": 0.0008043321369878267
+            }
+        }
+    },
+    "2024-05-27": {
+        "longs": {
+            "parametros": {
+                "ma_method": "SMA",
+                "ma_candle": 67,
+                "ma_lookback": 47,
+                "name": "VOL_RATIO",
+                "candle": 19,
+                "window": 74,
+                "follow_tend": 1.6687756476489077
+            },
+            "kpis": {
+                "score": 56.67913973203235,
+                "hr": 0.9848484848484849,
+                "rr": 18.46410256411813,
+                "pr": 1200.166666667678,
+                "tr": 66,
+                "mae": 0.0006515990059762361
+            }
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "EMA",
+                "ma_candle": 57,
+                "ma_lookback": 62,
+                "name": "VOL_RATIO",
+                "candle": 26,
+                "window": 80,
+                "follow_tend": 1.0222848271396772
+            },
+            "kpis": {
+                "score": 50.7590178146981,
+                "hr": 0.9746835443037974,
+                "rr": 9.256493506496962,
+                "pr": 356.37500000013307,
+                "tr": 79,
+                "mae": 0.0005009901804774524
+            }
+        }
+    },
+    "2024-06-03": {
+        "longs": {
+            "parametros": {
+                "ma_method": "EMA",
+                "ma_candle": 58,
+                "ma_lookback": 19,
+                "name": "ADX",
+                "candle": 12,
+                "window": 11,
+                "follow_tend": 11.084500067522441
+            },
+            "kpis": {
+                "score": 49.453135733081076,
+                "hr": 0.9485294117647058,
+                "rr": 10.253699788579787,
+                "pr": 188.96103896097037,
+                "tr": 136,
+                "mae": 0.00025642506571579615
+            }
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "DEMA",
+                "ma_candle": 84,
+                "ma_lookback": 39,
+                "name": "VOL_RATIO",
+                "candle": 31,
+                "window": 51,
+                "follow_tend": 1.0955000696340886
+            },
+            "kpis": {
+                "score": 75.95233873418029,
+                "hr": 0.9871794871794872,
+                "rr": 78.98701298737178,
+                "pr": 6082.000000027628,
+                "tr": 78,
+                "mae": 0.0005392184940965303
+            }
+        }
+    },
+    "2024-06-10": {
+        "longs": {
+            "parametros": {
+                "ma_method": "DEMA",
+                "ma_candle": 84,
+                "ma_lookback": 69,
+                "name": "VOL_RATIO",
+                "candle": 29,
+                "window": 77,
+                "follow_tend": 1.142882072619596
+            },
+            "kpis": {
+                "score": 40.54724750756833,
+                "hr": 0.9649122807017544,
+                "rr": 9.709090909089307,
+                "pr": 266.99999999995595,
+                "tr": 57,
+                "mae": 0.0006932917969932259
+            }
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "KAMA",
+                "ma_candle": 66,
+                "ma_lookback": 47,
+                "name": "VOL_RATIO",
+                "candle": 25,
+                "window": 59,
+                "follow_tend": 1.187663250660995
+            },
+            "kpis": {
+                "score": 310.8565013826228,
+                "hr": 0.9879518072289156,
+                "rr": 12173998700035.707,
+                "pr": 998267893402928.0,
+                "tr": 83,
+                "mae": 0.0006172151050217616
+            }
+        }
+    },
+    "2024-06-17": {
+        "longs": {
+            "parametros": {
+                "ma_method": "EMA",
+                "ma_candle": 97,
+                "ma_lookback": 99,
+                "name": "LO_MACKINLAY",
+                "candle": 94,
+                "window": 97,
+                "k": 3,
+                "follow_tend": 0.58417499264627
+            },
+            "kpis": {
+                "score": 37.6203689158134,
+                "hr": 0.9459459459459459,
+                "rr": 39.88979591835913,
+                "pr": 698.0714285712847,
+                "tr": 37,
+                "mae": 0.0044719392395753035
+            }
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "SMA",
+                "ma_candle": 77,
+                "ma_lookback": 14,
+                "name": "VOL_RATIO",
+                "candle": 56,
+                "window": 44,
+                "follow_tend": 1.58015994192107
+            },
+            "kpis": {
+                "score": 46.045197655877985,
+                "hr": 0.9553571428571429,
+                "rr": 6.018910630840245,
+                "pr": 128.8046874999812,
+                "tr": 112,
+                "mae": 0.0010590792342066123
+            }
+        }
+    },
+    "2024-06-24": {
+        "longs": {
+            "parametros": {
+                "ma_method": "KAMA",
+                "ma_candle": 64,
+                "ma_lookback": 30,
+                "name": "SHANNON",
+                "candle": 57,
+                "window": 68,
+                "bins": 8,
+                "follow_tend": 0.9189485123672875
+            },
+            "kpis": {
+                "score": 44.3354012627021,
+                "hr": 0.9418604651162791,
+                "rr": 10.198626045399099,
+                "pr": 165.2177419354654,
+                "tr": 86,
+                "mae": 0.0008106438068452617
+            }
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "TEMA",
+                "ma_candle": 70,
+                "ma_lookback": 70,
+                "name": "VOL_RATIO",
+                "candle": 44,
+                "window": 69,
+                "follow_tend": 1.0016705629972102
+            },
+            "kpis": {
+                "score": 36.845748449696245,
+                "hr": 0.9452054794520548,
+                "rr": 5.8192668371694865,
+                "pr": 100.38235294117364,
+                "tr": 73,
+                "mae": 0.0007224220607398486
+            }
+        }
+    },
+    "2024-07-01": {
+        "longs": {
+            "parametros": {
+                "ma_method": "MIDPOINT",
+                "ma_candle": 68,
+                "ma_lookback": 18,
+                "name": "VOL_RATIO",
+                "candle": 30,
+                "window": 88,
+                "follow_tend": 1.0611764499247824
+            },
+            "kpis": {
+                "score": 49.92309098910831,
+                "hr": 0.9411764705882353,
+                "rr": 12.909778225802562,
+                "pr": 206.556451612841,
+                "tr": 102,
+                "mae": 0.0009995188872754857
+            }
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "KAMA",
+                "ma_candle": 98,
+                "ma_lookback": 10,
+                "name": "VOL_RATIO",
+                "candle": 6,
+                "window": 82,
+                "follow_tend": 1.010315592239802
+            },
+            "kpis": {
+                "score": 48.431713112361464,
+                "hr": 0.9368421052631579,
+                "rr": 13.917382683412205,
+                "pr": 206.44117647061438,
+                "tr": 95,
+                "mae": 0.0005382063911035105
+            }
+        }
+    },
+    "2024-07-08": {
+        "longs": {
+            "parametros": {
+                "ma_method": "MIDPOINT",
+                "ma_candle": 95,
+                "ma_lookback": 13,
+                "name": "VOL_RATIO",
+                "candle": 26,
+                "window": 43,
+                "follow_tend": 1.2109893201465043
+            },
+            "kpis": {
+                "score": 32.07337593611917,
+                "hr": 0.8705882352941177,
+                "rr": 8.670396959458182,
+                "pr": 58.32812499999141,
+                "tr": 85,
+                "mae": 0.0007464260837343495
+            }
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "SMA",
+                "ma_candle": 64,
+                "ma_lookback": 16,
+                "name": "VOL_RATIO",
+                "candle": 37,
+                "window": 51,
+                "follow_tend": 1.7520646047420354
+            },
+            "kpis": {
+                "score": 58.95782145631471,
+                "hr": 0.968,
+                "rr": 14.808612440185168,
+                "pr": 447.9605263156014,
+                "tr": 125,
+                "mae": 0.0009236046014460995
+            }
+        }
+    },
+    "2024-07-15": {
+        "longs": {
+            "parametros": {
+                "ma_method": "EMA",
+                "ma_candle": 89,
+                "ma_lookback": 91,
+                "name": "ADX",
+                "candle": 7,
+                "window": 17,
+                "follow_tend": 10.983035748784772
+            },
+            "kpis": {
+                "score": 31.24279127270102,
+                "hr": 0.9302325581395349,
+                "rr": 12.959999999989522,
+                "pr": 172.7999999998603,
+                "tr": 43,
+                "mae": 0.0011752073180518882
+            }
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "SMA",
+                "ma_candle": 72,
+                "ma_lookback": 52,
+                "name": "SHANNON",
+                "candle": 67,
+                "window": 35,
+                "bins": 19,
+                "follow_tend": 0.9426055084110505
+            },
+            "kpis": {
+                "score": 56.25599989688271,
+                "hr": 0.9782608695652174,
+                "rr": 107.12222222211398,
+                "pr": 4820.499999995129,
+                "tr": 46,
+                "mae": 0.0007028243399477636
+            }
+        }
+    },
+    "2024-07-22": {
+        "longs": {
+            "parametros": {
+                "ma_method": "SMA",
+                "ma_candle": 68,
+                "ma_lookback": 19,
+                "name": "VOL_RATIO",
+                "candle": 93,
+                "window": 82,
+                "follow_tend": 1.445993858472379
+            },
+            "kpis": {
+                "score": 45.49270309354871,
+                "hr": 0.9380530973451328,
+                "rr": 8.754260499085975,
+                "pr": 132.5645161290162,
+                "tr": 113,
+                "mae": 0.0008571132760421956
+            }
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "TEMA",
+                "ma_candle": 52,
+                "ma_lookback": 99,
+                "name": "VOL_RATIO",
+                "candle": 19,
+                "window": 96,
+                "follow_tend": 1.5598659529720442
+            },
+            "kpis": {
+                "score": 41.33918525265201,
+                "hr": 0.9222222222222223,
+                "rr": 9.903221581977247,
+                "pr": 117.42391304344447,
+                "tr": 90,
+                "mae": 0.0003236454277770031
+            }
+        }
+    },
+    "2024-07-29": {
+        "longs": {
+            "parametros": {
+                "ma_method": "KAMA",
+                "ma_candle": 41,
+                "ma_lookback": 78,
+                "name": "ADX",
+                "candle": 75,
+                "window": 12,
+                "follow_tend": 12.914226953899997
+            },
+            "kpis": {
+                "score": 50.79546924056608,
+                "hr": 0.9411764705882353,
+                "rr": 14.135653409090681,
+                "pr": 226.17045454545087,
+                "tr": 102,
+                "mae": 0.0007372549449484509
+            }
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "EMA",
+                "ma_candle": 41,
+                "ma_lookback": 67,
+                "name": "VOL_RATIO",
+                "candle": 1,
+                "window": 45,
+                "follow_tend": 1.3945661148226285
+            },
+            "kpis": {
+                "score": 56.74936788890876,
+                "hr": 0.9523809523809523,
+                "rr": 19.65344827584591,
+                "pr": 393.0689655169183,
+                "tr": 105,
+                "mae": 0.0003231621914654256
+            }
+        }
+    },
+    "2024-08-05": {
+        "longs": {
+            "parametros": {
+                "ma_method": "EMA",
+                "ma_candle": 81,
+                "ma_lookback": 20,
+                "name": "SHANNON",
+                "candle": 39,
+                "window": 7,
+                "bins": 12,
+                "follow_tend": 0.7677333210374391
+            },
+            "kpis": {
+                "score": 59.0850270929546,
+                "hr": 0.9607843137254902,
+                "rr": 19.37795918367531,
+                "pr": 474.760000000045,
+                "tr": 102,
+                "mae": 0.0004907300145078499
+            }
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "WMA",
+                "ma_candle": 60,
+                "ma_lookback": 98,
+                "name": "ADX",
+                "candle": 42,
+                "window": 21,
+                "follow_tend": 13.993800679308043
+            },
+            "kpis": {
+                "score": 43.45871296584306,
+                "hr": 0.9508196721311475,
+                "rr": 18.307241379312117,
+                "pr": 353.9400000000342,
+                "tr": 61,
+                "mae": 0.0012385462146717624
+            }
+        }
+    },
+    "2024-08-12": {
+        "longs": {
+            "parametros": {
+                "ma_method": "KAMA",
+                "ma_candle": 79,
+                "ma_lookback": 91,
+                "name": "ADX",
+                "candle": 84,
+                "window": 21,
+                "follow_tend": 14.50925897344044
+            },
+            "kpis": {
+                "score": 47.640774787895516,
+                "hr": 0.9629629629629629,
+                "rr": 32.5604395604325,
+                "pr": 846.5714285712451,
+                "tr": 54,
+                "mae": 0.003692564509674819
+            }
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "KAMA",
+                "ma_candle": 47,
+                "ma_lookback": 54,
+                "name": "ADX",
+                "candle": 24,
+                "window": 19,
+                "follow_tend": 13.685541184176593
+            },
+            "kpis": {
+                "score": 46.96212684196602,
+                "hr": 0.9325842696629213,
+                "rr": 15.426506024094616,
+                "pr": 213.39999999997548,
+                "tr": 89,
+                "mae": 0.0005558336097668567
+            }
+        }
+    },
+    "2024-08-19": {
+        "longs": {
+            "parametros": {
+                "ma_method": "DEMA",
+                "ma_candle": 54,
+                "ma_lookback": 110,
+                "name": "VOL_RATIO",
+                "candle": 79,
+                "window": 78,
+                "follow_tend": 1.7509658375951007
+            },
+            "kpis": {
+                "score": 46.300695668641524,
+                "hr": 0.9324324324324325,
+                "rr": 23.705406911934936,
+                "pr": 327.13461538470216,
+                "tr": 74,
+                "mae": 0.0011445915627104348
+            }
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "DEMA",
+                "ma_candle": 51,
+                "ma_lookback": 93,
+                "name": "VOL_RATIO",
+                "candle": 40,
+                "window": 95,
+                "follow_tend": 1.1800997414627066
+            },
+            "kpis": {
+                "score": 43.36297089484226,
+                "hr": 0.9247311827956989,
+                "rr": 10.922480620154031,
+                "pr": 134.1904761904638,
+                "tr": 93,
+                "mae": 0.00046020214368520625
+            }
+        }
+    },
+    "2024-08-26": {
+        "longs": {
+            "parametros": {
+                "ma_method": "TEMA",
+                "ma_candle": 50,
+                "ma_lookback": 102,
+                "name": "VOL_RATIO",
+                "candle": 90,
+                "window": 93,
+                "follow_tend": 1.890804506238224
+            },
+            "kpis": {
+                "score": 38.276400592367864,
+                "hr": 0.8623853211009175,
+                "rr": 14.209381044485058,
+                "pr": 89.0454545454397,
+                "tr": 109,
+                "mae": 0.0008167036599887089
+            }
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "MIDPOINT",
+                "ma_candle": 47,
+                "ma_lookback": 41,
+                "name": "VOL_RATIO",
+                "candle": 88,
+                "window": 77,
+                "follow_tend": 1.4863543489310862
+            },
+            "kpis": {
+                "score": 45.518069958359526,
+                "hr": 0.9578947368421052,
+                "rr": 5.9799096608911,
+                "pr": 136.04294478527254,
+                "tr": 95,
+                "mae": 0.0017781425145171588
+            }
+        }
+    },
+    "2024-09-02": {
+        "longs": {
+            "parametros": {
+                "ma_method": "WMA",
+                "ma_candle": 91,
+                "ma_lookback": 62,
+                "name": "VOL_RATIO",
+                "candle": 80,
+                "window": 74,
+                "follow_tend": 2.356043718736853
+            },
+            "kpis": {
+                "score": 61.501682831799506,
+                "hr": 0.9661016949152542,
+                "rr": 139.78070175502006,
+                "pr": 3983.7500000180717,
+                "tr": 59,
+                "mae": 0.001941006749143556
+            }
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "KAMA",
+                "ma_candle": 82,
+                "ma_lookback": 89,
+                "name": "VOL_RATIO",
+                "candle": 46,
+                "window": 34,
+                "follow_tend": 1.5349309138987923
+            },
+            "kpis": {
+                "score": 35.97908965304741,
+                "hr": 0.9782608695652174,
+                "rr": 5.162698412699342,
+                "pr": 232.3214285714704,
+                "tr": 46,
+                "mae": 0.0018163685391386461
+            }
+        }
+    },
+    "2024-09-09": {
+        "longs": {
+            "parametros": {
+                "ma_method": "TEMA",
+                "ma_candle": 57,
+                "ma_lookback": 51,
+                "name": "VOL_RATIO",
+                "candle": 85,
+                "window": 58,
+                "follow_tend": 2.0007291372983453
+            },
+            "kpis": {
+                "score": 42.09520700528239,
+                "hr": 0.9338842975206612,
+                "rr": 6.740447683497552,
+                "pr": 95.20882352940292,
+                "tr": 121,
+                "mae": 0.0009386621526491711
+            }
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "DEMA",
+                "ma_candle": 71,
+                "ma_lookback": 68,
+                "name": "VOL_RATIO",
+                "candle": 37,
+                "window": 53,
+                "follow_tend": 0.9292138839502205
+            },
+            "kpis": {
+                "score": 80.13447884279374,
+                "hr": 0.9743589743589743,
+                "rr": 291.6315789422155,
+                "pr": 11081.99999980419,
+                "tr": 78,
+                "mae": 0.0005873760521645897
+            }
+        }
+    },
+    "2024-09-16": {
+        "longs": {
+            "parametros": {
+                "ma_method": "SMA",
+                "ma_candle": 89,
+                "ma_lookback": 63,
+                "name": "VOL_RATIO",
+                "candle": 94,
+                "window": 68,
+                "follow_tend": 0.9411007126585765
+            },
+            "kpis": {
+                "score": 42.76354249892549,
+                "hr": 0.9696969696969697,
+                "rr": 67.70312500005643,
+                "pr": 2166.500000001806,
+                "tr": 33,
+                "mae": 0.004403707092351196
+            }
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "WMA",
+                "ma_candle": 57,
+                "ma_lookback": 100,
+                "name": "ADX",
+                "candle": 75,
+                "window": 7,
+                "follow_tend": 11.66175733513842
+            },
+            "kpis": {
+                "score": 44.98393829693652,
+                "hr": 0.9393939393939394,
+                "rr": 23.801075268815083,
+                "pr": 368.9166666666338,
+                "tr": 66,
+                "mae": 0.000660051123336309
+            }
+        }
+    },
+    "2024-09-23": {
+        "longs": {
+            "parametros": {
+                "ma_method": "WMA",
+                "ma_candle": 73,
+                "ma_lookback": 27,
+                "name": "VOL_RATIO",
+                "candle": 50,
+                "window": 85,
+                "follow_tend": 1.1669711488463848
+            },
+            "kpis": {
+                "score": 45.18311266967165,
+                "hr": 0.9369369369369369,
+                "rr": 8.690353345838952,
+                "pr": 129.1138211381787,
+                "tr": 111,
+                "mae": 0.0010377010106516872
+            }
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "KAMA",
+                "ma_candle": 37,
+                "ma_lookback": 44,
+                "name": "VOL_RATIO",
+                "candle": 48,
+                "window": 59,
+                "follow_tend": 1.296231722948752
+            },
+            "kpis": {
+                "score": 56.87263466128357,
+                "hr": 0.9831932773109243,
+                "rr": 5.659048680787484,
+                "pr": 331.0543478260678,
+                "tr": 119,
+                "mae": 0.0002629805321049505
+            }
+        }
+    },
+    "2024-09-30": {
+        "longs": {
+            "parametros": {
+                "ma_method": "KAMA",
+                "ma_candle": 48,
+                "ma_lookback": 61,
+                "name": "VOL_RATIO",
+                "candle": 57,
+                "window": 55,
+                "follow_tend": 1.3794573497741949
+            },
+            "kpis": {
+                "score": 43.984859423942,
+                "hr": 0.9411764705882353,
+                "rr": 10.257936507934179,
+                "pr": 164.12698412694687,
+                "tr": 85,
+                "mae": 0.0010571212268806068
+            }
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "EMA",
+                "ma_candle": 48,
+                "ma_lookback": 58,
+                "name": "VOL_RATIO",
+                "candle": 25,
+                "window": 72,
+                "follow_tend": 0.9206278924912392
+            },
+            "kpis": {
+                "score": 50.73955291707503,
+                "hr": 0.961038961038961,
+                "rr": 16.877027027022333,
+                "pr": 416.2999999998842,
+                "tr": 77,
+                "mae": 0.0005147502303208468
+            }
+        }
+    },
+    "2024-10-07": {
+        "longs": {
+            "parametros": {
+                "ma_method": "TRIMA",
+                "ma_candle": 52,
+                "ma_lookback": 39,
+                "name": "VOL_RATIO",
+                "candle": 50,
+                "window": 82,
+                "follow_tend": 1.19690274802484
+            },
+            "kpis": {
+                "score": 43.918466871960284,
+                "hr": 0.9191919191919192,
+                "rr": 11.123516483512635,
+                "pr": 126.52999999995622,
+                "tr": 99,
+                "mae": 0.0004443529565264861
+            }
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "EMA",
+                "ma_candle": 52,
+                "ma_lookback": 40,
+                "name": "VOL_RATIO",
+                "candle": 1,
+                "window": 93,
+                "follow_tend": 1.1536178939753352
+            },
+            "kpis": {
+                "score": 63.29068598732746,
+                "hr": 0.9655172413793104,
+                "rr": 40.52380952376842,
+                "pr": 1134.6666666655158,
+                "tr": 87,
+                "mae": 0.0004606431394709408
+            }
+        }
+    },
+    "2024-10-14": {
+        "longs": {
+            "parametros": {
+                "ma_method": "SMA",
+                "ma_candle": 55,
+                "ma_lookback": 37,
+                "name": "VOL_RATIO",
+                "candle": 2,
+                "window": 73,
+                "follow_tend": 2.475620572857099
+            },
+            "kpis": {
+                "score": 43.2341410218846,
+                "hr": 0.9285714285714286,
+                "rr": 12.759142496847181,
+                "pr": 165.86885245901334,
+                "tr": 84,
+                "mae": 0.0006658996615005897
+            }
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "KAMA",
+                "ma_candle": 40,
+                "ma_lookback": 87,
+                "name": "ADX",
+                "candle": 26,
+                "window": 7,
+                "follow_tend": 10.982322611656986
+            },
+            "kpis": {
+                "score": 46.8984695669838,
+                "hr": 0.9506172839506173,
+                "rr": 12.765367965362792,
+                "pr": 245.73333333323373,
+                "tr": 81,
+                "mae": 0.00045939862305468203
+            }
+        }
+    },
+    "2024-10-21": {
+        "longs": {
+            "parametros": {
+                "ma_method": "WMA",
+                "ma_candle": 51,
+                "ma_lookback": 83,
+                "name": "SHANNON",
+                "candle": 52,
+                "window": 7,
+                "bins": 12,
+                "follow_tend": 0.8782424735997036
+            },
+            "kpis": {
+                "score": 51.70172531713502,
+                "hr": 0.9714285714285714,
+                "rr": 17.218954248369712,
+                "pr": 585.4444444445702,
+                "tr": 70,
+                "mae": 0.0005181063829462538
+            }
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "KAMA",
+                "ma_candle": 41,
+                "ma_lookback": 98,
+                "name": "VOL_RATIO",
+                "candle": 27,
+                "window": 54,
+                "follow_tend": 1.6713925019275322
+            },
+            "kpis": {
+                "score": 55.855422873542416,
+                "hr": 0.963855421686747,
+                "rr": 21.948579545476466,
+                "pr": 585.2954545460392,
+                "tr": 83,
+                "mae": 0.00129739204676404
+            }
+        }
+    },
+    "2024-10-28": {
+        "longs": {
+            "parametros": {
+                "ma_method": "KAMA",
+                "ma_candle": 98,
+                "ma_lookback": 86,
+                "name": "VOL_RATIO",
+                "candle": 66,
+                "window": 51,
+                "follow_tend": 1.7062857941940683
+            },
+            "kpis": {
+                "score": 47.82263159356519,
+                "hr": 0.967741935483871,
+                "rr": 238.79999999843275,
+                "pr": 7163.999999952982,
+                "tr": 31,
+                "mae": 0.002079543069702455
+            }
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "EMA",
+                "ma_candle": 98,
+                "ma_lookback": 14,
+                "name": "VOL_RATIO",
+                "candle": 16,
+                "window": 49,
+                "follow_tend": 1.6171449065049892
+            },
+            "kpis": {
+                "score": 59.69339663217981,
+                "hr": 0.9888888888888889,
+                "rr": 6.590793765856405,
+                "pr": 586.5806451612199,
+                "tr": 90,
+                "mae": 0.0005189386942830055
+            }
+        }
+    },
+    "2024-11-04": {
+        "longs": {
+            "parametros": {
+                "ma_method": "WMA",
+                "ma_candle": 71,
+                "ma_lookback": 27,
+                "name": "VOL_RATIO",
+                "candle": 51,
+                "window": 83,
+                "follow_tend": 1.293738956414822
+            },
+            "kpis": {
+                "score": 95.58147489681517,
+                "hr": 0.98989898989899,
+                "rr": 167.3469387762681,
+                "pr": 16400.000000074273,
+                "tr": 99,
+                "mae": 0.002077447250017465
+            }
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "DEMA",
+                "ma_candle": 95,
+                "ma_lookback": 28,
+                "name": "VOL_RATIO",
+                "candle": 49,
+                "window": 57,
+                "follow_tend": 1.1212933925107273
+            },
+            "kpis": {
+                "score": 55.955759476489796,
+                "hr": 0.978494623655914,
+                "rr": 8.399641175151395,
+                "pr": 382.1836734693885,
+                "tr": 93,
+                "mae": 0.0006603024889109047
+            }
+        }
+    },
+    "2024-11-11": {
+        "longs": {
+            "parametros": {
+                "ma_method": "EMA",
+                "ma_candle": 33,
+                "ma_lookback": 89,
+                "name": "VOL_RATIO",
+                "candle": 71,
+                "window": 78,
+                "follow_tend": 1.4984062963135318
+            },
+            "kpis": {
+                "score": 61.23818471088317,
+                "hr": 0.9615384615384616,
+                "rr": 23.589565217395577,
+                "pr": 589.7391304348895,
+                "tr": 104,
+                "mae": 0.0003245297355574609
+            }
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "KAMA",
+                "ma_candle": 41,
+                "ma_lookback": 4,
+                "name": "VOL_RATIO",
+                "candle": 39,
+                "window": 76,
+                "follow_tend": 1.7691072060392403
+            },
+            "kpis": {
+                "score": 60.410499643212,
+                "hr": 0.9661654135338346,
+                "rr": 18.40735866330888,
+                "pr": 525.6323529411535,
+                "tr": 266,
+                "mae": 0.0002258550855138925
+            }
+        }
+    },
+    "2024-11-18": {
+        "longs": {
+            "parametros": {
+                "ma_method": "SMA",
+                "ma_candle": 35,
+                "ma_lookback": 64,
+                "name": "VOL_RATIO",
+                "candle": 73,
+                "window": 58,
+                "follow_tend": 1.795298924451041
+            },
+            "kpis": {
+                "score": 34.039751953422495,
+                "hr": 0.8947368421052632,
+                "rr": 5.727188513199473,
+                "pr": 48.681102362195524,
+                "tr": 114,
+                "mae": 0.001368045645264308
+            }
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "EMA",
+                "ma_candle": 60,
+                "ma_lookback": 39,
+                "name": "VOL_RATIO",
+                "candle": 72,
+                "window": 13,
+                "follow_tend": 0.6428272757144555
+            },
+            "kpis": {
+                "score": 48.64673666779085,
+                "hr": 0.9733333333333334,
+                "rr": 8.952581664907756,
+                "pr": 326.7692307691331,
+                "tr": 75,
+                "mae": 0.0006009637851659617
+            }
+        }
+    },
+    "2024-11-25": {
+        "longs": {
+            "parametros": {
+                "ma_method": "TRIMA",
+                "ma_candle": 76,
+                "ma_lookback": 14,
+                "name": "VOL_RATIO",
+                "candle": 22,
+                "window": 64,
+                "follow_tend": 1.2543228529009136
+            },
+            "kpis": {
+                "score": 69.04378273886353,
+                "hr": 0.9809523809523809,
+                "rr": 22.268418046815032,
+                "pr": 1146.823529410974,
+                "tr": 105,
+                "mae": 0.0005102204169155599
+            }
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "SMA",
+                "ma_candle": 38,
+                "ma_lookback": 10,
+                "name": "ADX",
+                "candle": 19,
+                "window": 2,
+                "follow_tend": 26.430714948236055
+            },
+            "kpis": {
+                "score": 35.502287382008085,
+                "hr": 0.9065040650406504,
+                "rr": 5.577572958615729,
+                "pr": 54.0782073813612,
+                "tr": 246,
+                "mae": 0.00031101690209841946
+            }
+        }
+    },
+    "2024-12-02": {
+        "longs": {
+            "parametros": {
+                "ma_method": "EMA",
+                "ma_candle": 76,
+                "ma_lookback": 33,
+                "name": "VOL_RATIO",
+                "candle": 46,
+                "window": 96,
+                "follow_tend": 2.257273024651422
+            },
+            "kpis": {
+                "score": 55.694804329288885,
+                "hr": 0.9615384615384616,
+                "rr": 28.487368421065188,
+                "pr": 712.1842105266297,
+                "tr": 78,
+                "mae": 0.0027994393345851854
+            }
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "TEMA",
+                "ma_candle": 100,
+                "ma_lookback": 108,
+                "name": "VOL_RATIO",
+                "candle": 99,
+                "window": 97,
+                "follow_tend": 2.0282483524705786
+            },
+            "kpis": {
+                "score": 29.91647403560724,
+                "hr": 0.9512195121951219,
+                "rr": 7.22676282051178,
+                "pr": 140.92187499997974,
+                "tr": 41,
+                "mae": 0.001842460323153073
+            }
+        }
+    },
+    "2024-12-09": {
+        "longs": {
+            "parametros": {
+                "ma_method": "KAMA",
+                "ma_candle": 59,
+                "ma_lookback": 78,
+                "name": "VOL_RATIO",
+                "candle": 53,
+                "window": 82,
+                "follow_tend": 2.238132708104212
+            },
+            "kpis": {
+                "score": 55.88858722519311,
+                "hr": 0.9859154929577465,
+                "rr": 12.043367346936025,
+                "pr": 843.0357142855219,
+                "tr": 71,
+                "mae": 0.002660665108961377
+            }
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "WMA",
+                "ma_candle": 59,
+                "ma_lookback": 30,
+                "name": "VOL_RATIO",
+                "candle": 69,
+                "window": 87,
+                "follow_tend": 1.936697512120395
+            },
+            "kpis": {
+                "score": 50.638600331481165,
+                "hr": 0.9349593495934959,
+                "rr": 16.032581177759152,
+                "pr": 230.46835443028777,
+                "tr": 123,
+                "mae": 0.001048246802516379
+            }
+        }
+    },
+    "2024-12-16": {
+        "longs": {
+            "parametros": {
+                "ma_method": "SMA",
+                "ma_candle": 48,
+                "ma_lookback": 58,
+                "name": "SHANNON",
+                "candle": 46,
+                "window": 58,
+                "bins": 13,
+                "follow_tend": 0.9236062130296901
+            },
+            "kpis": {
+                "score": 35.175462061052514,
+                "hr": 0.9125,
+                "rr": 7.5482155731795215,
+                "pr": 78.71710526315786,
+                "tr": 80,
+                "mae": 0.0008676642628617293
+            }
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "EMA",
+                "ma_candle": 37,
+                "ma_lookback": 12,
+                "name": "VOL_RATIO",
+                "candle": 15,
+                "window": 89,
+                "follow_tend": 1.1273794308726781
+            },
+            "kpis": {
+                "score": 51.67601292679192,
+                "hr": 0.9566929133858267,
+                "rr": 10.281207133056181,
+                "pr": 227.12121212115014,
+                "tr": 254,
+                "mae": 0.0001272027565747398
+            }
+        }
+    },
+    "2024-12-23": {
+        "longs": {
+            "parametros": {
+                "ma_method": "EMA",
+                "ma_candle": 64,
+                "ma_lookback": 5,
+                "name": "ADX",
+                "candle": 43,
+                "window": 10,
+                "follow_tend": 17.776219378974254
+            },
+            "kpis": {
+                "score": 49.301525203344625,
+                "hr": 0.9601769911504425,
+                "rr": 7.256921104603572,
+                "pr": 174.97243107766388,
+                "tr": 226,
+                "mae": 0.0006513298305850037
+            }
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "EMA",
+                "ma_candle": 70,
+                "ma_lookback": 12,
+                "name": "VOL_RATIO",
+                "candle": 7,
+                "window": 100,
+                "follow_tend": 1.5594154036671912
+            },
+            "kpis": {
+                "score": 75.31067354300697,
+                "hr": 0.9722222222222222,
+                "rr": 66.30571428549909,
+                "pr": 2320.6999999924683,
+                "tr": 144,
+                "mae": 0.00036674314551981803
+            }
+        }
+    },
+    "2024-12-30": {
+        "longs": {
+            "parametros": {
+                "ma_method": "T3",
+                "ma_candle": 45,
+                "ma_lookback": 74,
+                "name": "ADX",
+                "candle": 11,
+                "window": 27,
+                "follow_tend": 14.136039523156747
+            },
+            "kpis": {
+                "score": 32.51566422334293,
+                "hr": 0.9056603773584906,
+                "rr": 14.959935897439804,
+                "pr": 143.61538461542213,
+                "tr": 53,
+                "mae": 0.0025523141793950426
+            }
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "TRIMA",
+                "ma_candle": 81,
+                "ma_lookback": 17,
+                "name": "ADX",
+                "candle": 100,
+                "window": 54,
+                "follow_tend": 12.289571506836742
+            },
+            "kpis": {
+                "score": 34.17705385243843,
+                "hr": 0.9270833333333334,
+                "rr": 3.6849039203507146,
+                "pr": 46.850921273030515,
+                "tr": 96,
+                "mae": 0.0020681818254136447
+            }
+        }
+    }
+}
