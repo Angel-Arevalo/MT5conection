@@ -33,7 +33,7 @@ CAPITAL_SHORT: float = 10_000
 APALANCAMIENTO: int = 2
 
 START_DATE: datetime = datetime(2024, 1, 8, 0, 0)
-END_DATE: datetime = datetime(2026, 8, 21, 23, 59)
+END_DATE: datetime = datetime(2024, 12, 31, 23, 59)
 
 train_weeks: int = 16
 
