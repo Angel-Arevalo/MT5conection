@@ -13,6 +13,7 @@ sys.path.append(os.path.abspath('../optimal-moving-average'))
 
 import keys
 from find_best_dir import opti_dir
+from find_best import opti_main
 
 from use_tecnics import main
 from read_data import ohlc_form
@@ -25,15 +26,15 @@ from back_normal_reversion import (
     _contabilizar, imprimir_tabla
 )
 
-keys.calls = 40
+keys.calls = 100
 
-ASSET: str = "AUDCAD_"
+ASSET: str = "EURUSD_"
 CAPITAL_LONG: float = 10_000
 CAPITAL_SHORT: float = 10_000
 APALANCAMIENTO: int = 2
 
-START_DATE: datetime = datetime(2024, 1, 8, 0, 0)
-END_DATE: datetime = datetime(2024, 12, 31, 23, 59)
+START_DATE: datetime = datetime(2026, 1, 1, 0, 0)
+END_DATE: datetime = datetime(2026, 5, 15, 23, 59)
 
 train_weeks: int = 16
 
@@ -105,6 +106,142 @@ def parametros_random(shorts: bool) -> Dict[str, Any]:
 
     return params
 
+def parametros_random_no_dir() -> Dict[str, Any]:
+    ma_method = random.choice(list(keys.methods))
+    ma_candle = random.randint(keys.candles_min, keys.candles)
+    ma_lookback = random.randint(keys.lookbacks_min, keys.lookbacks)
+
+    return {
+        "ma_method": ma_method,
+        "ma_candle": ma_candle,
+        "ma_lookback": ma_lookback,
+    }
+
+
+def start_back_no_dir(usar_random: bool = False) -> Tuple[pd.DataFrame, pd.DataFrame]:
+    adj_start = START_DATE
+    adj_end = END_DATE
+
+    dias_para_lunes: int = (0 - adj_start.weekday()) % 7
+    if dias_para_lunes != 0:
+        adj_start = (adj_start + timedelta(days=dias_para_lunes)).replace(
+            hour=0, minute=0, second=0, microsecond=0
+        )
+
+    dias_para_viernes: int = (adj_end.weekday() - 4) % 7
+    if dias_para_viernes != 0:
+        adj_end = (adj_end - timedelta(days=dias_para_viernes)).replace(
+            hour=23, minute=59, second=59, microsecond=0
+        )
+
+    if adj_start > adj_end:
+        raise ValueError("La fecha de inicio ajustada es posterior a la fecha de fin.")
+
+    data = pedir_data_mt5(ASSET, adj_start, adj_end)
+
+    cache_suffix = "_NO_DIR_RANDOM" if usar_random else "_NO_DIR"
+    params_cache = cargar_params_asset(ASSET + cache_suffix)
+
+    lunes_test: datetime = adj_start
+    side_key_l = "longs"
+    side_key_s = "shorts"
+
+    longs: list = []
+    shorts: list = []
+
+    while lunes_test < adj_end:
+        lunes_key = lunes_test.strftime("%Y-%m-%d")
+        viernes_end: datetime = (lunes_test + timedelta(days=4)).replace(
+            hour=23, minute=59, second=59, microsecond=0
+        )
+
+        if lunes_key not in params_cache:
+            params_cache[lunes_key] = {}
+
+        train_start = lunes_test - timedelta(weeks=train_weeks)
+        train_end = (lunes_test - timedelta(days=3)).replace(
+            hour=23, minute=59, second=59, microsecond=0
+        )
+
+        cache_actualizada = False
+        sub_data: pd.DataFrame = data.loc[train_start:viernes_end]
+
+        if side_key_l in params_cache[lunes_key]:
+            print(f"[{ASSET}{cache_suffix}] Carga local ({side_key_l}) para la semana: {lunes_key}")
+            resultado_l = params_cache[lunes_key][side_key_l]["parametros"]
+        else:
+            if usar_random:
+                print(f"[{ASSET}{cache_suffix}] Generando RANDOM ({side_key_l}) para la semana: {lunes_key}")
+                parametros_random_l = parametros_random_no_dir()
+                resultado_l = [
+                    parametros_random_l["ma_method"],
+                    parametros_random_l["ma_candle"],
+                    parametros_random_l["ma_lookback"],
+                ]
+            else:
+                print(f"[{ASSET}{cache_suffix}] Optimizando ({side_key_l}) para la semana: {lunes_key}")
+                data_opt = data.loc[train_start:train_end]
+                resultado_l = opti_main(data_opt, True, "fm", False)
+
+            params_cache[lunes_key][side_key_l] = {"parametros": resultado_l}
+            cache_actualizada = True
+
+        ma_method_l, ma_candle_l, ma_lookback_l = resultado_l[0], resultado_l[1], resultado_l[2]
+
+        data_real_calentada_l = ohlc_form(sub_data, ma_candle_l)
+
+        signals_and_prices_l: pd.DataFrame = main(
+            ma_method_l,
+            data_real_calentada_l[2]["close"],
+            ma_lookback_l,
+            False,
+            sub_data
+        )
+
+        longs.append(signals_and_prices_l.loc[lunes_test: viernes_end])
+
+        if side_key_s in params_cache[lunes_key]:
+            print(f"[{ASSET}{cache_suffix}] Carga local ({side_key_s}) para la semana: {lunes_key}")
+            resultado_s = params_cache[lunes_key][side_key_s]["parametros"]
+        else:
+            if usar_random:
+                print(f"[{ASSET}{cache_suffix}] Generando RANDOM ({side_key_s}) para la semana: {lunes_key}")
+                parametros_random_s = parametros_random_no_dir()
+                resultado_s = [
+                    parametros_random_s["ma_method"],
+                    parametros_random_s["ma_candle"],
+                    parametros_random_s["ma_lookback"],
+                ]
+            else:
+                print(f"[{ASSET}{cache_suffix}] Optimizando ({side_key_s}) para la semana: {lunes_key}")
+                data_opt = data.loc[train_start:train_end]
+                resultado_s = opti_main(data_opt, True, "fm", True)
+
+            params_cache[lunes_key][side_key_s] = {"parametros": resultado_s}
+            cache_actualizada = True
+
+        ma_method_s, ma_candle_s, ma_lookback_s = resultado_s[0], resultado_s[1], resultado_s[2]
+
+        data_real_calentada_s = ohlc_form(sub_data, ma_candle_s)
+
+        signals_and_prices_s: pd.DataFrame = main(
+            ma_method_s,
+            data_real_calentada_s[2]["close"],
+            ma_lookback_s,
+            True,
+            sub_data
+        )
+
+        shorts.append(signals_and_prices_s.loc[lunes_test: viernes_end])
+
+        if cache_actualizada:
+            guardar_params_asset(ASSET + cache_suffix, params_cache)
+
+        lunes_test += timedelta(weeks=1)
+
+    return pd.concat(longs), pd.concat(shorts)
+
+
 def start_back(usar_random: bool = False) -> Tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame]:
     adj_start = START_DATE
     adj_end = END_DATE
@@ -168,7 +305,7 @@ def start_back(usar_random: bool = False) -> Tuple[pd.DataFrame, pd.DataFrame, p
             else:
                 print(f"[{ASSET}{cache_suffix}] Optimizando ({side_key_l}) para la semana: {lunes_key}")
                 data_opt = data.loc[train_start:train_end]
-                parametros_l, kpis_l = opti_dir(data_opt, True, False, keys.calls)
+                parametros_l, kpis_l = opti_dir(data_opt, True, False, True, keys.calls)
 
             params_cache[lunes_key][side_key_l] = {
                 "parametros": parametros_l,
@@ -205,7 +342,7 @@ def start_back(usar_random: bool = False) -> Tuple[pd.DataFrame, pd.DataFrame, p
             else:
                 print(f"[{ASSET}{cache_suffix}] Optimizando ({side_key_s}) para la semana: {lunes_key}")
                 data_opt = data.loc[train_start:train_end]
-                parametros_s, kpis_s = opti_dir(data_opt, True, True, keys.calls)
+                parametros_s, kpis_s = opti_dir(data_opt, True, True, True, keys.calls)
 
             params_cache[lunes_key][side_key_s] = {
                 "parametros": parametros_s,
@@ -294,3 +431,10 @@ def equity(p: pd.DataFrame, short: bool) -> pd.Series:
 if __name__ == "__main__":
     p, q, r, s = start_back()
     print(equity(p, False), equity(q, True), equity(r, True), equity(s, False))
+
+    p = get_trades_diff(p, False)
+    r = get_trades_diff(r, True)
+
+    tr = pd.concat([p, r])
+
+    print(hit_ratio(tr), rr_ratio(tr), profit_ratio(tr), len(tr))
