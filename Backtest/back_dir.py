@@ -35,7 +35,7 @@ CAPITAL_SHORT: float = 10_000
 APALANCAMIENTO: int = 2
 
 START_DATE: datetime = datetime(2025, 1, 1, 0, 0)
-END_DATE: datetime = datetime(2025, 2, 14, 23, 59)
+END_DATE: datetime = datetime(2026, 8, 21, 23, 59)
 
 train_weeks: int = 16
 
@@ -340,7 +340,9 @@ def start_back(usar_random: bool = False) -> Tuple[pd.DataFrame, pd.DataFrame, p
         )
 
         changue_rules_l: pd.Series = DIR_METHODS[parametros_l["name"]](signals_and_prices_l, parametros_l, data_real_calentada_l[2])
-        long, short = _split_signals_and_change(signals_and_prices_l, changue_rules_l, False, sub_data)
+
+        long, short = _split_signals_and_change(signals_and_prices_l, changue_rules_l, False, 
+                                                sub_data, parametros_l["ma_candle"], data_real_calentada_l[1], data_real_calentada_l[0])
 
         longs_sin_cambio.append(long.loc[lunes_test: viernes_end])
         shorts_cambiados.append(short.loc[lunes_test: viernes_end])
@@ -380,7 +382,8 @@ def start_back(usar_random: bool = False) -> Tuple[pd.DataFrame, pd.DataFrame, p
         )
 
         changue_rules_s: pd.Series = DIR_METHODS[parametros_s["name"]](signals_and_prices_s, parametros_s, data_real_calentada_s[2])
-        short, long = _split_signals_and_change(signals_and_prices_s, changue_rules_s, True, sub_data)
+        short, long = _split_signals_and_change(signals_and_prices_s, changue_rules_s, True, sub_data,
+                                                parametros_s["ma_candle"], data_real_calentada_l[1], data_real_calentada_l[0])
 
         shorts_sin_cambio.append(short.loc[lunes_test: viernes_end])
         longs_cambiados.append(long.loc[lunes_test: viernes_end])
@@ -434,6 +437,7 @@ def equity(p: pd.DataFrame, short: bool) -> pd.Series:
     open_sig = -1 if short else 1
     cantidad = 0.0
     precio_entrada = 0.0
+    equity_curve = []
 
     for signal, precio in zip(p["Signals"], p["Prices"]):
         if signal == open_sig:
@@ -443,12 +447,15 @@ def equity(p: pd.DataFrame, short: bool) -> pd.Series:
             pnl = (precio - precio_entrada) * cantidad
             if short:
                 pnl = -pnl
+
+            equity_curve.append(pnl)
             mon += pnl
 
     return mon - capital_inicial
 
 if __name__ == "__main__":
     p, q, r, s = start_back()
+    print(p)
     print(equity(p, False), equity(q, True), equity(r, True), equity(s, False))
 
     p = get_trades_diff(p, False)
