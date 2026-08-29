@@ -27,25 +27,32 @@ from back_normal_reversion import (
 )
 
 keys.calls = 100
+keys.candles_min = 15
 
 ASSET: str = "EURUSD_"
 CAPITAL_LONG: float = 10_000
 CAPITAL_SHORT: float = 10_000
 APALANCAMIENTO: int = 2
 
-START_DATE: datetime = datetime(2026, 1, 1, 0, 0)
-END_DATE: datetime = datetime(2026, 5, 15, 23, 59)
+START_DATE: datetime = datetime(2025, 1, 1, 0, 0)
+END_DATE: datetime = datetime(2025, 2, 14, 23, 59)
 
 train_weeks: int = 16
 
 PARAMS_DIR = "dir_params"
+filter = False
 
 def obtener_ruta_json(asset: str) -> str:
     if not os.path.exists(PARAMS_DIR):
         os.makedirs(PARAMS_DIR)
 
     clean_asset_name = asset.replace("/", "").replace("\\", "")
-    return os.path.join(PARAMS_DIR, f"{clean_asset_name}.json")
+
+    sufijo_filtro = "" if filter else "_nfiltrado"
+
+    print(clean_asset_name, sufijo_filtro)
+
+    return os.path.join(PARAMS_DIR, f"{clean_asset_name}{sufijo_filtro}.json")
 
 def cargar_params_asset(asset: str) -> Dict[str, Any]:
     filepath = obtener_ruta_json(asset)
@@ -190,12 +197,15 @@ def start_back_no_dir(usar_random: bool = False) -> Tuple[pd.DataFrame, pd.DataF
 
         data_real_calentada_l = ohlc_form(sub_data, ma_candle_l)
 
-        signals_and_prices_l: pd.DataFrame = main(
+        signals_and_prices_l = main(
             ma_method_l,
             data_real_calentada_l[2]["close"],
             ma_lookback_l,
+            ma_candle_l,
+            sub_data,
             False,
-            sub_data
+            bid_df=data_real_calentada_l[0],
+            ask_df=data_real_calentada_l[1],
         )
 
         longs.append(signals_and_prices_l.loc[lunes_test: viernes_end])
@@ -228,8 +238,11 @@ def start_back_no_dir(usar_random: bool = False) -> Tuple[pd.DataFrame, pd.DataF
             ma_method_s,
             data_real_calentada_s[2]["close"],
             ma_lookback_s,
+            ma_candle_s, 
+            sub_data,
             True,
-            sub_data
+            bid_df=data_real_calentada_s[0],
+            ask_df=data_real_calentada_s[1],
         )
 
         shorts.append(signals_and_prices_s.loc[lunes_test: viernes_end])
@@ -305,7 +318,7 @@ def start_back(usar_random: bool = False) -> Tuple[pd.DataFrame, pd.DataFrame, p
             else:
                 print(f"[{ASSET}{cache_suffix}] Optimizando ({side_key_l}) para la semana: {lunes_key}")
                 data_opt = data.loc[train_start:train_end]
-                parametros_l, kpis_l = opti_dir(data_opt, True, False, True, keys.calls)
+                parametros_l, kpis_l = opti_dir(data_opt, True, False, filter, keys.calls)
 
             params_cache[lunes_key][side_key_l] = {
                 "parametros": parametros_l,
@@ -319,8 +332,11 @@ def start_back(usar_random: bool = False) -> Tuple[pd.DataFrame, pd.DataFrame, p
             parametros_l["ma_method"],
             data_real_calentada_l[2]["close"],
             parametros_l["ma_lookback"],
+            parametros_l["ma_candle"],
+            sub_data,
             False,
-            sub_data
+            bid_df=data_real_calentada_l[0],
+            ask_df=data_real_calentada_l[1],
         )
 
         changue_rules_l: pd.Series = DIR_METHODS[parametros_l["name"]](signals_and_prices_l, parametros_l, data_real_calentada_l[2])
@@ -342,7 +358,7 @@ def start_back(usar_random: bool = False) -> Tuple[pd.DataFrame, pd.DataFrame, p
             else:
                 print(f"[{ASSET}{cache_suffix}] Optimizando ({side_key_s}) para la semana: {lunes_key}")
                 data_opt = data.loc[train_start:train_end]
-                parametros_s, kpis_s = opti_dir(data_opt, True, True, True, keys.calls)
+                parametros_s, kpis_s = opti_dir(data_opt, True, True, filter, keys.calls)
 
             params_cache[lunes_key][side_key_s] = {
                 "parametros": parametros_s,
@@ -356,8 +372,11 @@ def start_back(usar_random: bool = False) -> Tuple[pd.DataFrame, pd.DataFrame, p
             parametros_s["ma_method"],
             data_real_calentada_s[2]["close"],
             parametros_s["ma_lookback"],
+            parametros_s["ma_candle"],
+            sub_data,
             True,
-            sub_data
+            bid_df=data_real_calentada_s[0],
+            ask_df=data_real_calentada_s[1],
         )
 
         changue_rules_s: pd.Series = DIR_METHODS[parametros_s["name"]](signals_and_prices_s, parametros_s, data_real_calentada_s[2])
@@ -433,8 +452,10 @@ if __name__ == "__main__":
     print(equity(p, False), equity(q, True), equity(r, True), equity(s, False))
 
     p = get_trades_diff(p, False)
+    q = get_trades_diff(q, True)
     r = get_trades_diff(r, True)
+    s = get_trades_diff(s, False)
 
-    tr = pd.concat([p, r])
+    tr = pd.concat([p, q, r, s])
 
     print(hit_ratio(tr), rr_ratio(tr), profit_ratio(tr), len(tr))
