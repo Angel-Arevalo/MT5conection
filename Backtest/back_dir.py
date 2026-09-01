@@ -35,12 +35,11 @@ CAPITAL_SHORT: float = 10_000
 APALANCAMIENTO: int = 2
 
 START_DATE: datetime = datetime(2025, 1, 1, 0, 0)
-END_DATE: datetime = datetime(2026, 8, 21, 23, 59)
+END_DATE: datetime = datetime(2025, 12, 31, 23, 59)
 
 train_weeks: int = 16
 
 PARAMS_DIR = "dir_params"
-filter = False
 
 def obtener_ruta_json(asset: str) -> str:
     if not os.path.exists(PARAMS_DIR):
@@ -48,11 +47,7 @@ def obtener_ruta_json(asset: str) -> str:
 
     clean_asset_name = asset.replace("/", "").replace("\\", "")
 
-    sufijo_filtro = "" if filter else "_nfiltrado"
-
-    print(clean_asset_name, sufijo_filtro)
-
-    return os.path.join(PARAMS_DIR, f"{clean_asset_name}{sufijo_filtro}.json")
+    return os.path.join(PARAMS_DIR, f"{clean_asset_name}.json")
 
 def cargar_params_asset(asset: str) -> Dict[str, Any]:
     filepath = obtener_ruta_json(asset)
@@ -255,6 +250,10 @@ def start_back_no_dir(usar_random: bool = False) -> Tuple[pd.DataFrame, pd.DataF
     return pd.concat(longs), pd.concat(shorts)
 
 
+def _safe_concat(lst: list) -> pd.DataFrame:
+    return pd.concat(lst) if lst else pd.DataFrame()
+
+
 def start_back(usar_random: bool = False) -> Tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame, pd.DataFrame]:
     adj_start = START_DATE
     adj_end = END_DATE
@@ -305,9 +304,11 @@ def start_back(usar_random: bool = False) -> Tuple[pd.DataFrame, pd.DataFrame, p
         cache_actualizada = False
         sub_data: pd.DataFrame = data.loc[train_start:viernes_end]
 
+        # ---------------- LADO LONG ----------------
         if side_key_l in params_cache[lunes_key]:
             print(f"[{ASSET}{cache_suffix}] Carga local ({side_key_l}) para la semana: {lunes_key}")
             parametros_l = params_cache[lunes_key][side_key_l]["parametros"]
+            side_l = params_cache[lunes_key][side_key_l].get("side", "both")
         else:
             if usar_random:
                 print(f"[{ASSET}{cache_suffix}] Generando RANDOM ({side_key_l}) para la semana: {lunes_key}")
@@ -315,14 +316,17 @@ def start_back(usar_random: bool = False) -> Tuple[pd.DataFrame, pd.DataFrame, p
 
                 parametros_l = parametros_random(False)
                 kpis_l = {}
+                side_l = "both"
             else:
                 print(f"[{ASSET}{cache_suffix}] Optimizando ({side_key_l}) para la semana: {lunes_key}")
                 data_opt = data.loc[train_start:train_end]
-                parametros_l, kpis_l = opti_dir(data_opt, True, False, filter, keys.calls)
+                parametros_l, kpis_l = opti_dir(data_opt, True, False, keys.calls)
+                side_l = kpis_l.get("filter", "both")
 
             params_cache[lunes_key][side_key_l] = {
                 "parametros": parametros_l,
-                "kpis": kpis_l
+                "kpis": kpis_l,
+                "side": side_l,
             }
             cache_actualizada = True
 
@@ -344,12 +348,15 @@ def start_back(usar_random: bool = False) -> Tuple[pd.DataFrame, pd.DataFrame, p
         long, short = _split_signals_and_change(signals_and_prices_l, changue_rules_l, False, 
                                                 sub_data, parametros_l["ma_candle"], data_real_calentada_l[1], data_real_calentada_l[0])
 
-        longs_sin_cambio.append(long.loc[lunes_test: viernes_end])
-        shorts_cambiados.append(short.loc[lunes_test: viernes_end])
+        if side_l in ("both", "revert"):
+            longs_sin_cambio.append(long.loc[lunes_test: viernes_end])
+        if side_l in ("both", "tend"):
+            shorts_cambiados.append(short.loc[lunes_test: viernes_end])
 
         if side_key_s in params_cache[lunes_key]:
             print(f"[{ASSET}{cache_suffix}] Carga local ({side_key_s}) para la semana: {lunes_key}")
             parametros_s = params_cache[lunes_key][side_key_s]["parametros"]
+            side_s = params_cache[lunes_key][side_key_s].get("side", "both")
         else:
             if usar_random:
                 print(f"[{ASSET}{cache_suffix}] Generando RANDOM ({side_key_s}) para la semana: {lunes_key}")
@@ -357,14 +364,17 @@ def start_back(usar_random: bool = False) -> Tuple[pd.DataFrame, pd.DataFrame, p
 
                 parametros_s = parametros_random(True)
                 kpis_s = {}
+                side_s = "both"
             else:
                 print(f"[{ASSET}{cache_suffix}] Optimizando ({side_key_s}) para la semana: {lunes_key}")
                 data_opt = data.loc[train_start:train_end]
-                parametros_s, kpis_s = opti_dir(data_opt, True, True, filter, keys.calls)
+                parametros_s, kpis_s = opti_dir(data_opt, True, True, keys.calls)
+                side_s = kpis_s.get("filter", "both")
 
             params_cache[lunes_key][side_key_s] = {
                 "parametros": parametros_s,
-                "kpis": kpis_s
+                "kpis": kpis_s,
+                "side": side_s,
             }
             cache_actualizada = True
 
@@ -383,17 +393,24 @@ def start_back(usar_random: bool = False) -> Tuple[pd.DataFrame, pd.DataFrame, p
 
         changue_rules_s: pd.Series = DIR_METHODS[parametros_s["name"]](signals_and_prices_s, parametros_s, data_real_calentada_s[2])
         short, long = _split_signals_and_change(signals_and_prices_s, changue_rules_s, True, sub_data,
-                                                parametros_s["ma_candle"], data_real_calentada_l[1], data_real_calentada_l[0])
+                                                parametros_s["ma_candle"], data_real_calentada_s[1], data_real_calentada_s[0])
 
-        shorts_sin_cambio.append(short.loc[lunes_test: viernes_end])
-        longs_cambiados.append(long.loc[lunes_test: viernes_end])
+        if side_s in ("both", "revert"):
+            shorts_sin_cambio.append(short.loc[lunes_test: viernes_end])
+        if side_s in ("both", "tend"):
+            longs_cambiados.append(long.loc[lunes_test: viernes_end])
 
         if cache_actualizada:
             guardar_params_asset(ASSET + cache_suffix, params_cache)
 
         lunes_test += timedelta(weeks=1)
 
-    return pd.concat(longs_sin_cambio), pd.concat(shorts_cambiados), pd.concat(shorts_sin_cambio), pd.concat(longs_cambiados)
+    return (
+        _safe_concat(longs_sin_cambio),
+        _safe_concat(shorts_cambiados),
+        _safe_concat(shorts_sin_cambio),
+        _safe_concat(longs_cambiados),
+    )
 
 def pedir_data_mt5(symbol: str, start: datetime, end: datetime) -> pd.DataFrame:
     if not mt5.initialize():
@@ -439,6 +456,9 @@ def equity(p: pd.DataFrame, short: bool) -> pd.Series:
     precio_entrada = 0.0
     equity_curve = []
 
+    if p.empty:
+        return 0
+
     for signal, precio in zip(p["Signals"], p["Prices"]):
         if signal == open_sig:
             cantidad = (capital_inicial * APALANCAMIENTO) / precio
@@ -465,4 +485,7 @@ if __name__ == "__main__":
 
     tr = pd.concat([p, q, r, s])
 
-    print(hit_ratio(tr), rr_ratio(tr), profit_ratio(tr), len(tr))
+    print(hit_ratio(p), rr_ratio(tr), profit_ratio(p), len(p))
+    print(hit_ratio(q), rr_ratio(q), profit_ratio(q), len(q))
+    print(hit_ratio(r), rr_ratio(r), profit_ratio(r), len(r))
+    print(hit_ratio(s), rr_ratio(s), profit_ratio(s), len(s))
