@@ -27,17 +27,17 @@ from back_normal_reversion import (
 )
 
 keys.calls = 100
-keys.candles_min = 15
 
-ASSET: str = "EURUSD_"
+ASSET: str = "US500_SPOT"
 CAPITAL_LONG: float = 10_000
 CAPITAL_SHORT: float = 10_000
 APALANCAMIENTO: int = 2
-
+# 2025-02-17
 START_DATE: datetime = datetime(2025, 1, 1, 0, 0)
 END_DATE: datetime = datetime(2025, 12, 31, 23, 59)
 
-train_weeks: int = 16
+train_weeks: int = 5
+test_time: int = 1
 
 PARAMS_DIR = "dir_params"
 
@@ -153,7 +153,7 @@ def start_back_no_dir(usar_random: bool = False) -> Tuple[pd.DataFrame, pd.DataF
 
     while lunes_test < adj_end:
         lunes_key = lunes_test.strftime("%Y-%m-%d")
-        viernes_end: datetime = (lunes_test + timedelta(days=4)).replace(
+        viernes_end: datetime = (lunes_test + timedelta(weeks=test_time-1, days=4)).replace(
             hour=23, minute=59, second=59, microsecond=0
         )
 
@@ -245,7 +245,7 @@ def start_back_no_dir(usar_random: bool = False) -> Tuple[pd.DataFrame, pd.DataF
         if cache_actualizada:
             guardar_params_asset(ASSET + cache_suffix, params_cache)
 
-        lunes_test += timedelta(weeks=1)
+        lunes_test += timedelta(weeks=test_time)
 
     return pd.concat(longs), pd.concat(shorts)
 
@@ -289,7 +289,7 @@ def start_back(usar_random: bool = False) -> Tuple[pd.DataFrame, pd.DataFrame, p
 
     while lunes_test < adj_end:
         lunes_key = lunes_test.strftime("%Y-%m-%d")
-        viernes_end: datetime = (lunes_test + timedelta(days=4)).replace(
+        viernes_end: datetime = (lunes_test + timedelta(weeks=test_time-1, days=4)).replace(
             hour=23, minute=59, second=59, microsecond=0
         )
 
@@ -403,7 +403,7 @@ def start_back(usar_random: bool = False) -> Tuple[pd.DataFrame, pd.DataFrame, p
         if cache_actualizada:
             guardar_params_asset(ASSET + cache_suffix, params_cache)
 
-        lunes_test += timedelta(weeks=1)
+        lunes_test += timedelta(weeks=test_time)
 
     return (
         _safe_concat(longs_sin_cambio),
@@ -442,13 +442,16 @@ def pedir_data_mt5(symbol: str, start: datetime, end: datetime) -> pd.DataFrame:
     return df[["time", "bid", "ask"]].set_index("time")
 
 def get_trades_diff(p: pd.DataFrame, short: bool) -> pd.Series:
+    if p.empty:
+        return pd.Series()
     pt = p["Prices"].diff()
     if short:
         return -pt[p["Signals"] == 1]
 
     return pt[p["Signals"] == -1]
 
-def equity(p: pd.DataFrame, short: bool) -> pd.Series:
+
+def equity(p: pd.DataFrame, short: bool) -> float:
     capital_inicial = CAPITAL_SHORT if short else CAPITAL_LONG
     mon = capital_inicial
     open_sig = -1 if short else 1
@@ -456,20 +459,31 @@ def equity(p: pd.DataFrame, short: bool) -> pd.Series:
     precio_entrada = 0.0
     equity_curve = []
 
+    multiplicador = 2.0 
+
     if p.empty:
-        return 0
+        return 0.0
 
     for signal, precio in zip(p["Signals"], p["Prices"]):
         if signal == open_sig:
-            cantidad = (capital_inicial * APALANCAMIENTO) / precio
+
+            capital_a_invertir = capital_inicial * APALANCAMIENTO * multiplicador
+            cantidad = capital_a_invertir / precio
             precio_entrada = precio
         else:
+
             pnl = (precio - precio_entrada) * cantidad
             if short:
                 pnl = -pnl
 
             equity_curve.append(pnl)
             mon += pnl
+
+
+            if pnl < 0:
+                multiplicador *= 1
+            else:
+                multiplicador = 1.0
 
     return mon - capital_inicial
 

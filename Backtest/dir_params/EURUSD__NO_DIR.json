@@ -1,6 +1,386 @@
 {
+    "2025-01-06": {
+        "longs": {
+            "parametros": [
+                "EMA",
+                16,
+                108
+            ]
+        },
+        "shorts": {
+            "parametros": [
+                "SMA",
+                52,
+                103
+            ]
+        }
+    },
     "2025-01-13": {
         "longs": {
             "parametros": [
+                "KAMA",
+                36,
+                96
+            ]
+        },
+        "shorts": {
+            "parametros": [
+                "TRIMA",
+                108,
+                98
+            ]
+        }
+    },
+    "2025-01-20": {
+        "longs": {
+            "parametros": [
+                "TEMA",
+                87,
+                97
+            ]
+        },
+        "shorts": {
+            "parametros": [
                 "MIDPOINT",
-                
+                104,
+                82
+            ]
+        }
+    },
+    "2025-01-27": {
+        "longs": {
+            "parametros": [
+                "TEMA",
+                66,
+                76
+            ]
+        },
+        "shorts": {
+            "parametros": [
+                "SMA",
+                29,
+                13
+            ]
+        }
+    },
+    "2025-02-03": {
+        "longs": {
+            "parametros": [
+                "TEMA",
+                108,
+                34
+            ]
+        },
+        "shorts": {
+            "parametros": [
+                "SMA",
+                103,
+                4
+            ]
+        }
+    },
+    "2025-02-10": {
+        "longs": {
+            "parametros": [
+                "EMA",
+                99,
+                33
+            ]
+        },
+        "shorts": {
+            "parametros": [
+                "SMA",
+                21,
+                13
+            ]
+        }
+    },
+    "2025-02-17": {
+        "longs": {
+            "parametros": [
+                "WMA",
+                64,
+                40
+            ]
+        },
+        "shorts": {
+            "parametros": [
+                "TRIMA",
+                67,
+                6
+            ]
+        }
+    },
+    "2025-02-24": {
+        "longs": {
+            "parametros": [
+                "T3",
+                35,
+                110
+            ]
+        },
+        "shorts": {
+            "parametros": [
+                "EMA",
+                96,
+                76
+            ]
+        }
+    },
+    "2025-03-03": {
+        "longs": {
+            "parametros": [
+                "SMA",
+                103,
+                87
+            ]
+        },
+        "shorts": {
+            "parametros": [
+                "TEMA",
+                118,
+                78
+            ]
+        }
+    },
+    "2025-03-10": {
+        "longs": {
+            "parametros": [
+                "TEMA",
+                26,
+                98
+            ]
+        },
+        "shorts": {
+            "parametros": [
+                "DEMA",
+                53,
+                26
+            ]
+        }
+    },
+    "2025-03-17": {
+        "longs": {
+            "parametros": [
+                "SMA",
+                36,
+                18
+            ]
+        },
+        "shorts": {
+            "parametros": [
+                "TEMA",
+                18,
+                52
+            ]
+        }
+    },
+    "2025-03-24": {
+        "longs": {
+            "parametros": [
+                "KAMA",
+                24,
+                19
+            ]
+        },
+        "shorts": {
+            "parametros": [
+                "TEMA",
+                109,
+                53
+            ]
+        }
+    },
+    "2025-03-31": {
+        "longs": {
+            "parametros": [
+                "TEMA",
+                59,
+                41
+            ]
+        },
+        "shorts": {
+            "parametros": [
+                "T3",
+                19,
+                78
+            ]
+        }
+    },
+    "2025-04-07": {
+        "longs": {
+            "parametros": [
+                "KAMA",
+                65,
+                104
+            ]
+        },
+        "shorts": {
+            "parametros": [
+                "KAMA",
+                100,
+                100
+            ]
+        }
+    },
+    "2025-04-14": {
+        "longs": {
+            "parametros": [
+                "T3",
+                26,
+                102
+            ]
+        },
+        "shorts": {
+            "parametros": [
+                "SMA",
+                47,
+                3
+            ]
+        }
+    },
+    "2025-04-21": {
+        "longs": {
+            "parametros": [
+                "SMA",
+                94,
+                68
+            ]
+        },
+        "shorts": {
+            "parametros": [
+                "DEMA",
+                25,
+                3
+            ]
+        }
+    },
+    "2025-04-28": {
+        "longs": {
+            "parametros": [
+                "TRIMA",
+                109,
+                92
+            ]
+        },
+        "shorts": {
+            "parametros": [
+                "KAMA",
+                17,
+                58
+            ]
+        }
+    },
+    "2025-05-05": {
+        "longs": {
+            "parametros": [
+                "EMA",
+                106,
+                81
+            ]
+        },
+        "shorts": {
+            "parametros": [
+                "TEMA",
+                95,
+                84
+            ]
+        }
+    },
+    "2025-05-12": {
+        "longs": {
+            "parametros": [
+                "TRIMA",
+                25,
+                54
+            ]
+        },
+        "shorts": {
+            "parametros": [
+                "EMA",
+                94,
+                102
+            ]
+        }
+    },
+    "2025-05-19": {
+        "longs": {
+            "parametros": [
+                "MIDPOINT",
+                17,
+                65
+            ]
+        },
+        "shorts": {
+            "parametros": [
+                "EMA",
+                67,
+                109
+            ]
+        }
+    },
+    "2025-05-26": {
+        "longs": {
+            "parametros": [
+                "WMA",
+                37,
+                94
+            ]
+        },
+        "shorts": {
+            "parametros": [
+                "KAMA",
+                20,
+                26
+            ]
+        }
+    },
+    "2025-06-02": {
+        "longs": {
+            "parametros": [
+                "KAMA",
+                52,
+                102
+            ]
+        },
+        "shorts": {
+            "parametros": [
+                "MIDPOINT",
+                75,
+                88
+            ]
+        }
+    },
+    "2025-06-09": {
+        "longs": {
+            "parametros": [
+                "TRIMA",
+                95,
+                102
+            ]
+        },
+        "shorts": {
+            "parametros": [
+                "T3",
+                44,
+                90
+            ]
+        }
+    },
+    "2025-06-16": {
+        "longs": {
+            "parametros": [
+                "EMA",
+                106,
+                63
+            ]
+        },
+        "shorts": {
+            "parametros": [
+                "DEMA",
+                77,
+                76
+            ]
+        }
+    }
+}
