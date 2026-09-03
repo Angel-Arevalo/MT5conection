@@ -2368,5 +2368,4048 @@
             },
             "side": "revert"
         }
+    },
+    "2024-01-01": {
+        "longs": {
+            "parametros": {
+                "ma_method": "EMA",
+                "ma_candle": 9,
+                "ma_lookback": 92,
+                "name": "OU_REVERSION",
+                "candle": 93,
+                "window": 9,
+                "follow_tend": 0.462506483809999
+            },
+            "kpis": {
+                "score": 123.31891519539245,
+                "hr": 0.8571428571428571,
+                "rr": 1.849462365591658,
+                "pr": 11.09677419354995,
+                "tr": 35,
+                "mae": 0.0018599158529868515,
+                "sqn": 3.947494593777352,
+                "filter": "revert"
+            },
+            "side": "revert"
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "DEMA",
+                "ma_candle": 59,
+                "ma_lookback": 54,
+                "name": "HURST",
+                "candle": 95,
+                "window": 64,
+                "follow_tend": 0.6108254868684826
+            },
+            "kpis": {
+                "score": 12.228351768786485,
+                "hr": 0.5714285714285714,
+                "rr": 6.304229934927309,
+                "pr": 8.405639913236412,
+                "tr": 7,
+                "mae": 0.020243713659077175,
+                "sqn": 1.254730263998701,
+                "filter": "revert"
+            },
+            "side": "revert"
+        }
+    },
+    "2024-01-08": {
+        "longs": {
+            "parametros": {
+                "ma_method": "DEMA",
+                "ma_candle": 69,
+                "ma_lookback": 11,
+                "name": "OU_REVERSION",
+                "candle": 4,
+                "window": 71,
+                "follow_tend": 0.08123523445231862
+            },
+            "kpis": {
+                "score": 60.67200656920929,
+                "hr": 0.8571428571428571,
+                "rr": 2.2315299592785793,
+                "pr": 13.389179755671476,
+                "tr": 14,
+                "mae": 0.009962317207280446,
+                "sqn": 2.836574821995223,
+                "filter": "revert"
+            },
+            "side": "revert"
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "DEMA",
+                "ma_candle": 98,
+                "ma_lookback": 66,
+                "name": "KEF",
+                "candle": 42,
+                "window": 63,
+                "follow_tend": 0.1298365146454975
+            },
+            "kpis": {
+                "score": 4363.877419414675,
+                "hr": 0.75,
+                "rr": 691.8333333497118,
+                "pr": 2075.5000000491355,
+                "tr": 4,
+                "mae": 0.019204525354809446,
+                "sqn": 1.7898545137359507,
+                "filter": "revert"
+            },
+            "side": "revert"
+        }
+    },
+    "2024-01-15": {
+        "longs": {
+            "parametros": {
+                "ma_method": "T3",
+                "ma_candle": 67,
+                "ma_lookback": 51,
+                "name": "ATR_EXPANSION",
+                "candle": 34,
+                "window": 80,
+                "lookback_ma": 72,
+                "follow_tend": 1.9560072374933952
+            },
+            "kpis": {
+                "score": 4471.780741343314,
+                "hr": 0.75,
+                "rr": 661.0000000156433,
+                "pr": 1983.00000004693,
+                "tr": 4,
+                "mae": 0.029150832276755863,
+                "sqn": 2.420927496295859,
+                "filter": "revert"
+            },
+            "side": "revert"
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "DEMA",
+                "ma_candle": 112,
+                "ma_lookback": 65,
+                "name": "ATR_EXPANSION",
+                "candle": 7,
+                "window": 23,
+                "lookback_ma": 85,
+                "follow_tend": 1.1007986716463722
+            },
+            "kpis": {
+                "score": 654.8931965979294,
+                "hr": 0.6666666666666666,
+                "rr": 305.0000000072305,
+                "pr": 610.000000014461,
+                "tr": 3,
+                "mae": 0.06019856515195096,
+                "sqn": 1.364823469837351,
+                "filter": "revert"
+            },
+            "side": "revert"
+        }
+    },
+    "2024-01-22": {
+        "longs": {
+            "parametros": {
+                "ma_method": "KAMA",
+                "ma_candle": 97,
+                "ma_lookback": 70,
+                "name": "HURST",
+                "candle": 24,
+                "window": 82,
+                "follow_tend": 0.5807296594139334
+            },
+            "kpis": {
+                "score": 44.84264815961828,
+                "hr": 0.8333333333333334,
+                "rr": 5.500000000000273,
+                "pr": 27.500000000001364,
+                "tr": 6,
+                "mae": 0.0493342981779574,
+                "sqn": 2.2472113421969504,
+                "filter": "revert"
+            },
+            "side": "revert"
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "T3",
+                "ma_candle": 17,
+                "ma_lookback": 75,
+                "name": "OU_REVERSION",
+                "candle": 97,
+                "window": 33,
+                "follow_tend": 0.4664812471876408
+            },
+            "kpis": {
+                "score": 216.79152858681044,
+                "hr": 0.875,
+                "rr": 8.889285714294566,
+                "pr": 62.22500000006196,
+                "tr": 8,
+                "mae": 0.011813508116029232,
+                "sqn": 3.878470159581262,
+                "filter": "revert"
+            },
+            "side": "revert"
+        }
+    },
+    "2024-01-29": {
+        "longs": {
+            "parametros": {
+                "ma_method": "DEMA",
+                "ma_candle": 91,
+                "ma_lookback": 86,
+                "name": "ATR_EXPANSION",
+                "candle": 57,
+                "window": 40,
+                "lookback_ma": 50,
+                "follow_tend": 1.914728309416077
+            },
+            "kpis": {
+                "score": 2067.8371348225546,
+                "hr": 0.9,
+                "rr": 36.21345029247484,
+                "pr": 325.92105263227353,
+                "tr": 10,
+                "mae": 0.021524313605785085,
+                "sqn": 3.8601098854623714,
+                "filter": "revert"
+            },
+            "side": "revert"
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "TEMA",
+                "ma_candle": 13,
+                "ma_lookback": 47,
+                "name": "ADX",
+                "candle": 79,
+                "window": 52,
+                "follow_tend": 12.430860564736898
+            },
+            "kpis": {
+                "score": 1950.4439060114855,
+                "hr": 0.9090909090909091,
+                "rr": 28.228571428694305,
+                "pr": 282.285714286943,
+                "tr": 11,
+                "mae": 0.0022357561020025143,
+                "sqn": 4.008981189351505,
+                "filter": "revert"
+            },
+            "side": "revert"
+        }
+    },
+    "2024-02-05": {
+        "longs": {
+            "parametros": {
+                "ma_method": "KAMA",
+                "ma_candle": 50,
+                "ma_lookback": 87,
+                "name": "HURST",
+                "candle": 89,
+                "window": 91,
+                "follow_tend": 0.7038822542163534
+            },
+            "kpis": {
+                "score": 1024.8576099662014,
+                "hr": 0.8928571428571429,
+                "rr": 7.411267605636281,
+                "pr": 61.76056338030234,
+                "tr": 28,
+                "mae": 0.006865682181780461,
+                "sqn": 4.814482274615291,
+                "filter": "revert"
+            },
+            "side": "revert"
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "EMA",
+                "ma_candle": 26,
+                "ma_lookback": 91,
+                "name": "ADX",
+                "candle": 44,
+                "window": 92,
+                "follow_tend": 12.913642558345543
+            },
+            "kpis": {
+                "score": 1655.7583240206109,
+                "hr": 0.9,
+                "rr": 31.43703703711568,
+                "pr": 282.9333333340411,
+                "tr": 10,
+                "mae": 0.014829442081371474,
+                "sqn": 3.212326077633994,
+                "filter": "revert"
+            },
+            "side": "revert"
+        }
+    },
+    "2024-02-12": {
+        "longs": {
+            "parametros": {
+                "ma_method": "DEMA",
+                "ma_candle": 93,
+                "ma_lookback": 101,
+                "name": "HURST",
+                "candle": 84,
+                "window": 54,
+                "follow_tend": 0.8267869324195973
+            },
+            "kpis": {
+                "score": 5623.596115807961,
+                "hr": 0.9090909090909091,
+                "rr": 69.81500000006491,
+                "pr": 698.1500000006491,
+                "tr": 11,
+                "mae": 0.022629522600535936,
+                "sqn": 4.0474471717831655,
+                "filter": "revert"
+            },
+            "side": "revert"
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "WMA",
+                "ma_candle": 39,
+                "ma_lookback": 99,
+                "name": "ATR_EXPANSION",
+                "candle": 76,
+                "window": 47,
+                "lookback_ma": 92,
+                "follow_tend": 1.026394971157533
+            },
+            "kpis": {
+                "score": 1385.3162908935622,
+                "hr": 0.8888888888888888,
+                "rr": 15.260080645187381,
+                "pr": 122.08064516149905,
+                "tr": 18,
+                "mae": 0.007296993824804986,
+                "sqn": 3.1123710517615306,
+                "filter": "revert"
+            },
+            "side": "revert"
+        }
+    },
+    "2024-02-19": {
+        "longs": {
+            "parametros": {
+                "ma_method": "WMA",
+                "ma_candle": 33,
+                "ma_lookback": 18,
+                "name": "ADX",
+                "candle": 46,
+                "window": 74,
+                "follow_tend": 13.531243039803243
+            },
+            "kpis": {
+                "score": 1005.6494744789351,
+                "hr": 0.8333333333333334,
+                "rr": 59.86000000032906,
+                "pr": 299.3000000016453,
+                "tr": 6,
+                "mae": 0.007839727310001706,
+                "sqn": 3.7020612107060096,
+                "filter": "revert"
+            },
+            "side": "revert"
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "KAMA",
+                "ma_candle": 111,
+                "ma_lookback": 59,
+                "name": "KEF",
+                "candle": 59,
+                "window": 100,
+                "follow_tend": 0.38977177341771124
+            },
+            "kpis": {
+                "score": 0.781332331517527,
+                "hr": 0.8461538461538461,
+                "rr": 0.3280598189689442,
+                "pr": 1.8043290043291933,
+                "tr": 13,
+                "mae": 0.022008943154833423,
+                "sqn": 0.7325849632032243,
+                "filter": "revert"
+            },
+            "side": "revert"
+        }
+    },
+    "2024-02-26": {
+        "longs": {
+            "parametros": {
+                "ma_method": "TRIMA",
+                "ma_candle": 15,
+                "ma_lookback": 33,
+                "name": "OU_REVERSION",
+                "candle": 39,
+                "window": 95,
+                "follow_tend": 0.13369522816482485
+            },
+            "kpis": {
+                "score": 550.977636815774,
+                "hr": 0.9166666666666666,
+                "rr": 8.638961038975982,
+                "pr": 95.0285714287358,
+                "tr": 12,
+                "mae": 0.004073581820369482,
+                "sqn": 3.510970517355349,
+                "filter": "revert"
+            },
+            "side": "revert"
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "TRIMA",
+                "ma_candle": 9,
+                "ma_lookback": 57,
+                "name": "ATR_EXPANSION",
+                "candle": 20,
+                "window": 100,
+                "lookback_ma": 80,
+                "follow_tend": 1.1853756683507854
+            },
+            "kpis": {
+                "score": 1.6008474579706533,
+                "hr": 0.8308823529411765,
+                "rr": 0.31186248716186826,
+                "pr": 1.532193958664831,
+                "tr": 136,
+                "mae": 0.00072771064670297,
+                "sqn": 1.127040660804301,
+                "filter": "revert"
+            },
+            "side": "revert"
+        }
+    },
+    "2024-03-04": {
+        "longs": {
+            "parametros": {
+                "ma_method": "EMA",
+                "ma_candle": 76,
+                "ma_lookback": 66,
+                "name": "HURST",
+                "candle": 44,
+                "window": 15,
+                "follow_tend": 0.5733381212849679
+            },
+            "kpis": {
+                "score": 2078.148704276072,
+                "hr": 0.9,
+                "rr": 42.722222222174224,
+                "pr": 384.499999999568,
+                "tr": 10,
+                "mae": 0.022646281258417108,
+                "sqn": 1.9955969175213741,
+                "filter": "revert"
+            },
+            "side": "revert"
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "WMA",
+                "ma_candle": 14,
+                "ma_lookback": 27,
+                "name": "ADX",
+                "candle": 85,
+                "window": 8,
+                "follow_tend": 22.715562516133712
+            },
+            "kpis": {
+                "score": 468.4732271783022,
+                "hr": 0.9333333333333333,
+                "rr": 4.900000000009459,
+                "pr": 68.60000000013243,
+                "tr": 15,
+                "mae": 0.0024132149367010114,
+                "sqn": 4.047431521642282,
+                "filter": "revert"
+            },
+            "side": "revert"
+        }
+    },
+    "2024-03-11": {
+        "longs": {
+            "parametros": {
+                "ma_method": "EMA",
+                "ma_candle": 102,
+                "ma_lookback": 65,
+                "name": "HURST",
+                "candle": 25,
+                "window": 48,
+                "follow_tend": 0.9443511058614655
+            },
+            "kpis": {
+                "score": 14249.461465633112,
+                "hr": 0.875,
+                "rr": 346.399999998747,
+                "pr": 2424.799999991229,
+                "tr": 8,
+                "mae": 0.046196432936052995,
+                "sqn": 2.5329925091309105,
+                "filter": "revert"
+            },
+            "side": "revert"
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "EMA",
+                "ma_candle": 19,
+                "ma_lookback": 30,
+                "name": "OU_REVERSION",
+                "candle": 77,
+                "window": 17,
+                "follow_tend": 0.7881176882133646
+            },
+            "kpis": {
+                "score": 64.54967212712863,
+                "hr": 0.72,
+                "rr": 3.028985507247204,
+                "pr": 7.788819875778524,
+                "tr": 25,
+                "mae": 0.003918751089216372,
+                "sqn": 2.8548509615700235,
+                "filter": "revert"
+            },
+            "side": "revert"
+        }
+    },
+    "2024-03-18": {
+        "longs": {
+            "parametros": {
+                "ma_method": "SMA",
+                "ma_candle": 106,
+                "ma_lookback": 68,
+                "name": "HURST",
+                "candle": 53,
+                "window": 81,
+                "follow_tend": 0.6161141020669405
+            },
+            "kpis": {
+                "score": 3468.1557469224276,
+                "hr": 0.9090909090909091,
+                "rr": 45.72800000000243,
+                "pr": 457.2800000000243,
+                "tr": 11,
+                "mae": 0.026777839818799866,
+                "sqn": 4.150271650340879,
+                "filter": "revert"
+            },
+            "side": "revert"
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "DEMA",
+                "ma_candle": 68,
+                "ma_lookback": 110,
+                "name": "ADX",
+                "candle": 63,
+                "window": 84,
+                "follow_tend": 18.31088579799254
+            },
+            "kpis": {
+                "score": 2.8580786002495886,
+                "hr": 0.625,
+                "rr": 2.0592034445641345,
+                "pr": 3.432005740940224,
+                "tr": 8,
+                "mae": 0.03046338423984795,
+                "sqn": 1.3333889486304904,
+                "filter": "revert"
+            },
+            "side": "revert"
+        }
+    },
+    "2024-03-25": {
+        "longs": {
+            "parametros": {
+                "ma_method": "KAMA",
+                "ma_candle": 111,
+                "ma_lookback": 34,
+                "name": "KEF",
+                "candle": 94,
+                "window": 35,
+                "follow_tend": 0.11791267364029721
+            },
+            "kpis": {
+                "score": 3090.3027168815643,
+                "hr": 0.875,
+                "rr": 80.65476190544763,
+                "pr": 564.5833333381335,
+                "tr": 8,
+                "mae": 0.051437452371919684,
+                "sqn": 4.014590456558534,
+                "filter": "revert"
+            },
+            "side": "revert"
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "KAMA",
+                "ma_candle": 56,
+                "ma_lookback": 90,
+                "name": "ATR_EXPANSION",
+                "candle": 13,
+                "window": 57,
+                "lookback_ma": 36,
+                "follow_tend": 1.0527432034258426
+            },
+            "kpis": {
+                "score": 17.312549141315035,
+                "hr": 0.8571428571428571,
+                "rr": 2.1130401234569844,
+                "pr": 12.678240740741906,
+                "tr": 7,
+                "mae": 0.048737702938413216,
+                "sqn": 1.7410921491752256,
+                "filter": "revert"
+            },
+            "side": "revert"
+        }
+    },
+    "2024-04-01": {
+        "longs": {
+            "parametros": {
+                "ma_method": "SMA",
+                "ma_candle": 58,
+                "ma_lookback": 107,
+                "name": "ATR_EXPANSION",
+                "candle": 2,
+                "window": 90,
+                "lookback_ma": 54,
+                "follow_tend": 1.7886676309256622
+            },
+            "kpis": {
+                "score": 12077.147078849352,
+                "hr": 0.9166666666666666,
+                "rr": 117.32954545599019,
+                "pr": 1290.625000015892,
+                "tr": 12,
+                "mae": 0.0271109872319828,
+                "sqn": 3.706331213835713,
+                "filter": "revert"
+            },
+            "side": "revert"
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "EMA",
+                "ma_candle": 47,
+                "ma_lookback": 77,
+                "name": "ADX",
+                "candle": 84,
+                "window": 87,
+                "follow_tend": 14.261084655622597
+            },
+            "kpis": {
+                "score": 1.3027864035046788,
+                "hr": 0.8,
+                "rr": 0.5952141057934929,
+                "pr": 2.3808564231739715,
+                "tr": 10,
+                "mae": 0.022810876825043132,
+                "sqn": 0.9679772486910738,
+                "filter": "revert"
+            },
+            "side": "revert"
+        }
+    },
+    "2024-04-08": {
+        "longs": {
+            "parametros": {
+                "ma_method": "SMA",
+                "ma_candle": 78,
+                "ma_lookback": 78,
+                "name": "ATR_EXPANSION",
+                "candle": 40,
+                "window": 66,
+                "lookback_ma": 78,
+                "follow_tend": 1.367484347728321
+            },
+            "kpis": {
+                "score": 36432.53267415462,
+                "hr": 0.9333333333333333,
+                "rr": 195.70000000285268,
+                "pr": 2739.800000039938,
+                "tr": 15,
+                "mae": 0.021132160102644872,
+                "sqn": 4.414102248823547,
+                "filter": "revert"
+            },
+            "side": "revert"
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "TEMA",
+                "ma_candle": 114,
+                "ma_lookback": 76,
+                "name": "HURST",
+                "candle": 83,
+                "window": 37,
+                "follow_tend": 0.9402255803764998
+            },
+            "kpis": {
+                "score": 10.17987371100191,
+                "hr": 0.75,
+                "rr": 4.994335511982843,
+                "pr": 14.98300653594853,
+                "tr": 4,
+                "mae": 0.07807264346751423,
+                "sqn": 1.6133119729655347,
+                "filter": "revert"
+            },
+            "side": "revert"
+        }
+    },
+    "2024-04-15": {
+        "longs": {
+            "parametros": {
+                "ma_method": "WMA",
+                "ma_candle": 70,
+                "ma_lookback": 109,
+                "name": "ATR_EXPANSION",
+                "candle": 68,
+                "window": 69,
+                "lookback_ma": 22,
+                "follow_tend": 1.5398412092374507
+            },
+            "kpis": {
+                "score": 12.299904588239448,
+                "hr": 0.8823529411764706,
+                "rr": 0.6530111238972224,
+                "pr": 4.897583429229168,
+                "tr": 17,
+                "mae": 0.017134205286193277,
+                "sqn": 1.8542800196283793,
+                "filter": "revert"
+            },
+            "side": "revert"
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "DEMA",
+                "ma_candle": 82,
+                "ma_lookback": 110,
+                "name": "HURST",
+                "candle": 4,
+                "window": 89,
+                "follow_tend": 0.5665334557612574
+            },
+            "kpis": {
+                "score": 10405.891193581636,
+                "hr": 0.9,
+                "rr": 166.74074074089654,
+                "pr": 1500.6666666680687,
+                "tr": 10,
+                "mae": 0.013591107713550585,
+                "sqn": 2.3383520172639,
+                "filter": "revert"
+            },
+            "side": "revert"
+        }
+    },
+    "2024-04-22": {
+        "longs": {
+            "parametros": {
+                "ma_method": "TRIMA",
+                "ma_candle": 52,
+                "ma_lookback": 83,
+                "name": "OU_REVERSION",
+                "candle": 80,
+                "window": 9,
+                "follow_tend": 0.31840139238157694
+            },
+            "kpis": {
+                "score": 213.40240702048038,
+                "hr": 0.7,
+                "rr": 17.74935064935481,
+                "pr": 41.41515151516122,
+                "tr": 10,
+                "mae": 0.01972404465134078,
+                "sqn": 2.1550834566454036,
+                "filter": "revert"
+            },
+            "side": "revert"
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "SMA",
+                "ma_candle": 56,
+                "ma_lookback": 67,
+                "name": "KEF",
+                "candle": 72,
+                "window": 88,
+                "follow_tend": 0.17477670460493772
+            },
+            "kpis": {
+                "score": 4109.300283803137,
+                "hr": 0.9166666666666666,
+                "rr": 49.14545454553236,
+                "pr": 540.600000000856,
+                "tr": 12,
+                "mae": 0.01689335614066861,
+                "sqn": 2.8679954779874115,
+                "filter": "revert"
+            },
+            "side": "revert"
+        }
+    },
+    "2024-04-29": {
+        "longs": {
+            "parametros": {
+                "ma_method": "TEMA",
+                "ma_candle": 87,
+                "ma_lookback": 84,
+                "name": "HURST",
+                "candle": 91,
+                "window": 50,
+                "follow_tend": 0.5948123840553606
+            },
+            "kpis": {
+                "score": 84.69368097765633,
+                "hr": 0.875,
+                "rr": 5.0811428571449175,
+                "pr": 35.56800000001442,
+                "tr": 8,
+                "mae": 0.0548054012786313,
+                "sqn": 1.743341141253181,
+                "filter": "revert"
+            },
+            "side": "revert"
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "EMA",
+                "ma_candle": 72,
+                "ma_lookback": 108,
+                "name": "KEF",
+                "candle": 52,
+                "window": 17,
+                "follow_tend": 0.8706372677359245
+            },
+            "kpis": {
+                "score": 319.14251111428246,
+                "hr": 0.9333333333333333,
+                "rr": 3.861728395062503,
+                "pr": 54.06419753087504,
+                "tr": 15,
+                "mae": 0.014439509218502325,
+                "sqn": 3.0701751612841957,
+                "filter": "revert"
+            },
+            "side": "revert"
+        }
+    },
+    "2024-05-06": {
+        "longs": {
+            "parametros": {
+                "ma_method": "MIDPOINT",
+                "ma_candle": 68,
+                "ma_lookback": 71,
+                "name": "KEF",
+                "candle": 43,
+                "window": 13,
+                "follow_tend": 0.8753842706806996
+            },
+            "kpis": {
+                "score": 27.962052590667334,
+                "hr": 0.9285714285714286,
+                "rr": 0.747381835032476,
+                "pr": 9.715963855422189,
+                "tr": 14,
+                "mae": 0.019680412904203824,
+                "sqn": 2.9872705119744545,
+                "filter": "revert"
+            },
+            "side": "revert"
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "MIDPOINT",
+                "ma_candle": 13,
+                "ma_lookback": 22,
+                "name": "ADX",
+                "candle": 66,
+                "window": 28,
+                "follow_tend": 16.659368901815967
+            },
+            "kpis": {
+                "score": 45.82917188993567,
+                "hr": 0.8378378378378378,
+                "rr": 1.2502485979079572,
+                "pr": 6.459617755857779,
+                "tr": 37,
+                "mae": 0.0031942594055469546,
+                "sqn": 1.9411757600997182,
+                "filter": "revert"
+            },
+            "side": "revert"
+        }
+    },
+    "2024-05-13": {
+        "longs": {
+            "parametros": {
+                "ma_method": "KAMA",
+                "ma_candle": 85,
+                "ma_lookback": 71,
+                "name": "HURST",
+                "candle": 81,
+                "window": 71,
+                "follow_tend": 0.732510713647252
+            },
+            "kpis": {
+                "score": 316.4216072853676,
+                "hr": 0.8,
+                "rr": 39.60185185192247,
+                "pr": 158.40740740768987,
+                "tr": 5,
+                "mae": 0.08398772402240196,
+                "sqn": 2.190533224935846,
+                "filter": "revert"
+            },
+            "side": "revert"
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "SMA",
+                "ma_candle": 26,
+                "ma_lookback": 43,
+                "name": "OU_REVERSION",
+                "candle": 5,
+                "window": 15,
+                "follow_tend": 0.07827908085540153
+            },
+            "kpis": {
+                "score": 11.211054777977344,
+                "hr": 0.8837209302325582,
+                "rr": 0.4131740034560867,
+                "pr": 3.1401224262662586,
+                "tr": 43,
+                "mae": 0.004330949948928352,
+                "sqn": 2.425668911074808,
+                "filter": "revert"
+            },
+            "side": "revert"
+        }
+    },
+    "2024-05-20": {
+        "longs": {
+            "parametros": {
+                "ma_method": "TRIMA",
+                "ma_candle": 88,
+                "ma_lookback": 94,
+                "name": "HURST",
+                "candle": 90,
+                "window": 36,
+                "follow_tend": 0.8197367075160473
+            },
+            "kpis": {
+                "score": 1870.991734389291,
+                "hr": 0.6666666666666666,
+                "rr": 715.7500000169507,
+                "pr": 1431.5000000339014,
+                "tr": 3,
+                "mae": 0.18525045160109774,
+                "sqn": 1.946993416098977,
+                "filter": "revert"
+            },
+            "side": "revert"
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "TRIMA",
+                "ma_candle": 14,
+                "ma_lookback": 82,
+                "name": "KEF",
+                "candle": 13,
+                "window": 4,
+                "follow_tend": 0.7893186459097234
+            },
+            "kpis": {
+                "score": 1.1493608080777493,
+                "hr": 0.8,
+                "rr": 0.3639248230412845,
+                "pr": 1.455699292165138,
+                "tr": 50,
+                "mae": 0.0031695378202382775,
+                "sqn": 0.7875649466046666,
+                "filter": "revert"
+            },
+            "side": "revert"
+        }
+    },
+    "2024-05-27": {
+        "longs": {
+            "parametros": {
+                "ma_method": "T3",
+                "ma_candle": 28,
+                "ma_lookback": 82,
+                "name": "KEF",
+                "candle": 15,
+                "window": 87,
+                "follow_tend": 0.43463451930414115
+            },
+            "kpis": {
+                "score": 5718.247846458239,
+                "hr": 0.9375,
+                "rr": 34.53333333341943,
+                "pr": 518.0000000012915,
+                "tr": 16,
+                "mae": 0.013168489316396402,
+                "sqn": 4.418371934842998,
+                "filter": "revert"
+            },
+            "side": "revert"
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "T3",
+                "ma_candle": 27,
+                "ma_lookback": 95,
+                "name": "ADX",
+                "candle": 32,
+                "window": 47,
+                "follow_tend": 13.580151269518648
+            },
+            "kpis": {
+                "score": 1138.2333280441417,
+                "hr": 0.8888888888888888,
+                "rr": 29.336538461722782,
+                "pr": 234.69230769378225,
+                "tr": 9,
+                "mae": 0.004977373812474813,
+                "sqn": 2.826723538721096,
+                "filter": "revert"
+            },
+            "side": "revert"
+        }
+    },
+    "2024-06-03": {
+        "longs": {
+            "parametros": {
+                "ma_method": "KAMA",
+                "ma_candle": 38,
+                "ma_lookback": 35,
+                "name": "KEF",
+                "candle": 58,
+                "window": 4,
+                "follow_tend": 0.500093664235564
+            },
+            "kpis": {
+                "score": 60.0594221459453,
+                "hr": 0.9047619047619048,
+                "rr": 1.1030506201811785,
+                "pr": 10.478980891721196,
+                "tr": 21,
+                "mae": 0.006697077824568411,
+                "sqn": 3.3747370346606838,
+                "filter": "revert"
+            },
+            "side": "revert"
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "T3",
+                "ma_candle": 97,
+                "ma_lookback": 36,
+                "name": "KEF",
+                "candle": 47,
+                "window": 43,
+                "follow_tend": 0.4197011308705211
+            },
+            "kpis": {
+                "score": 208.01141879893382,
+                "hr": 0.8333333333333334,
+                "rr": 17.54385964913272,
+                "pr": 87.71929824566361,
+                "tr": 6,
+                "mae": 0.02790400722201072,
+                "sqn": 2.6742344455417415,
+                "filter": "revert"
+            },
+            "side": "revert"
+        }
+    },
+    "2024-06-10": {
+        "longs": {
+            "parametros": {
+                "ma_method": "KAMA",
+                "ma_candle": 25,
+                "ma_lookback": 50,
+                "name": "KEF",
+                "candle": 19,
+                "window": 5,
+                "follow_tend": 0.32759592753037536
+            },
+            "kpis": {
+                "score": 40.42357659399851,
+                "hr": 0.8695652173913043,
+                "rr": 1.0769142857146605,
+                "pr": 7.17942857143107,
+                "tr": 23,
+                "mae": 0.004895675790976032,
+                "sqn": 3.1586920415913626,
+                "filter": "revert"
+            },
+            "side": "revert"
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "KAMA",
+                "ma_candle": 80,
+                "ma_lookback": 60,
+                "name": "ADX",
+                "candle": 4,
+                "window": 93,
+                "follow_tend": 15.304167682234482
+            },
+            "kpis": {
+                "score": 40.52299000498742,
+                "hr": 0.9,
+                "rr": 1.704558404558665,
+                "pr": 15.341025641027986,
+                "tr": 10,
+                "mae": 0.01627871514759064,
+                "sqn": 3.1569738471022712,
+                "filter": "revert"
+            },
+            "side": "revert"
+        }
+    },
+    "2024-06-17": {
+        "longs": {
+            "parametros": {
+                "ma_method": "WMA",
+                "ma_candle": 80,
+                "ma_lookback": 77,
+                "name": "HURST",
+                "candle": 45,
+                "window": 62,
+                "follow_tend": 0.8528123262011723
+            },
+            "kpis": {
+                "score": 38.05627409036157,
+                "hr": 0.8888888888888888,
+                "rr": 1.0593617664853023,
+                "pr": 8.474894131882419,
+                "tr": 18,
+                "mae": 0.016953950729138734,
+                "sqn": 3.1183275903047396,
+                "filter": "revert"
+            },
+            "side": "revert"
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "KAMA",
+                "ma_candle": 106,
+                "ma_lookback": 10,
+                "name": "KEF",
+                "candle": 52,
+                "window": 6,
+                "follow_tend": 0.4341269020504181
+            },
+            "kpis": {
+                "score": 106.68035401157589,
+                "hr": 0.8571428571428571,
+                "rr": 3.230987055016483,
+                "pr": 19.3859223300989,
+                "tr": 14,
+                "mae": 0.009066042509779796,
+                "sqn": 3.2013015800732942,
+                "filter": "revert"
+            },
+            "side": "revert"
+        }
+    },
+    "2024-06-24": {
+        "longs": {
+            "parametros": {
+                "ma_method": "T3",
+                "ma_candle": 91,
+                "ma_lookback": 43,
+                "name": "HURST",
+                "candle": 50,
+                "window": 94,
+                "follow_tend": 0.6685551823359916
+            },
+            "kpis": {
+                "score": 241.77395706895922,
+                "hr": 0.75,
+                "rr": 53.363636363576354,
+                "pr": 160.09090909072907,
+                "tr": 4,
+                "mae": 0.03831715813031211,
+                "sqn": 2.48881866053809,
+                "filter": "revert"
+            },
+            "side": "revert"
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "KAMA",
+                "ma_candle": 36,
+                "ma_lookback": 93,
+                "name": "ATR_EXPANSION",
+                "candle": 9,
+                "window": 77,
+                "lookback_ma": 74,
+                "follow_tend": 1.0579089311867587
+            },
+            "kpis": {
+                "score": 24.829152628080223,
+                "hr": 0.6666666666666666,
+                "rr": 7.985590778099763,
+                "pr": 15.971181556199525,
+                "tr": 6,
+                "mae": 0.02931361599793195,
+                "sqn": 1.6295189173835825,
+                "filter": "revert"
+            },
+            "side": "revert"
+        }
+    },
+    "2024-07-01": {
+        "longs": {
+            "parametros": {
+                "ma_method": "EMA",
+                "ma_candle": 78,
+                "ma_lookback": 74,
+                "name": "KEF",
+                "candle": 63,
+                "window": 46,
+                "follow_tend": 0.6824920359602722
+            },
+            "kpis": {
+                "score": 1560.1554372558535,
+                "hr": 0.9333333333333333,
+                "rr": 13.665245202557763,
+                "pr": 191.3134328358087,
+                "tr": 15,
+                "mae": 0.013233716381871811,
+                "sqn": 3.441188779451418,
+                "filter": "revert"
+            },
+            "side": "revert"
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "MIDPOINT",
+                "ma_candle": 19,
+                "ma_lookback": 73,
+                "name": "ATR_EXPANSION",
+                "candle": 62,
+                "window": 26,
+                "lookback_ma": 50,
+                "follow_tend": 1.0402164451782145
+            },
+            "kpis": {
+                "score": 0.7022110703467449,
+                "hr": 0.9166666666666666,
+                "rr": 0.12468184671575817,
+                "pr": 1.37150031387334,
+                "tr": 24,
+                "mae": 0.00581114770086412,
+                "sqn": 0.3360275573405713,
+                "filter": "revert"
+            },
+            "side": "revert"
+        }
+    },
+    "2024-07-08": {
+        "longs": {
+            "parametros": {
+                "ma_method": "WMA",
+                "ma_candle": 118,
+                "ma_lookback": 66,
+                "name": "ATR_EXPANSION",
+                "candle": 6,
+                "window": 5,
+                "lookback_ma": 50,
+                "follow_tend": 2.3301292869068213
+            },
+            "kpis": {
+                "score": 2697.943208191804,
+                "hr": 0.9,
+                "rr": 45.77777777782123,
+                "pr": 412.0000000003911,
+                "tr": 10,
+                "mae": 0.015710531942425145,
+                "sqn": 3.748596655442575,
+                "filter": "revert"
+            },
+            "side": "revert"
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "KAMA",
+                "ma_candle": 14,
+                "ma_lookback": 74,
+                "name": "OU_REVERSION",
+                "candle": 29,
+                "window": 84,
+                "follow_tend": 0.2131933257054128
+            },
+            "kpis": {
+                "score": 532.0732406830382,
+                "hr": 0.8888888888888888,
+                "rr": 15.179687500014508,
+                "pr": 121.43750000011606,
+                "tr": 9,
+                "mae": 0.01376200894415839,
+                "sqn": 3.138161797984125,
+                "filter": "revert"
+            },
+            "side": "revert"
+        }
+    },
+    "2024-07-15": {
+        "longs": {
+            "parametros": {
+                "ma_method": "SMA",
+                "ma_candle": 120,
+                "ma_lookback": 81,
+                "name": "HURST",
+                "candle": 10,
+                "window": 64,
+                "follow_tend": 0.776206960700212
+            },
+            "kpis": {
+                "score": 3056.77978019639,
+                "hr": 0.8888888888888888,
+                "rr": 60.81250000005713,
+                "pr": 486.500000000457,
+                "tr": 9,
+                "mae": 0.016403958924507037,
+                "sqn": 4.383760245930313,
+                "filter": "revert"
+            },
+            "side": "revert"
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "EMA",
+                "ma_candle": 35,
+                "ma_lookback": 7,
+                "name": "ADX",
+                "candle": 73,
+                "window": 97,
+                "follow_tend": 10.456366626196155
+            },
+            "kpis": {
+                "score": 28.45635044134791,
+                "hr": 0.7142857142857143,
+                "rr": 5.993600000000443,
+                "pr": 14.984000000001107,
+                "tr": 7,
+                "mae": 0.011652102111812362,
+                "sqn": 1.7166182447504315,
+                "filter": "revert"
+            },
+            "side": "revert"
+        }
+    },
+    "2024-07-22": {
+        "longs": {
+            "parametros": {
+                "ma_method": "KAMA",
+                "ma_candle": 74,
+                "ma_lookback": 70,
+                "name": "KEF",
+                "candle": 19,
+                "window": 25,
+                "follow_tend": 0.6876696956020152
+            },
+            "kpis": {
+                "score": 85.67201871726621,
+                "hr": 0.8666666666666667,
+                "rr": 2.497178497178737,
+                "pr": 16.23166023166179,
+                "tr": 15,
+                "mae": 0.009506617403331585,
+                "sqn": 2.8935312184222424,
+                "filter": "revert"
+            },
+            "side": "revert"
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "TRIMA",
+                "ma_candle": 71,
+                "ma_lookback": 43,
+                "name": "KEF",
+                "candle": 7,
+                "window": 50,
+                "follow_tend": 0.2293109618750348
+            },
+            "kpis": {
+                "score": 73.89669481653974,
+                "hr": 0.8571428571428571,
+                "rr": 5.435416666668645,
+                "pr": 32.61250000001187,
+                "tr": 7,
+                "mae": 0.052662143078556746,
+                "sqn": 2.948081109102569,
+                "filter": "revert"
+            },
+            "side": "revert"
+        }
+    },
+    "2024-07-29": {
+        "longs": {
+            "parametros": {
+                "ma_method": "SMA",
+                "ma_candle": 10,
+                "ma_lookback": 54,
+                "name": "ATR_EXPANSION",
+                "candle": 92,
+                "window": 60,
+                "lookback_ma": 52,
+                "follow_tend": 1.0703823550153018
+            },
+            "kpis": {
+                "score": 16.6684998187156,
+                "hr": 0.8260869565217391,
+                "rr": 0.6889170270206687,
+                "pr": 3.272355878348176,
+                "tr": 69,
+                "mae": 0.0014644921069171947,
+                "sqn": 2.9248485602128573,
+                "filter": "revert"
+            },
+            "side": "revert"
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "T3",
+                "ma_candle": 95,
+                "ma_lookback": 27,
+                "name": "ADX",
+                "candle": 8,
+                "window": 39,
+                "follow_tend": 32.53007066891517
+            },
+            "kpis": {
+                "score": 4.352976084289594,
+                "hr": 0.8333333333333334,
+                "rr": 1.2283510125362198,
+                "pr": 6.141755062681099,
+                "tr": 6,
+                "mae": 0.08178577730255078,
+                "sqn": 1.5260711993594276,
+                "filter": "revert"
+            },
+            "side": "revert"
+        }
+    },
+    "2024-08-05": {
+        "longs": {
+            "parametros": {
+                "ma_method": "EMA",
+                "ma_candle": 12,
+                "ma_lookback": 26,
+                "name": "ADX",
+                "candle": 19,
+                "window": 20,
+                "follow_tend": 10.363620466983686
+            },
+            "kpis": {
+                "score": 0.9866478417754007,
+                "hr": 0.6666666666666666,
+                "rr": 1.3763440860249598,
+                "pr": 2.7526881720499197,
+                "tr": 6,
+                "mae": 0.0031291837334179395,
+                "sqn": 1.0527176862988326,
+                "filter": "revert"
+            },
+            "side": "revert"
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "EMA",
+                "ma_candle": 78,
+                "ma_lookback": 77,
+                "name": "KEF",
+                "candle": 9,
+                "window": 91,
+                "follow_tend": 0.3591616865750591
+            },
+            "kpis": {
+                "score": 1492.1365535537668,
+                "hr": 0.8888888888888888,
+                "rr": 35.47916666664652,
+                "pr": 283.83333333317216,
+                "tr": 9,
+                "mae": 0.031489217439957945,
+                "sqn": 3.2965988910756256,
+                "filter": "revert"
+            },
+            "side": "revert"
+        }
+    },
+    "2024-08-12": {
+        "longs": {
+            "parametros": {
+                "ma_method": "TEMA",
+                "ma_candle": 116,
+                "ma_lookback": 52,
+                "name": "HURST",
+                "candle": 38,
+                "window": 100,
+                "follow_tend": 0.5201674881655061
+            },
+            "kpis": {
+                "score": 3.9901789219927704,
+                "hr": 0.75,
+                "rr": 2.6397163120569225,
+                "pr": 7.9191489361707665,
+                "tr": 4,
+                "mae": 0.11265036279964456,
+                "sqn": 1.9008778565488147,
+                "filter": "revert"
+            },
+            "side": "revert"
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "EMA",
+                "ma_candle": 91,
+                "ma_lookback": 46,
+                "name": "KEF",
+                "candle": 24,
+                "window": 46,
+                "follow_tend": 0.5093059554379125
+            },
+            "kpis": {
+                "score": 13.713588891531066,
+                "hr": 0.9285714285714286,
+                "rr": 0.490930992944422,
+                "pr": 6.382102908277486,
+                "tr": 14,
+                "mae": 0.02986217163715871,
+                "sqn": 2.6891655448557774,
+                "filter": "revert"
+            },
+            "side": "revert"
+        }
+    },
+    "2024-08-19": {
+        "longs": {
+            "parametros": {
+                "ma_method": "TRIMA",
+                "ma_candle": 51,
+                "ma_lookback": 49,
+                "name": "KEF",
+                "candle": 52,
+                "window": 12,
+                "follow_tend": 0.34179761980134393
+            },
+            "kpis": {
+                "score": 174.96922795121498,
+                "hr": 0.8888888888888888,
+                "rr": 5.777620396601042,
+                "pr": 46.22096317280834,
+                "tr": 9,
+                "mae": 0.055133679064394786,
+                "sqn": 4.273663987323977,
+                "filter": "revert"
+            },
+            "side": "revert"
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "EMA",
+                "ma_candle": 53,
+                "ma_lookback": 110,
+                "name": "ATR_EXPANSION",
+                "candle": 96,
+                "window": 80,
+                "lookback_ma": 95,
+                "follow_tend": 1.2435250361854078
+            },
+            "kpis": {
+                "score": 279.885582703658,
+                "hr": 0.8888888888888888,
+                "rr": 8.574999999997058,
+                "pr": 68.59999999997646,
+                "tr": 9,
+                "mae": 0.030831576485370677,
+                "sqn": 3.851990387171808,
+                "filter": "revert"
+            },
+            "side": "revert"
+        }
+    },
+    "2024-08-26": {
+        "longs": {
+            "parametros": {
+                "ma_method": "TEMA",
+                "ma_candle": 84,
+                "ma_lookback": 61,
+                "name": "HURST",
+                "candle": 49,
+                "window": 49,
+                "follow_tend": 0.6728125562790257
+            },
+            "kpis": {
+                "score": 36928.8937655723,
+                "hr": 0.9090909090909091,
+                "rr": 381.74000000555844,
+                "pr": 3817.4000000555848,
+                "tr": 11,
+                "mae": 0.03736060780478763,
+                "sqn": 3.4476442694638822,
+                "filter": "revert"
+            },
+            "side": "revert"
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "DEMA",
+                "ma_candle": 11,
+                "ma_lookback": 54,
+                "name": "ATR_EXPANSION",
+                "candle": 33,
+                "window": 73,
+                "lookback_ma": 78,
+                "follow_tend": 1.3377987983410915
+            },
+            "kpis": {
+                "score": 0.2952867327055151,
+                "hr": 0.7171052631578947,
+                "rr": 0.4360505970534397,
+                "pr": 1.1053375599726725,
+                "tr": 152,
+                "mae": 0.0013297162299372972,
+                "sqn": 0.27657530987146994,
+                "filter": "revert"
+            },
+            "side": "revert"
+        }
+    },
+    "2024-09-02": {
+        "longs": {
+            "parametros": {
+                "ma_method": "WMA",
+                "ma_candle": 77,
+                "ma_lookback": 67,
+                "name": "KEF",
+                "candle": 18,
+                "window": 76,
+                "follow_tend": 0.39008076012384624
+            },
+            "kpis": {
+                "score": 5465.814998262228,
+                "hr": 0.9090909090909091,
+                "rr": 68.88000000006457,
+                "pr": 688.8000000006457,
+                "tr": 11,
+                "mae": 0.03903456951763789,
+                "sqn": 3.880750835654709,
+                "filter": "revert"
+            },
+            "side": "revert"
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "KAMA",
+                "ma_candle": 85,
+                "ma_lookback": 89,
+                "name": "ADX",
+                "candle": 13,
+                "window": 97,
+                "follow_tend": 10.944078407643746
+            },
+            "kpis": {
+                "score": 159.65527397341003,
+                "hr": 0.8571428571428571,
+                "rr": 10.58260869565585,
+                "pr": 63.49565217393509,
+                "tr": 7,
+                "mae": 0.028343869409096806,
+                "sqn": 2.166228101878992,
+                "filter": "revert"
+            },
+            "side": "revert"
+        }
+    },
+    "2024-09-09": {
+        "longs": {
+            "parametros": {
+                "ma_method": "KAMA",
+                "ma_candle": 61,
+                "ma_lookback": 9,
+                "name": "ADX",
+                "candle": 6,
+                "window": 75,
+                "follow_tend": 10.26362702408553
+            },
+            "kpis": {
+                "score": 597.4626916727798,
+                "hr": 0.9285714285714286,
+                "rr": 7.524216524217378,
+                "pr": 97.81481481482592,
+                "tr": 14,
+                "mae": 0.013742837904472725,
+                "sqn": 2.547351776848291,
+                "filter": "revert"
+            },
+            "side": "revert"
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "TEMA",
+                "ma_candle": 82,
+                "ma_lookback": 110,
+                "name": "KEF",
+                "candle": 64,
+                "window": 32,
+                "follow_tend": 0.7594803251615199
+            },
+            "kpis": {
+                "score": 824.216648890528,
+                "hr": 0.875,
+                "rr": 26.773654916529253,
+                "pr": 187.41558441570479,
+                "tr": 8,
+                "mae": 0.022340223519518882,
+                "sqn": 3.698768373734793,
+                "filter": "revert"
+            },
+            "side": "revert"
+        }
+    },
+    "2024-09-16": {
+        "longs": {
+            "parametros": {
+                "ma_method": "KAMA",
+                "ma_candle": 88,
+                "ma_lookback": 37,
+                "name": "ADX",
+                "candle": 81,
+                "window": 43,
+                "follow_tend": 18.769476436459712
+            },
+            "kpis": {
+                "score": 5.660488241255452,
+                "hr": 0.9090909090909091,
+                "rr": 0.48185014876928917,
+                "pr": 4.818501487692892,
+                "tr": 11,
+                "mae": 0.03510739165930281,
+                "sqn": 1.4218120825764566,
+                "filter": "revert"
+            },
+            "side": "revert"
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "SMA",
+                "ma_candle": 51,
+                "ma_lookback": 75,
+                "name": "ATR_EXPANSION",
+                "candle": 20,
+                "window": 37,
+                "lookback_ma": 26,
+                "follow_tend": 1.3447027509116616
+            },
+            "kpis": {
+                "score": 12787.364065320338,
+                "hr": 0.9,
+                "rr": 165.59722222237727,
+                "pr": 1490.3750000013956,
+                "tr": 10,
+                "mae": 0.02632096208971337,
+                "sqn": 4.855839027565688,
+                "filter": "revert"
+            },
+            "side": "revert"
+        }
+    },
+    "2024-09-23": {
+        "longs": {
+            "parametros": {
+                "ma_method": "WMA",
+                "ma_candle": 103,
+                "ma_lookback": 24,
+                "name": "KEF",
+                "candle": 65,
+                "window": 4,
+                "follow_tend": 0.4027205346370836
+            },
+            "kpis": {
+                "score": 163.09507990260448,
+                "hr": 0.9230769230769231,
+                "rr": 2.8606701940038453,
+                "pr": 34.328042328046145,
+                "tr": 13,
+                "mae": 0.016079933918084724,
+                "sqn": 3.4876881752693083,
+                "filter": "revert"
+            },
+            "side": "revert"
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "EMA",
+                "ma_candle": 22,
+                "ma_lookback": 83,
+                "name": "ATR_EXPANSION",
+                "candle": 24,
+                "window": 17,
+                "lookback_ma": 53,
+                "follow_tend": 1.347586212720971
+            },
+            "kpis": {
+                "score": 744.4569465860324,
+                "hr": 0.9090909090909091,
+                "rr": 4.515015974442447,
+                "pr": 45.150159744424464,
+                "tr": 33,
+                "mae": 0.006250919445619993,
+                "sqn": 5.562987175670225,
+                "filter": "revert"
+            },
+            "side": "revert"
+        }
+    },
+    "2024-09-30": {
+        "longs": {
+            "parametros": {
+                "ma_method": "T3",
+                "ma_candle": 52,
+                "ma_lookback": 55,
+                "name": "KEF",
+                "candle": 71,
+                "window": 49,
+                "follow_tend": 0.35213380952356305
+            },
+            "kpis": {
+                "score": 116.16735155116308,
+                "hr": 0.9473684210526315,
+                "rr": 1.152756377332718,
+                "pr": 20.749614791988925,
+                "tr": 19,
+                "mae": 0.005706812025464562,
+                "sqn": 3.9936165676863,
+                "filter": "revert"
+            },
+            "side": "revert"
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "DEMA",
+                "ma_candle": 110,
+                "ma_lookback": 57,
+                "name": "ATR_EXPANSION",
+                "candle": 11,
+                "window": 51,
+                "lookback_ma": 66,
+                "follow_tend": 1.1802382992918397
+            },
+            "kpis": {
+                "score": 366.71484847112583,
+                "hr": 0.8,
+                "rr": 45.21666666670873,
+                "pr": 180.86666666683493,
+                "tr": 5,
+                "mae": 0.06668301552035669,
+                "sqn": 2.089882980316806,
+                "filter": "revert"
+            },
+            "side": "revert"
+        }
+    },
+    "2024-10-07": {
+        "longs": {
+            "parametros": {
+                "ma_method": "SMA",
+                "ma_candle": 74,
+                "ma_lookback": 87,
+                "name": "KEF",
+                "candle": 79,
+                "window": 84,
+                "follow_tend": 0.9741689249638723
+            },
+            "kpis": {
+                "score": 353.9351802984351,
+                "hr": 0.9,
+                "rr": 8.730443447934096,
+                "pr": 78.57399103140685,
+                "tr": 10,
+                "mae": 0.025896751850077032,
+                "sqn": 3.2674581017249293,
+                "filter": "revert"
+            },
+            "side": "revert"
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "EMA",
+                "ma_candle": 87,
+                "ma_lookback": 34,
+                "name": "ADX",
+                "candle": 93,
+                "window": 96,
+                "follow_tend": 10.247072047951365
+            },
+            "kpis": {
+                "score": 3766.1189950808543,
+                "hr": 0.875,
+                "rr": 96.9166666667568,
+                "pr": 678.4166666672976,
+                "tr": 8,
+                "mae": 0.012392633945757603,
+                "sqn": 3.8116018769408333,
+                "filter": "revert"
+            },
+            "side": "revert"
+        }
+    },
+    "2024-10-14": {
+        "longs": {
+            "parametros": {
+                "ma_method": "KAMA",
+                "ma_candle": 59,
+                "ma_lookback": 101,
+                "name": "KEF",
+                "candle": 37,
+                "window": 94,
+                "follow_tend": 0.20079691700186347
+            },
+            "kpis": {
+                "score": 119904.76373537221,
+                "hr": 0.9411764705882353,
+                "rr": 463.8958333513483,
+                "pr": 7422.333333621573,
+                "tr": 17,
+                "mae": 0.009518395184983224,
+                "sqn": 4.107076853540416,
+                "filter": "revert"
+            },
+            "side": "revert"
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "TRIMA",
+                "ma_candle": 39,
+                "ma_lookback": 3,
+                "name": "ADX",
+                "candle": 8,
+                "window": 92,
+                "follow_tend": 10.324599462657778
+            },
+            "kpis": {
+                "score": 3.5999133984745426,
+                "hr": 0.6081081081081081,
+                "rr": 1.1831016464558117,
+                "pr": 1.835847382431432,
+                "tr": 74,
+                "mae": 0.0015566733132435806,
+                "sqn": 1.7777585717940587,
+                "filter": "revert"
+            },
+            "side": "revert"
+        }
+    },
+    "2024-10-21": {
+        "longs": {
+            "parametros": {
+                "ma_method": "KAMA",
+                "ma_candle": 116,
+                "ma_lookback": 47,
+                "name": "HURST",
+                "candle": 2,
+                "window": 41,
+                "follow_tend": 0.8092509644445267
+            },
+            "kpis": {
+                "score": 5688.557447228391,
+                "hr": 0.9285714285714286,
+                "rr": 44.85618729105652,
+                "pr": 583.1304347837348,
+                "tr": 14,
+                "mae": 0.019423453661709424,
+                "sqn": 3.946414304464209,
+                "filter": "revert"
+            },
+            "side": "revert"
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "TRIMA",
+                "ma_candle": 5,
+                "ma_lookback": 60,
+                "name": "ADX",
+                "candle": 84,
+                "window": 5,
+                "follow_tend": 27.995098132438905
+            },
+            "kpis": {
+                "score": 9.429365309459309,
+                "hr": 0.8666666666666667,
+                "rr": 0.48772972378139146,
+                "pr": 3.1702432045790445,
+                "tr": 30,
+                "mae": 0.0013569377978483767,
+                "sqn": 2.0440414057014458,
+                "filter": "revert"
+            },
+            "side": "revert"
+        }
+    },
+    "2024-10-28": {
+        "longs": {
+            "parametros": {
+                "ma_method": "KAMA",
+                "ma_candle": 103,
+                "ma_lookback": 65,
+                "name": "HURST",
+                "candle": 83,
+                "window": 90,
+                "follow_tend": 0.6569031508942131
+            },
+            "kpis": {
+                "score": 292.0986835022976,
+                "hr": 0.9230769230769231,
+                "rr": 4.600347222223038,
+                "pr": 55.20416666667646,
+                "tr": 13,
+                "mae": 0.02426993738836865,
+                "sqn": 3.164691024841416,
+                "filter": "revert"
+            },
+            "side": "revert"
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "SMA",
+                "ma_candle": 72,
+                "ma_lookback": 29,
+                "name": "OU_REVERSION",
+                "candle": 73,
+                "window": 8,
+                "follow_tend": 0.9710259871826283
+            },
+            "kpis": {
+                "score": 812.9952707272064,
+                "hr": 0.9090909090909091,
+                "rr": 14.277922077931622,
+                "pr": 142.77922077931623,
+                "tr": 11,
+                "mae": 0.017794876323992743,
+                "sqn": 3.277353059959574,
+                "filter": "revert"
+            },
+            "side": "revert"
+        }
+    },
+    "2024-11-04": {
+        "longs": {
+            "parametros": {
+                "ma_method": "KAMA",
+                "ma_candle": 74,
+                "ma_lookback": 32,
+                "name": "HURST",
+                "candle": 64,
+                "window": 26,
+                "follow_tend": 0.8999022229988529
+            },
+            "kpis": {
+                "score": 4.730871414326803,
+                "hr": 0.8275862068965517,
+                "rr": 0.5023634801005045,
+                "pr": 2.4113447044824214,
+                "tr": 29,
+                "mae": 0.009689854339553012,
+                "sqn": 1.374028325318255,
+                "filter": "revert"
+            },
+            "side": "revert"
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "DEMA",
+                "ma_candle": 116,
+                "ma_lookback": 83,
+                "name": "HURST",
+                "candle": 53,
+                "window": 53,
+                "follow_tend": 0.8039031668720541
+            },
+            "kpis": {
+                "score": 4363.565445509075,
+                "hr": 0.8571428571428571,
+                "rr": 170.85714285786025,
+                "pr": 1025.1428571471615,
+                "tr": 7,
+                "mae": 0.018084831956960135,
+                "sqn": 2.1530867060679415,
+                "filter": "revert"
+            },
+            "side": "revert"
+        }
+    },
+    "2024-11-11": {
+        "longs": {
+            "parametros": {
+                "ma_method": "KAMA",
+                "ma_candle": 88,
+                "ma_lookback": 68,
+                "name": "ATR_EXPANSION",
+                "candle": 25,
+                "window": 36,
+                "lookback_ma": 86,
+                "follow_tend": 1.1307670262262342
+            },
+            "kpis": {
+                "score": 1895.3992418252228,
+                "hr": 0.7777777777777778,
+                "rr": 74.36974789952878,
+                "pr": 260.29411764835066,
+                "tr": 9,
+                "mae": 0.04052405810041656,
+                "sqn": 4.046193016443702,
+                "filter": "revert"
+            },
+            "side": "revert"
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "MIDPOINT",
+                "ma_candle": 39,
+                "ma_lookback": 110,
+                "name": "ADX",
+                "candle": 69,
+                "window": 81,
+                "follow_tend": 13.427586891304024
+            },
+            "kpis": {
+                "score": 679.5958255601678,
+                "hr": 0.8571428571428571,
+                "rr": 30.88383838384639,
+                "pr": 185.30303030307832,
+                "tr": 7,
+                "mae": 0.0258133313011418,
+                "sqn": 3.4870028062170912,
+                "filter": "revert"
+            },
+            "side": "revert"
+        }
+    },
+    "2024-11-18": {
+        "longs": {
+            "parametros": {
+                "ma_method": "DEMA",
+                "ma_candle": 34,
+                "ma_lookback": 9,
+                "name": "ATR_EXPANSION",
+                "candle": 10,
+                "window": 62,
+                "lookback_ma": 20,
+                "follow_tend": 1.1341676384012136
+            },
+            "kpis": {
+                "score": 0.48894782906606693,
+                "hr": 0.6491228070175439,
+                "rr": 0.6617703198539906,
+                "pr": 1.2242750917298826,
+                "tr": 114,
+                "mae": 0.0010962957832554444,
+                "sqn": 0.6125001639592169,
+                "filter": "revert"
+            },
+            "side": "revert"
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "KAMA",
+                "ma_candle": 91,
+                "ma_lookback": 73,
+                "name": "KEF",
+                "candle": 47,
+                "window": 18,
+                "follow_tend": 0.17026672762231598
+            },
+            "kpis": {
+                "score": 2186.540223830853,
+                "hr": 0.8571428571428571,
+                "rr": 82.17948717941981,
+                "pr": 493.07692307651894,
+                "tr": 7,
+                "mae": 0.00963617808070541,
+                "sqn": 3.656750215514711,
+                "filter": "revert"
+            },
+            "side": "revert"
+        }
+    },
+    "2024-11-25": {
+        "longs": {
+            "parametros": {
+                "ma_method": "TEMA",
+                "ma_candle": 40,
+                "ma_lookback": 94,
+                "name": "KEF",
+                "candle": 97,
+                "window": 40,
+                "follow_tend": 0.4894078745691297
+            },
+            "kpis": {
+                "score": 4.298286641256007,
+                "hr": 0.9523809523809523,
+                "rr": 0.14369374196314366,
+                "pr": 2.8738748392628732,
+                "tr": 21,
+                "mae": 0.010219044071888254,
+                "sqn": 1.42546477921032,
+                "filter": "revert"
+            },
+            "side": "revert"
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "MIDPOINT",
+                "ma_candle": 70,
+                "ma_lookback": 24,
+                "name": "ATR_EXPANSION",
+                "candle": 80,
+                "window": 92,
+                "lookback_ma": 52,
+                "follow_tend": 1.0223330515307119
+            },
+            "kpis": {
+                "score": 615.6544072199506,
+                "hr": 0.8461538461538461,
+                "rr": 12.99728629581085,
+                "pr": 71.48507462695967,
+                "tr": 13,
+                "mae": 0.016179306090259218,
+                "sqn": 4.695800160278819,
+                "filter": "revert"
+            },
+            "side": "revert"
+        }
+    },
+    "2024-12-02": {
+        "longs": {
+            "parametros": {
+                "ma_method": "TEMA",
+                "ma_candle": 81,
+                "ma_lookback": 56,
+                "name": "ADX",
+                "candle": 7,
+                "window": 26,
+                "follow_tend": 25.835319966445972
+            },
+            "kpis": {
+                "score": 620.3095267767679,
+                "hr": 0.8,
+                "rr": 67.29166666724394,
+                "pr": 269.1666666689758,
+                "tr": 5,
+                "mae": 0.04510031163321775,
+                "sqn": 2.5364571520584804,
+                "filter": "revert"
+            },
+            "side": "revert"
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "TEMA",
+                "ma_candle": 101,
+                "ma_lookback": 44,
+                "name": "ATR_EXPANSION",
+                "candle": 92,
+                "window": 84,
+                "lookback_ma": 38,
+                "follow_tend": 2.5935286885244744
+            },
+            "kpis": {
+                "score": 79.98680669810362,
+                "hr": 0.6923076923076923,
+                "rr": 6.369348659005589,
+                "pr": 14.331034482762577,
+                "tr": 13,
+                "mae": 0.01776351157063844,
+                "sqn": 2.841947103734732,
+                "filter": "revert"
+            },
+            "side": "revert"
+        }
+    },
+    "2024-12-09": {
+        "longs": {
+            "parametros": {
+                "ma_method": "T3",
+                "ma_candle": 66,
+                "ma_lookback": 34,
+                "name": "ADX",
+                "candle": 77,
+                "window": 56,
+                "follow_tend": 13.044981817378625
+            },
+            "kpis": {
+                "score": 1141.8906105697838,
+                "hr": 0.875,
+                "rr": 33.80827067676407,
+                "pr": 236.6578947373485,
+                "tr": 8,
+                "mae": 0.013502993447221862,
+                "sqn": 4.344134376207736,
+                "filter": "revert"
+            },
+            "side": "revert"
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "SMA",
+                "ma_candle": 35,
+                "ma_lookback": 104,
+                "name": "HURST",
+                "candle": 41,
+                "window": 13,
+                "follow_tend": 0.5694701444786552
+            },
+            "kpis": {
+                "score": 11.809078801059153,
+                "hr": 0.7647058823529411,
+                "rr": 1.2476358128302256,
+                "pr": 4.054816391698234,
+                "tr": 17,
+                "mae": 0.011098892372486466,
+                "sqn": 2.319638210246863,
+                "filter": "revert"
+            },
+            "side": "revert"
+        }
+    },
+    "2024-12-16": {
+        "longs": {
+            "parametros": {
+                "ma_method": "DEMA",
+                "ma_candle": 76,
+                "ma_lookback": 69,
+                "name": "OU_REVERSION",
+                "candle": 80,
+                "window": 60,
+                "follow_tend": 0.01661342965623957
+            },
+            "kpis": {
+                "score": 1581.8492052636195,
+                "hr": 0.9333333333333333,
+                "rr": 12.99904761904803,
+                "pr": 181.98666666667245,
+                "tr": 15,
+                "mae": 0.010410820953952514,
+                "sqn": 4.401955031994225,
+                "filter": "revert"
+            },
+            "side": "revert"
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "SMA",
+                "ma_candle": 75,
+                "ma_lookback": 35,
+                "name": "HURST",
+                "candle": 34,
+                "window": 100,
+                "follow_tend": 0.8990500769035092
+            },
+            "kpis": {
+                "score": 9.507698521854865,
+                "hr": 0.8181818181818182,
+                "rr": 0.7562458908613242,
+                "pr": 3.403106508875959,
+                "tr": 22,
+                "mae": 0.008621584525157025,
+                "sqn": 2.0441991514180566,
+                "filter": "revert"
+            },
+            "side": "revert"
+        }
+    },
+    "2024-12-23": {
+        "longs": {
+            "parametros": {
+                "ma_method": "MIDPOINT",
+                "ma_candle": 32,
+                "ma_lookback": 55,
+                "name": "ATR_EXPANSION",
+                "candle": 39,
+                "window": 53,
+                "lookback_ma": 89,
+                "follow_tend": 1.0767981544844694
+            },
+            "kpis": {
+                "score": 192.7800815842623,
+                "hr": 0.9583333333333334,
+                "rr": 1.135440688452763,
+                "pr": 26.11513583441355,
+                "tr": 24,
+                "mae": 0.005820555264351652,
+                "sqn": 5.065876705726761,
+                "filter": "revert"
+            },
+            "side": "revert"
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "T3",
+                "ma_candle": 79,
+                "ma_lookback": 38,
+                "name": "KEF",
+                "candle": 100,
+                "window": 100,
+                "follow_tend": 0.8743460508046845
+            },
+            "kpis": {
+                "score": 1794.4112331221056,
+                "hr": 0.9230769230769231,
+                "rr": 18.640070922013095,
+                "pr": 223.68085106415714,
+                "tr": 13,
+                "mae": 0.013471725119679673,
+                "sqn": 4.462571552187069,
+                "filter": "revert"
+            },
+            "side": "revert"
+        }
+    },
+    "2024-12-30": {
+        "longs": {
+            "parametros": {
+                "ma_method": "EMA",
+                "ma_candle": 49,
+                "ma_lookback": 59,
+                "name": "ATR_EXPANSION",
+                "candle": 54,
+                "window": 29,
+                "lookback_ma": 93,
+                "follow_tend": 1.126359913432743
+            },
+            "kpis": {
+                "score": 3.6426399833627516,
+                "hr": 0.8333333333333334,
+                "rr": 0.6488297872340847,
+                "pr": 3.2441489361704234,
+                "tr": 12,
+                "mae": 0.0161992183479087,
+                "sqn": 1.403991139434208,
+                "filter": "revert"
+            },
+            "side": "revert"
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "TRIMA",
+                "ma_candle": 118,
+                "ma_lookback": 64,
+                "name": "KEF",
+                "candle": 58,
+                "window": 74,
+                "follow_tend": 0.2647272411549362
+            },
+            "kpis": {
+                "score": 1404.6210389288462,
+                "hr": 0.875,
+                "rr": 40.83673469383592,
+                "pr": 285.85714285685145,
+                "tr": 8,
+                "mae": 0.03674572710311783,
+                "sqn": 4.112539794382253,
+                "filter": "revert"
+            },
+            "side": "revert"
+        }
+    },
+    "2025-12-29": {
+        "longs": {
+            "parametros": {
+                "ma_method": "EMA",
+                "ma_candle": 69,
+                "ma_lookback": 8,
+                "name": "ADX",
+                "candle": 33,
+                "window": 35,
+                "follow_tend": 12.077508703354114
+            },
+            "kpis": {
+                "score": 5752.083575614644,
+                "hr": 0.9166666666666666,
+                "rr": 65.87351778668767,
+                "pr": 724.6086956535645,
+                "tr": 12,
+                "mae": 0.009900492718793659,
+                "sqn": 2.8414653059741,
+                "filter": "revert"
+            },
+            "side": "revert"
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "WMA",
+                "ma_candle": 29,
+                "ma_lookback": 96,
+                "name": "ADX",
+                "candle": 38,
+                "window": 76,
+                "follow_tend": 15.829515745248274
+            },
+            "kpis": {
+                "score": 6197.248379350047,
+                "hr": 0.9375,
+                "rr": 37.29629629623727,
+                "pr": 559.4444444435591,
+                "tr": 16,
+                "mae": 0.01625193874809553,
+                "sqn": 4.285241955518709,
+                "filter": "revert"
+            },
+            "side": "revert"
+        }
+    },
+    "2026-01-05": {
+        "longs": {
+            "parametros": {
+                "ma_method": "SMA",
+                "ma_candle": 90,
+                "ma_lookback": 27,
+                "name": "ATR_EXPANSION",
+                "candle": 82,
+                "window": 81,
+                "lookback_ma": 21,
+                "follow_tend": 2.007708190714858
+            },
+            "kpis": {
+                "score": 17.09760075349587,
+                "hr": 0.9166666666666666,
+                "rr": 0.7148505843656142,
+                "pr": 7.863356428021755,
+                "tr": 12,
+                "mae": 0.02402512177721852,
+                "sqn": 2.8460938515632765,
+                "filter": "revert"
+            },
+            "side": "revert"
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "EMA",
+                "ma_candle": 86,
+                "ma_lookback": 60,
+                "name": "HURST",
+                "candle": 69,
+                "window": 43,
+                "follow_tend": 0.671069277919099
+            },
+            "kpis": {
+                "score": 91.42412793630147,
+                "hr": 0.9411764705882353,
+                "rr": 1.1936259305211268,
+                "pr": 19.098014888338028,
+                "tr": 17,
+                "mae": 0.0078890865659474,
+                "sqn": 3.4008525450315177,
+                "filter": "revert"
+            },
+            "side": "revert"
+        }
+    },
+    "2026-01-12": {
+        "longs": {
+            "parametros": {
+                "ma_method": "MIDPOINT",
+                "ma_candle": 117,
+                "ma_lookback": 21,
+                "name": "KEF",
+                "candle": 2,
+                "window": 40,
+                "follow_tend": 0.5629434510576186
+            },
+            "kpis": {
+                "score": 189.7151801743966,
+                "hr": 0.7692307692307693,
+                "rr": 8.247993311038867,
+                "pr": 27.49331103679622,
+                "tr": 13,
+                "mae": 0.017347922642968878,
+                "sqn": 3.3463872712298555,
+                "filter": "revert"
+            },
+            "side": "revert"
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "EMA",
+                "ma_candle": 73,
+                "ma_lookback": 56,
+                "name": "HURST",
+                "candle": 33,
+                "window": 13,
+                "follow_tend": 0.8954052750318796
+            },
+            "kpis": {
+                "score": 5.526456253752888,
+                "hr": 0.8260869565217391,
+                "rr": 0.5759824843773742,
+                "pr": 2.7359168007925274,
+                "tr": 23,
+                "mae": 0.008158513230004655,
+                "sqn": 1.5708596374797885,
+                "filter": "revert"
+            },
+            "side": "revert"
+        }
+    },
+    "2026-01-19": {
+        "longs": {
+            "parametros": {
+                "ma_method": "T3",
+                "ma_candle": 34,
+                "ma_lookback": 83,
+                "name": "KEF",
+                "candle": 8,
+                "window": 31,
+                "follow_tend": 0.4769833443528797
+            },
+            "kpis": {
+                "score": 4772.0978830106005,
+                "hr": 0.9166666666666666,
+                "rr": 52.510101010018076,
+                "pr": 577.6111111101989,
+                "tr": 12,
+                "mae": 0.017233495441841443,
+                "sqn": 3.648992797154287,
+                "filter": "revert"
+            },
+            "side": "revert"
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "EMA",
+                "ma_candle": 70,
+                "ma_lookback": 66,
+                "name": "ATR_EXPANSION",
+                "candle": 83,
+                "window": 7,
+                "lookback_ma": 32,
+                "follow_tend": 2.062553858226101
+            },
+            "kpis": {
+                "score": 3.273321434911571,
+                "hr": 0.782608695652174,
+                "rr": 0.6157148920887286,
+                "pr": 2.2165736115194226,
+                "tr": 23,
+                "mae": 0.008986755359088109,
+                "sqn": 1.3524985665149816,
+                "filter": "revert"
+            },
+            "side": "revert"
+        }
+    },
+    "2026-01-26": {
+        "longs": {
+            "parametros": {
+                "ma_method": "SMA",
+                "ma_candle": 37,
+                "ma_lookback": 105,
+                "name": "ADX",
+                "candle": 83,
+                "window": 37,
+                "follow_tend": 23.161363091552513
+            },
+            "kpis": {
+                "score": 7000.28110650379,
+                "hr": 0.9333333333333333,
+                "rr": 45.69747899182394,
+                "pr": 639.7647058855352,
+                "tr": 15,
+                "mae": 0.012245488411902294,
+                "sqn": 4.5572157088829774,
+                "filter": "revert"
+            },
+            "side": "revert"
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "EMA",
+                "ma_candle": 56,
+                "ma_lookback": 83,
+                "name": "ATR_EXPANSION",
+                "candle": 78,
+                "window": 89,
+                "lookback_ma": 52,
+                "follow_tend": 1.1854475045341981
+            },
+            "kpis": {
+                "score": 3.789877474476219,
+                "hr": 0.7894736842105263,
+                "rr": 0.6752113929684515,
+                "pr": 2.532042723631693,
+                "tr": 19,
+                "mae": 0.009297881327854978,
+                "sqn": 1.2291130052182146,
+                "filter": "revert"
+            },
+            "side": "revert"
+        }
+    },
+    "2026-02-02": {
+        "longs": {
+            "parametros": {
+                "ma_method": "TRIMA",
+                "ma_candle": 112,
+                "ma_lookback": 48,
+                "name": "KEF",
+                "candle": 10,
+                "window": 93,
+                "follow_tend": 0.40257360383657614
+            },
+            "kpis": {
+                "score": 1927.3308054858696,
+                "hr": 0.9090909090909091,
+                "rr": 28.24186046515744,
+                "pr": 282.4186046515744,
+                "tr": 11,
+                "mae": 0.016561264468247596,
+                "sqn": 3.8487953811444,
+                "filter": "revert"
+            },
+            "side": "revert"
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "TRIMA",
+                "ma_candle": 107,
+                "ma_lookback": 101,
+                "name": "KEF",
+                "candle": 28,
+                "window": 28,
+                "follow_tend": 0.7918027294367203
+            },
+            "kpis": {
+                "score": 1133.5767736045846,
+                "hr": 0.8888888888888888,
+                "rr": 26.532327586211135,
+                "pr": 212.25862068968908,
+                "tr": 9,
+                "mae": 0.028813900651791916,
+                "sqn": 4.153822270528287,
+                "filter": "revert"
+            },
+            "side": "revert"
+        }
+    },
+    "2026-02-09": {
+        "longs": {
+            "parametros": {
+                "ma_method": "TRIMA",
+                "ma_candle": 112,
+                "ma_lookback": 32,
+                "name": "HURST",
+                "candle": 99,
+                "window": 42,
+                "follow_tend": 0.5677201098063895
+            },
+            "kpis": {
+                "score": 217.79462251038808,
+                "hr": 0.7692307692307693,
+                "rr": 9.518354430381706,
+                "pr": 31.72784810127235,
+                "tr": 13,
+                "mae": 0.017782091838797833,
+                "sqn": 2.808951626131111,
+                "filter": "revert"
+            },
+            "side": "revert"
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "TRIMA",
+                "ma_candle": 103,
+                "ma_lookback": 103,
+                "name": "ATR_EXPANSION",
+                "candle": 67,
+                "window": 67,
+                "lookback_ma": 49,
+                "follow_tend": 2.485019371504656
+            },
+            "kpis": {
+                "score": 13145.112188944791,
+                "hr": 0.9,
+                "rr": 169.79012345651978,
+                "pr": 1528.111111108678,
+                "tr": 10,
+                "mae": 0.025695955675100975,
+                "sqn": 4.840582244521799,
+                "filter": "revert"
+            },
+            "side": "revert"
+        }
+    },
+    "2026-02-16": {
+        "longs": {
+            "parametros": {
+                "ma_method": "SMA",
+                "ma_candle": 119,
+                "ma_lookback": 14,
+                "name": "ADX",
+                "candle": 88,
+                "window": 87,
+                "follow_tend": 10.310115884266153
+            },
+            "kpis": {
+                "score": 5.4406143173596,
+                "hr": 0.75,
+                "rr": 3.2428160919545186,
+                "pr": 9.728448275863556,
+                "tr": 4,
+                "mae": 0.1226869917508122,
+                "sqn": 1.7674412504593504,
+                "filter": "revert"
+            },
+            "side": "revert"
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "TEMA",
+                "ma_candle": 103,
+                "ma_lookback": 93,
+                "name": "ADX",
+                "candle": 20,
+                "window": 68,
+                "follow_tend": 13.5342264882627
+            },
+            "kpis": {
+                "score": 134.420625827583,
+                "hr": 0.6666666666666666,
+                "rr": 81.63636363661092,
+                "pr": 163.27272727322185,
+                "tr": 3,
+                "mae": 0.11653962126571334,
+                "sqn": 1.1380251657218896,
+                "filter": "revert"
+            },
+            "side": "revert"
+        }
+    },
+    "2026-02-23": {
+        "longs": {
+            "parametros": {
+                "ma_method": "EMA",
+                "ma_candle": 112,
+                "ma_lookback": 98,
+                "name": "HURST",
+                "candle": 93,
+                "window": 92,
+                "follow_tend": 0.5446181908636536
+            },
+            "kpis": {
+                "score": 159.89260503784564,
+                "hr": 0.8888888888888888,
+                "rr": 5.2577014218010625,
+                "pr": 42.0616113744085,
+                "tr": 9,
+                "mae": 0.06898860155581515,
+                "sqn": 4.7767913280486,
+                "filter": "revert"
+            },
+            "side": "revert"
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "T3",
+                "ma_candle": 11,
+                "ma_lookback": 62,
+                "name": "ADX",
+                "candle": 76,
+                "window": 70,
+                "follow_tend": 20.188732510878964
+            },
+            "kpis": {
+                "score": 57.60615843834954,
+                "hr": 0.8545454545454545,
+                "rr": 1.0326924337304544,
+                "pr": 6.06706804816642,
+                "tr": 55,
+                "mae": 0.002551495263148098,
+                "sqn": 4.520042354517865,
+                "filter": "revert"
+            },
+            "side": "revert"
+        }
+    },
+    "2026-03-02": {
+        "longs": {
+            "parametros": {
+                "ma_method": "KAMA",
+                "ma_candle": 119,
+                "ma_lookback": 62,
+                "name": "HURST",
+                "candle": 13,
+                "window": 29,
+                "follow_tend": 0.7925761600957048
+            },
+            "kpis": {
+                "score": 10.593212953482713,
+                "hr": 0.8333333333333334,
+                "rr": 1.040968342644345,
+                "pr": 5.204841713221724,
+                "tr": 12,
+                "mae": 0.03560035384498041,
+                "sqn": 2.2711045036887394,
+                "filter": "revert"
+            },
+            "side": "revert"
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "TRIMA",
+                "ma_candle": 57,
+                "ma_lookback": 71,
+                "name": "ATR_EXPANSION",
+                "candle": 36,
+                "window": 74,
+                "lookback_ma": 86,
+                "follow_tend": 1.2301275209453204
+            },
+            "kpis": {
+                "score": 35.169977250300114,
+                "hr": 0.8125,
+                "rr": 1.8456321372675832,
+                "pr": 7.99773926149286,
+                "tr": 16,
+                "mae": 0.018042571388157094,
+                "sqn": 2.530548213859136,
+                "filter": "revert"
+            },
+            "side": "revert"
+        }
+    },
+    "2026-03-09": {
+        "longs": {
+            "parametros": {
+                "ma_method": "TEMA",
+                "ma_candle": 97,
+                "ma_lookback": 34,
+                "name": "OU_REVERSION",
+                "candle": 56,
+                "window": 15,
+                "follow_tend": 0.5676165155122831
+            },
+            "kpis": {
+                "score": 16.713905170176844,
+                "hr": 0.8888888888888888,
+                "rr": 1.1944558944766193,
+                "pr": 9.555647155812954,
+                "tr": 9,
+                "mae": 0.04239711171088066,
+                "sqn": 2.5500031145123994,
+                "filter": "revert"
+            },
+            "side": "revert"
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "KAMA",
+                "ma_candle": 113,
+                "ma_lookback": 62,
+                "name": "ATR_EXPANSION",
+                "candle": 72,
+                "window": 90,
+                "lookback_ma": 84,
+                "follow_tend": 2.1912599743709276
+            },
+            "kpis": {
+                "score": 421.14876261417146,
+                "hr": 0.9375,
+                "rr": 3.9370499419282092,
+                "pr": 59.05574912892314,
+                "tr": 16,
+                "mae": 0.016994666503539424,
+                "sqn": 4.498359364035086,
+                "filter": "revert"
+            },
+            "side": "revert"
+        }
+    },
+    "2026-03-16": {
+        "longs": {
+            "parametros": {
+                "ma_method": "TEMA",
+                "ma_candle": 28,
+                "ma_lookback": 102,
+                "name": "HURST",
+                "candle": 66,
+                "window": 72,
+                "follow_tend": 0.504172914854591
+            },
+            "kpis": {
+                "score": 4.247446438583049,
+                "hr": 0.8,
+                "rr": 0.6436146869514525,
+                "pr": 2.57445874780581,
+                "tr": 20,
+                "mae": 0.012920684581207579,
+                "sqn": 1.466987672665149,
+                "filter": "revert"
+            },
+            "side": "revert"
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "SMA",
+                "ma_candle": 110,
+                "ma_lookback": 55,
+                "name": "ATR_EXPANSION",
+                "candle": 9,
+                "window": 53,
+                "lookback_ma": 20,
+                "follow_tend": 1.368757096640486
+            },
+            "kpis": {
+                "score": 4051.8624796279087,
+                "hr": 0.9333333333333333,
+                "rr": 26.486943164380527,
+                "pr": 370.81720430132737,
+                "tr": 15,
+                "mae": 0.02275765288144617,
+                "sqn": 6.526183390216912,
+                "filter": "revert"
+            },
+            "side": "revert"
+        }
+    },
+    "2026-03-23": {
+        "longs": {
+            "parametros": {
+                "ma_method": "T3",
+                "ma_candle": 21,
+                "ma_lookback": 10,
+                "name": "ADX",
+                "candle": 17,
+                "window": 94,
+                "follow_tend": 10.252753407856444
+            },
+            "kpis": {
+                "score": 1.1222869340316937,
+                "hr": 0.7333333333333333,
+                "rr": 0.5329246942847726,
+                "pr": 1.465542909283125,
+                "tr": 45,
+                "mae": 0.0054042531442119665,
+                "sqn": 0.7958014554306374,
+                "filter": "revert"
+            },
+            "side": "revert"
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "SMA",
+                "ma_candle": 60,
+                "ma_lookback": 99,
+                "name": "ATR_EXPANSION",
+                "candle": 27,
+                "window": 89,
+                "lookback_ma": 79,
+                "follow_tend": 1.281026385053045
+            },
+            "kpis": {
+                "score": 442.63892167718615,
+                "hr": 0.9473684210526315,
+                "rr": 2.883238095238145,
+                "pr": 51.898285714286615,
+                "tr": 19,
+                "mae": 0.015931873788582563,
+                "sqn": 6.541830951594405,
+                "filter": "revert"
+            },
+            "side": "revert"
+        }
+    },
+    "2026-03-30": {
+        "longs": {
+            "parametros": {
+                "ma_method": "TRIMA",
+                "ma_candle": 17,
+                "ma_lookback": 60,
+                "name": "OU_REVERSION",
+                "candle": 8,
+                "window": 21,
+                "follow_tend": 0.3265677688034183
+            },
+            "kpis": {
+                "score": 20.462255264347686,
+                "hr": 0.7857142857142857,
+                "rr": 1.7243146162380825,
+                "pr": 6.322486926206302,
+                "tr": 14,
+                "mae": 0.019275121286258072,
+                "sqn": 2.297290711280956,
+                "filter": "revert"
+            },
+            "side": "revert"
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "EMA",
+                "ma_candle": 54,
+                "ma_lookback": 73,
+                "name": "HURST",
+                "candle": 32,
+                "window": 87,
+                "follow_tend": 0.7512831728326185
+            },
+            "kpis": {
+                "score": 273897.82619933237,
+                "hr": 0.9565217391304348,
+                "rr": 538.2878787924625,
+                "pr": 11842.333333434177,
+                "tr": 23,
+                "mae": 0.012592383536239178,
+                "sqn": 6.777353037683467,
+                "filter": "revert"
+            },
+            "side": "revert"
+        }
+    },
+    "2026-04-06": {
+        "longs": {
+            "parametros": {
+                "ma_method": "SMA",
+                "ma_candle": 8,
+                "ma_lookback": 14,
+                "name": "OU_REVERSION",
+                "candle": 6,
+                "window": 70,
+                "follow_tend": 0.35027774870017003
+            },
+            "kpis": {
+                "score": 8.886324158654395,
+                "hr": 0.75,
+                "rr": 2.0852895148671737,
+                "pr": 6.255868544601521,
+                "tr": 8,
+                "mae": 0.009452113498030617,
+                "sqn": 1.9455541056221006,
+                "filter": "revert"
+            },
+            "side": "revert"
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "EMA",
+                "ma_candle": 87,
+                "ma_lookback": 77,
+                "name": "ADX",
+                "candle": 48,
+                "window": 58,
+                "follow_tend": 39.76546957671191
+            },
+            "kpis": {
+                "score": 685.0602148147251,
+                "hr": 0.9333333333333333,
+                "rr": 6.653583617748941,
+                "pr": 93.15017064848517,
+                "tr": 15,
+                "mae": 0.03284494684528022,
+                "sqn": 4.060290035556232,
+                "filter": "revert"
+            },
+            "side": "revert"
+        }
+    },
+    "2026-04-13": {
+        "longs": {
+            "parametros": {
+                "ma_method": "EMA",
+                "ma_candle": 34,
+                "ma_lookback": 75,
+                "name": "ADX",
+                "candle": 30,
+                "window": 54,
+                "follow_tend": 12.56758845834493
+            },
+            "kpis": {
+                "score": 136.21162198219488,
+                "hr": 0.9090909090909091,
+                "rr": 3.4824175824182353,
+                "pr": 34.824175824182355,
+                "tr": 11,
+                "mae": 0.023930871754823533,
+                "sqn": 3.0811615009827746,
+                "filter": "revert"
+            },
+            "side": "revert"
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "KAMA",
+                "ma_candle": 84,
+                "ma_lookback": 97,
+                "name": "ATR_EXPANSION",
+                "candle": 11,
+                "window": 93,
+                "lookback_ma": 91,
+                "follow_tend": 2.40060138078432
+            },
+            "kpis": {
+                "score": 261.4592150056096,
+                "hr": 0.9166666666666666,
+                "rr": 4.860177865613594,
+                "pr": 53.46195652174954,
+                "tr": 12,
+                "mae": 0.037161731509755165,
+                "sqn": 3.220415553716756,
+                "filter": "revert"
+            },
+            "side": "revert"
+        }
+    },
+    "2026-04-20": {
+        "longs": {
+            "parametros": {
+                "ma_method": "MIDPOINT",
+                "ma_candle": 43,
+                "ma_lookback": 35,
+                "name": "OU_REVERSION",
+                "candle": 10,
+                "window": 10,
+                "follow_tend": 0.5743551921783845
+            },
+            "kpis": {
+                "score": 32359.356239310797,
+                "hr": 0.8333333333333334,
+                "rr": 1412.7999999692227,
+                "pr": 7063.9999998461135,
+                "tr": 6,
+                "mae": 0.02541729345761096,
+                "sqn": 2.3487738148999155,
+                "filter": "revert"
+            },
+            "side": "revert"
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "DEMA",
+                "ma_candle": 19,
+                "ma_lookback": 60,
+                "name": "ADX",
+                "candle": 16,
+                "window": 36,
+                "follow_tend": 34.833070124387426
+            },
+            "kpis": {
+                "score": 0.06900889181206153,
+                "hr": 0.7638888888888888,
+                "rr": 0.2558210818811283,
+                "pr": 0.8276564413801208,
+                "tr": 72,
+                "mae": 0.004219675629161643,
+                "sqn": -0.39081448101703326,
+                "filter": "revert"
+            },
+            "side": "revert"
+        }
+    },
+    "2026-04-27": {
+        "longs": {
+            "parametros": {
+                "ma_method": "T3",
+                "ma_candle": 26,
+                "ma_lookback": 79,
+                "name": "OU_REVERSION",
+                "candle": 35,
+                "window": 25,
+                "follow_tend": 0.14188615392866058
+            },
+            "kpis": {
+                "score": 1584.4766854268191,
+                "hr": 0.9666666666666667,
+                "rr": 4.290455895649179,
+                "pr": 124.4232209738262,
+                "tr": 30,
+                "mae": 0.004370883594173579,
+                "sqn": 6.224225443425987,
+                "filter": "revert"
+            },
+            "side": "revert"
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "MIDPOINT",
+                "ma_candle": 34,
+                "ma_lookback": 10,
+                "name": "ATR_EXPANSION",
+                "candle": 24,
+                "window": 76,
+                "lookback_ma": 90,
+                "follow_tend": 1.105158030211404
+            },
+            "kpis": {
+                "score": 0.3950599872006576,
+                "hr": 0.6911764705882353,
+                "rr": 0.5261509281076941,
+                "pr": 1.1775758867172204,
+                "tr": 68,
+                "mae": 0.004438097814264928,
+                "sqn": 0.40374811767029634,
+                "filter": "revert"
+            },
+            "side": "revert"
+        }
+    },
+    "2026-05-04": {
+        "longs": {
+            "parametros": {
+                "ma_method": "MIDPOINT",
+                "ma_candle": 63,
+                "ma_lookback": 41,
+                "name": "HURST",
+                "candle": 59,
+                "window": 2,
+                "follow_tend": 0.7365319877905145
+            },
+            "kpis": {
+                "score": 27004.120339946105,
+                "hr": 0.9473684210526315,
+                "rr": 102.94444444442857,
+                "pr": 1852.9999999997142,
+                "tr": 19,
+                "mae": 0.014019715534734417,
+                "sqn": 3.9830071197781054,
+                "filter": "revert"
+            },
+            "side": "revert"
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "KAMA",
+                "ma_candle": 52,
+                "ma_lookback": 90,
+                "name": "ADX",
+                "candle": 81,
+                "window": 66,
+                "follow_tend": 14.511407322905796
+            },
+            "kpis": {
+                "score": 0.21472278320038107,
+                "hr": 0.8333333333333334,
+                "rr": 0.3534084611121514,
+                "pr": 1.7670423055607571,
+                "tr": 6,
+                "mae": 0.07011116782561595,
+                "sqn": 0.5312083797751171,
+                "filter": "revert"
+            },
+            "side": "revert"
+        }
+    },
+    "2026-05-11": {
+        "longs": {
+            "parametros": {
+                "ma_method": "KAMA",
+                "ma_candle": 44,
+                "ma_lookback": 62,
+                "name": "HURST",
+                "candle": 46,
+                "window": 35,
+                "follow_tend": 0.5867693847148696
+            },
+            "kpis": {
+                "score": 9694.278810923795,
+                "hr": 0.92,
+                "rr": 42.76521739138923,
+                "pr": 491.80000000097607,
+                "tr": 25,
+                "mae": 0.008024243367245195,
+                "sqn": 4.402980178240185,
+                "filter": "revert"
+            },
+            "side": "revert"
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "T3",
+                "ma_candle": 12,
+                "ma_lookback": 11,
+                "name": "ADX",
+                "candle": 35,
+                "window": 66,
+                "follow_tend": 11.761512137249682
+            },
+            "kpis": {
+                "score": 30.346675923226176,
+                "hr": 0.8235294117647058,
+                "rr": 1.4692284822361048,
+                "pr": 6.856399583768488,
+                "tr": 17,
+                "mae": 0.0036269634683899865,
+                "sqn": 3.0748191729244123,
+                "filter": "revert"
+            },
+            "side": "revert"
+        }
+    },
+    "2026-05-18": {
+        "longs": {
+            "parametros": {
+                "ma_method": "KAMA",
+                "ma_candle": 26,
+                "ma_lookback": 74,
+                "name": "KEF",
+                "candle": 53,
+                "window": 53,
+                "follow_tend": 0.10803231952818146
+            },
+            "kpis": {
+                "score": 14873.574705228386,
+                "hr": 0.9523809523809523,
+                "rr": 50.95555555573279,
+                "pr": 1019.1111111146558,
+                "tr": 21,
+                "mae": 0.007983028221975915,
+                "sqn": 4.335633165102127,
+                "filter": "revert"
+            },
+            "side": "revert"
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "KAMA",
+                "ma_candle": 97,
+                "ma_lookback": 63,
+                "name": "KEF",
+                "candle": 15,
+                "window": 83,
+                "follow_tend": 0.4127856025913419
+            },
+            "kpis": {
+                "score": 1.4728878945469577,
+                "hr": 0.8333333333333334,
+                "rr": 0.38287358017408335,
+                "pr": 1.9143679008704166,
+                "tr": 18,
+                "mae": 0.02002847419648534,
+                "sqn": 0.9904502706591735,
+                "filter": "revert"
+            },
+            "side": "revert"
+        }
+    },
+    "2026-05-25": {
+        "longs": {
+            "parametros": {
+                "ma_method": "MIDPOINT",
+                "ma_candle": 76,
+                "ma_lookback": 40,
+                "name": "HURST",
+                "candle": 84,
+                "window": 50,
+                "follow_tend": 0.5861470567846209
+            },
+            "kpis": {
+                "score": 442.3681168725145,
+                "hr": 0.8666666666666667,
+                "rr": 7.4595891438010185,
+                "pr": 48.487329434706616,
+                "tr": 15,
+                "mae": 0.017272871035389024,
+                "sqn": 5.238854779876775,
+                "filter": "revert"
+            },
+            "side": "revert"
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "MIDPOINT",
+                "ma_candle": 119,
+                "ma_lookback": 101,
+                "name": "HURST",
+                "candle": 18,
+                "window": 68,
+                "follow_tend": 0.7943406104197235
+            },
+            "kpis": {
+                "score": 1.4596147349088335,
+                "hr": 0.6666666666666666,
+                "rr": 2.986345903771159,
+                "pr": 5.972691807542318,
+                "tr": 3,
+                "mae": 0.0923380743458685,
+                "sqn": 1.211695533111385,
+                "filter": "revert"
+            },
+            "side": "revert"
+        }
+    },
+    "2026-06-01": {
+        "longs": {
+            "parametros": {
+                "ma_method": "KAMA",
+                "ma_candle": 79,
+                "ma_lookback": 75,
+                "name": "OU_REVERSION",
+                "candle": 43,
+                "window": 41,
+                "follow_tend": 0.03941400514394082
+            },
+            "kpis": {
+                "score": 468.3852748168071,
+                "hr": 0.9166666666666666,
+                "rr": 7.072138387927319,
+                "pr": 77.79352226720052,
+                "tr": 12,
+                "mae": 0.015117557043644645,
+                "sqn": 4.686751525808304,
+                "filter": "revert"
+            },
+            "side": "revert"
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "MIDPOINT",
+                "ma_candle": 82,
+                "ma_lookback": 106,
+                "name": "KEF",
+                "candle": 18,
+                "window": 80,
+                "follow_tend": 0.45252223909638245
+            },
+            "kpis": {
+                "score": 18.589487419295914,
+                "hr": 0.8,
+                "rr": 4.281392694063885,
+                "pr": 17.12557077625554,
+                "tr": 5,
+                "mae": 0.04618821452282781,
+                "sqn": 2.3736324102678545,
+                "filter": "revert"
+            },
+            "side": "revert"
+        }
+    },
+    "2026-06-08": {
+        "longs": {
+            "parametros": {
+                "ma_method": "T3",
+                "ma_candle": 33,
+                "ma_lookback": 21,
+                "name": "OU_REVERSION",
+                "candle": 65,
+                "window": 19,
+                "follow_tend": 0.4902789913785614
+            },
+            "kpis": {
+                "score": 644.8177781194363,
+                "hr": 0.8666666666666667,
+                "rr": 9.996040723987933,
+                "pr": 64.97426470592157,
+                "tr": 15,
+                "mae": 0.009593248552693803,
+                "sqn": 5.363226797325357,
+                "filter": "revert"
+            },
+            "side": "revert"
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "MIDPOINT",
+                "ma_candle": 110,
+                "ma_lookback": 103,
+                "name": "KEF",
+                "candle": 40,
+                "window": 43,
+                "follow_tend": 0.31977822914564896
+            },
+            "kpis": {
+                "score": 21.31016289731935,
+                "hr": 0.8571428571428571,
+                "rr": 2.152124517155226,
+                "pr": 12.912747102931355,
+                "tr": 7,
+                "mae": 0.02991961894582688,
+                "sqn": 3.377635375404239,
+                "filter": "revert"
+            },
+            "side": "revert"
+        }
+    },
+    "2026-06-15": {
+        "longs": {
+            "parametros": {
+                "ma_method": "TRIMA",
+                "ma_candle": 109,
+                "ma_lookback": 10,
+                "name": "ADX",
+                "candle": 62,
+                "window": 8,
+                "follow_tend": 28.737614914777247
+            },
+            "kpis": {
+                "score": 280.3645746410187,
+                "hr": 0.8,
+                "rr": 36.269230769202316,
+                "pr": 145.07692307680927,
+                "tr": 5,
+                "mae": 0.0959846318860671,
+                "sqn": 2.0686194737155157,
+                "filter": "revert"
+            },
+            "side": "revert"
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "TEMA",
+                "ma_candle": 46,
+                "ma_lookback": 58,
+                "name": "ATR_EXPANSION",
+                "candle": 51,
+                "window": 79,
+                "lookback_ma": 66,
+                "follow_tend": 2.067920354935161
+            },
+            "kpis": {
+                "score": 8.016510271271004,
+                "hr": 0.7818181818181819,
+                "rr": 0.6795374821359467,
+                "pr": 2.4350093109871422,
+                "tr": 55,
+                "mae": 0.004480901307332889,
+                "sqn": 2.494726744315903,
+                "filter": "revert"
+            },
+            "side": "revert"
+        }
+    },
+    "2026-06-22": {
+        "longs": {
+            "parametros": {
+                "ma_method": "DEMA",
+                "ma_candle": 80,
+                "ma_lookback": 25,
+                "name": "OU_REVERSION",
+                "candle": 100,
+                "window": 33,
+                "follow_tend": 0.44126851311089077
+            },
+            "kpis": {
+                "score": 43.085741115227535,
+                "hr": 0.75,
+                "rr": 14.810237203500513,
+                "pr": 44.43071161050154,
+                "tr": 4,
+                "mae": 0.0431438434944625,
+                "sqn": 1.389833094793334,
+                "filter": "revert"
+            },
+            "side": "revert"
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "DEMA",
+                "ma_candle": 59,
+                "ma_lookback": 45,
+                "name": "ATR_EXPANSION",
+                "candle": 10,
+                "window": 57,
+                "lookback_ma": 67,
+                "follow_tend": 1.048976110874752
+            },
+            "kpis": {
+                "score": 69.2585170708806,
+                "hr": 0.9285714285714286,
+                "rr": 1.2964074956000085,
+                "pr": 16.853297442800113,
+                "tr": 14,
+                "mae": 0.018946264209262313,
+                "sqn": 4.052972578240677,
+                "filter": "revert"
+            },
+            "side": "revert"
+        }
+    },
+    "2026-06-29": {
+        "longs": {
+            "parametros": {
+                "ma_method": "MIDPOINT",
+                "ma_candle": 48,
+                "ma_lookback": 29,
+                "name": "HURST",
+                "candle": 21,
+                "window": 73,
+                "follow_tend": 0.557208095802997
+            },
+            "kpis": {
+                "score": 9.537856956356684,
+                "hr": 0.8076923076923077,
+                "rr": 0.7428956969834073,
+                "pr": 3.1201619273303107,
+                "tr": 26,
+                "mae": 0.013821280884087562,
+                "sqn": 2.2628736213498013,
+                "filter": "revert"
+            },
+            "side": "revert"
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "KAMA",
+                "ma_candle": 28,
+                "ma_lookback": 54,
+                "name": "ADX",
+                "candle": 98,
+                "window": 82,
+                "follow_tend": 19.41502697783948
+            },
+            "kpis": {
+                "score": 19051.029332714992,
+                "hr": 0.9310344827586207,
+                "rr": 59.4204793029679,
+                "pr": 802.1764705900665,
+                "tr": 29,
+                "mae": 0.00518931264032374,
+                "sqn": 5.455115977197837,
+                "filter": "revert"
+            },
+            "side": "revert"
+        }
+    },
+    "2026-07-06": {
+        "longs": {
+            "parametros": {
+                "ma_method": "SMA",
+                "ma_candle": 2,
+                "ma_lookback": 76,
+                "name": "OU_REVERSION",
+                "candle": 42,
+                "window": 37,
+                "follow_tend": 0.7648304920312504
+            },
+            "kpis": {
+                "score": 1276.4086301908749,
+                "hr": 0.9411764705882353,
+                "rr": 10.210227272730702,
+                "pr": 163.36363636369123,
+                "tr": 17,
+                "mae": 0.003102040142230897,
+                "sqn": 2.380548910064599,
+                "filter": "revert"
+            },
+            "side": "revert"
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "TEMA",
+                "ma_candle": 57,
+                "ma_lookback": 79,
+                "name": "HURST",
+                "candle": 81,
+                "window": 43,
+                "follow_tend": 0.6618803395037778
+            },
+            "kpis": {
+                "score": 79507.36693745205,
+                "hr": 0.95,
+                "rr": 226.36842105358141,
+                "pr": 4301.000000018047,
+                "tr": 20,
+                "mae": 0.009101715636901033,
+                "sqn": 5.747085506639819,
+                "filter": "revert"
+            },
+            "side": "revert"
+        }
+    },
+    "2026-07-13": {
+        "longs": {
+            "parametros": {
+                "ma_method": "MIDPOINT",
+                "ma_candle": 30,
+                "ma_lookback": 30,
+                "name": "ADX",
+                "candle": 8,
+                "window": 30,
+                "follow_tend": 28.41764224795575
+            },
+            "kpis": {
+                "score": 59.50534504386034,
+                "hr": 0.8297872340425532,
+                "rr": 1.2752572909590598,
+                "pr": 6.216879293425417,
+                "tr": 47,
+                "mae": 0.005981342308755029,
+                "sqn": 4.038767273111666,
+                "filter": "revert"
+            },
+            "side": "revert"
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "TEMA",
+                "ma_candle": 51,
+                "ma_lookback": 82,
+                "name": "ADX",
+                "candle": 31,
+                "window": 73,
+                "follow_tend": 18.90764353430913
+            },
+            "kpis": {
+                "score": 55.635299998854535,
+                "hr": 0.8214285714285714,
+                "rr": 1.5326619778347332,
+                "pr": 7.050245098039774,
+                "tr": 28,
+                "mae": 0.007748864050015646,
+                "sqn": 3.7444250087980415,
+                "filter": "revert"
+            },
+            "side": "revert"
+        }
+    },
+    "2026-07-20": {
+        "longs": {
+            "parametros": {
+                "ma_method": "KAMA",
+                "ma_candle": 51,
+                "ma_lookback": 30,
+                "name": "ATR_EXPANSION",
+                "candle": 20,
+                "window": 16,
+                "lookback_ma": 57,
+                "follow_tend": 1.0587706251065083
+            },
+            "kpis": {
+                "score": 573.1445946039782,
+                "hr": 0.9285714285714286,
+                "rr": 6.42493368700776,
+                "pr": 83.52413793110088,
+                "tr": 14,
+                "mae": 0.011416668251989259,
+                "sqn": 4.257212341768467,
+                "filter": "revert"
+            },
+            "side": "revert"
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "EMA",
+                "ma_candle": 42,
+                "ma_lookback": 66,
+                "name": "ATR_EXPANSION",
+                "candle": 32,
+                "window": 90,
+                "lookback_ma": 88,
+                "follow_tend": 1.0208420655210397
+            },
+            "kpis": {
+                "score": 1980.0921230252777,
+                "hr": 0.8333333333333334,
+                "rr": 40.5656250000958,
+                "pr": 202.82812500047902,
+                "tr": 12,
+                "mae": 0.019193642913473946,
+                "sqn": 4.330921348351201,
+                "filter": "revert"
+            },
+            "side": "revert"
+        }
+    },
+    "2026-07-27": {
+        "longs": {
+            "parametros": {
+                "ma_method": "EMA",
+                "ma_candle": 4,
+                "ma_lookback": 98,
+                "name": "OU_REVERSION",
+                "candle": 74,
+                "window": 3,
+                "follow_tend": 0.20479070432978935
+            },
+            "kpis": {
+                "score": 876.6416859632434,
+                "hr": 0.9215686274509803,
+                "rr": 4.165140200085968,
+                "pr": 48.940397351010134,
+                "tr": 51,
+                "mae": 0.0009378762004038371,
+                "sqn": 4.439533895023817,
+                "filter": "revert"
+            },
+            "side": "revert"
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "MIDPOINT",
+                "ma_candle": 48,
+                "ma_lookback": 36,
+                "name": "ATR_EXPANSION",
+                "candle": 34,
+                "window": 23,
+                "lookback_ma": 91,
+                "follow_tend": 1.1405576681326748
+            },
+            "kpis": {
+                "score": 392.34193245191864,
+                "hr": 0.9473684210526315,
+                "rr": 2.769607843137744,
+                "pr": 49.8529411764794,
+                "tr": 19,
+                "mae": 0.011787387222736603,
+                "sqn": 4.883567714106928,
+                "filter": "revert"
+            },
+            "side": "revert"
+        }
+    },
+    "2026-08-03": {
+        "longs": {
+            "parametros": {
+                "ma_method": "EMA",
+                "ma_candle": 75,
+                "ma_lookback": 12,
+                "name": "ATR_EXPANSION",
+                "candle": 65,
+                "window": 6,
+                "lookback_ma": 64,
+                "follow_tend": 1.0866742138054664
+            },
+            "kpis": {
+                "score": 1308.687655355771,
+                "hr": 0.9583333333333334,
+                "rr": 5.118326912493574,
+                "pr": 117.72151898735218,
+                "tr": 24,
+                "mae": 0.009150704023128137,
+                "sqn": 5.055865321294587,
+                "filter": "revert"
+            },
+            "side": "revert"
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "DEMA",
+                "ma_candle": 64,
+                "ma_lookback": 92,
+                "name": "ATR_EXPANSION",
+                "candle": 80,
+                "window": 28,
+                "lookback_ma": 92,
+                "follow_tend": 1.1914955286002056
+            },
+            "kpis": {
+                "score": 20794.564300817514,
+                "hr": 0.9166666666666666,
+                "rr": 168.28099173604252,
+                "pr": 1851.0909090964676,
+                "tr": 12,
+                "mae": 0.014714244429777217,
+                "sqn": 6.050725890828066,
+                "filter": "revert"
+            },
+            "side": "revert"
+        }
+    },
+    "2026-08-10": {
+        "longs": {
+            "parametros": {
+                "ma_method": "DEMA",
+                "ma_candle": 91,
+                "ma_lookback": 107,
+                "name": "HURST",
+                "candle": 35,
+                "window": 18,
+                "follow_tend": 0.8253563627347963
+            },
+            "kpis": {
+                "score": 9.351832166672287,
+                "hr": 0.8571428571428571,
+                "rr": 1.4070465686274778,
+                "pr": 8.442279411764867,
+                "tr": 7,
+                "mae": 0.04154855265211725,
+                "sqn": 1.8123047734739282,
+                "filter": "revert"
+            },
+            "side": "revert"
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "WMA",
+                "ma_candle": 86,
+                "ma_lookback": 87,
+                "name": "KEF",
+                "candle": 22,
+                "window": 86,
+                "follow_tend": 0.16272051153707795
+            },
+            "kpis": {
+                "score": 472.6200407529144,
+                "hr": 0.9230769230769231,
+                "rr": 6.003533568904938,
+                "pr": 72.04240282685926,
+                "tr": 13,
+                "mae": 0.022559844834881878,
+                "sqn": 5.234592660830138,
+                "filter": "revert"
+            },
+            "side": "revert"
+        }
+    },
+    "2026-08-17": {
+        "longs": {
+            "parametros": {
+                "ma_method": "TRIMA",
+                "ma_candle": 34,
+                "ma_lookback": 94,
+                "name": "ADX",
+                "candle": 62,
+                "window": 84,
+                "follow_tend": 12.152960527531912
+            },
+            "kpis": {
+                "score": 321.96684477976635,
+                "hr": 0.8333333333333334,
+                "rr": 23.083333333443925,
+                "pr": 115.41666666721963,
+                "tr": 6,
+                "mae": 0.015549212954973008,
+                "sqn": 3.730763386723692,
+                "filter": "revert"
+            },
+            "side": "revert"
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "KAMA",
+                "ma_candle": 47,
+                "ma_lookback": 78,
+                "name": "OU_REVERSION",
+                "candle": 90,
+                "window": 20,
+                "follow_tend": 0.7450150301824443
+            },
+            "kpis": {
+                "score": 189.86343080592815,
+                "hr": 0.8571428571428571,
+                "rr": 11.52279202280044,
+                "pr": 69.13675213680264,
+                "tr": 7,
+                "mae": 0.017711687640449215,
+                "sqn": 2.752343711433268,
+                "filter": "revert"
+            },
+            "side": "revert"
+        }
     }
 }

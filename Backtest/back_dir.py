@@ -28,13 +28,13 @@ from back_normal_reversion import (
 
 keys.calls = 100
 
-ASSET: str = "US500_SPOT"
+ASSET: str = "EURUSD_"
 CAPITAL_LONG: float = 10_000
 CAPITAL_SHORT: float = 10_000
 APALANCAMIENTO: int = 2
 # 2025-02-17
-START_DATE: datetime = datetime(2025, 1, 1, 0, 0)
-END_DATE: datetime = datetime(2025, 12, 31, 23, 59)
+START_DATE: datetime = datetime(2024, 1, 1, 0, 0)
+END_DATE: datetime = datetime(2024, 12, 31, 23, 59)
 
 train_weeks: int = 5
 test_time: int = 1
@@ -304,7 +304,6 @@ def start_back(usar_random: bool = False) -> Tuple[pd.DataFrame, pd.DataFrame, p
         cache_actualizada = False
         sub_data: pd.DataFrame = data.loc[train_start:viernes_end]
 
-        # ---------------- LADO LONG ----------------
         if side_key_l in params_cache[lunes_key]:
             print(f"[{ASSET}{cache_suffix}] Carga local ({side_key_l}) para la semana: {lunes_key}")
             parametros_l = params_cache[lunes_key][side_key_l]["parametros"]
@@ -346,7 +345,7 @@ def start_back(usar_random: bool = False) -> Tuple[pd.DataFrame, pd.DataFrame, p
         changue_rules_l: pd.Series = DIR_METHODS[parametros_l["name"]](signals_and_prices_l, parametros_l, data_real_calentada_l[2])
 
         long, short = _split_signals_and_change(signals_and_prices_l, changue_rules_l, False, 
-                                                sub_data, parametros_l["ma_candle"], data_real_calentada_l[1], data_real_calentada_l[0])
+                                                sub_data, parametros_l["ma_candle"], data_real_calentada_l[0], data_real_calentada_l[1])
 
         if side_l in ("both", "revert"):
             longs_sin_cambio.append(long.loc[lunes_test: viernes_end])
@@ -393,7 +392,7 @@ def start_back(usar_random: bool = False) -> Tuple[pd.DataFrame, pd.DataFrame, p
 
         changue_rules_s: pd.Series = DIR_METHODS[parametros_s["name"]](signals_and_prices_s, parametros_s, data_real_calentada_s[2])
         short, long = _split_signals_and_change(signals_and_prices_s, changue_rules_s, True, sub_data,
-                                                parametros_s["ma_candle"], data_real_calentada_s[1], data_real_calentada_s[0])
+                                                parametros_s["ma_candle"], data_real_calentada_s[0], data_real_calentada_s[1])
 
         if side_s in ("both", "revert"):
             shorts_sin_cambio.append(short.loc[lunes_test: viernes_end])
@@ -451,39 +450,101 @@ def get_trades_diff(p: pd.DataFrame, short: bool) -> pd.Series:
     return pt[p["Signals"] == -1]
 
 
-def equity(p: pd.DataFrame, short: bool) -> float:
-    capital_inicial = CAPITAL_SHORT if short else CAPITAL_LONG
-    mon = capital_inicial
-    open_sig = -1 if short else 1
-    cantidad = 0.0
-    precio_entrada = 0.0
-    equity_curve = []
-
-    multiplicador = 2.0 
-
+def equity(p: pd.DataFrame, shorts: bool) -> float:
     if p.empty:
-        return 0.0
+        return 0
 
-    for signal, precio in zip(p["Signals"], p["Prices"]):
-        if signal == open_sig:
+    adj_start = START_DATE
+    adj_end = END_DATE
 
-            capital_a_invertir = capital_inicial * APALANCAMIENTO * multiplicador
-            cantidad = capital_a_invertir / precio
-            precio_entrada = precio
+    dias_para_lunes: int = (0 - adj_start.weekday()) % 7
+    if dias_para_lunes != 0:
+        adj_start = (adj_start + timedelta(days=dias_para_lunes)).replace(
+            hour=0, minute=0, second=0, microsecond=0
+        )
+
+    dias_para_viernes: int = (adj_end.weekday() - 4) % 7
+    if dias_para_viernes != 0:
+        adj_end = (adj_end - timedelta(days=dias_para_viernes)).replace(
+            hour=23, minute=59, second=59, microsecond=0
+        )
+
+    if adj_start > adj_end:
+        raise ValueError("La fecha de inicio ajustada es posterior a la fecha de fin.")
+
+    data = pedir_data_mt5(ASSET, adj_start, adj_end)
+    params_cache = cargar_params_asset(ASSET)
+
+    lunes_test: datetime = adj_start
+
+    second_param = "shorts" if shorts else "longs"
+
+    capital_inicial = CAPITAL_SHORT if shorts else CAPITAL_LONG
+    mon = capital_inicial
+    open_sig = -1 if shorts else 1
+    cantidad = 0.0
+
+    multiplicador = 1.0
+    riesgo = .01
+
+    while lunes_test < adj_end:
+        lunes_key = lunes_test.strftime("%Y-%m-%d")
+        viernes_end: datetime = (lunes_test + timedelta(weeks=test_time-1, days=4)).replace(
+            hour=23, minute=59, second=59, microsecond=0
+        )
+
+        params = params_cache[lunes_key][second_param]["parametros"]
+        sub_data = data[lunes_test: viernes_end]
+        signals_and_prices = p[lunes_test: viernes_end]
+
+        candle_ma = params["ma_candle"]
+        ohlc = ohlc_form(sub_data, candle_ma)
+
+        if shorts:
+            ohlc = ohlc[1]
         else:
+            ohlc = ohlc[0]
 
-            pnl = (precio - precio_entrada) * cantidad
-            if short:
-                pnl = -pnl
+        entrys = signals_and_prices[signals_and_prices["Signals"] == open_sig]
+        exits = signals_and_prices[signals_and_prices["Signals"] == -open_sig]
 
-            equity_curve.append(pnl)
+        for k in range(len(entrys)):
+            indice_entrada = entrys.index[k]
+            indice_salida  = exits.index[k]
+
+            precio_entrada = signals_and_prices["Prices"][indice_entrada]
+            cantidad = (capital_inicial * APALANCAMIENTO * multiplicador)/precio_entrada
+
+            precio_salida = signals_and_prices["Prices"][indice_salida]
+
+            sub_ohlc = ohlc[(indice_entrada < ohlc.index) & (ohlc.index <= indice_salida)]
+
+            stop_loss_price = capital_inicial * riesgo
+
+            if shorts:
+                pnl_latente = (precio_entrada - sub_ohlc["high"]) * cantidad
+
+            else:
+                pnl_latente = (sub_ohlc["low"] - precio_entrada) * cantidad
+
+            sl_tocados = pnl_latente[pnl_latente <= -stop_loss_price]
+
+            if not sl_tocados.empty:
+                pnl = -stop_loss_price
+            else:
+                pnl = (precio_salida - precio_entrada) * cantidad
+                if shorts:
+                    pnl = -pnl
+
             mon += pnl
 
+            if pnl < 0 and multiplicador < 8:
+                multiplicador *= 2
 
-            if pnl < 0:
-                multiplicador *= 1
             else:
-                multiplicador = 1.0
+                multiplicador = 1
+
+        lunes_test += timedelta(weeks=test_time)
 
     return mon - capital_inicial
 
