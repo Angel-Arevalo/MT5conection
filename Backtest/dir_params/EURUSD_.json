@@ -4879,5 +4879,52 @@
             },
             "side": "revert"
         }
+    },
+    "2026-01-05": {
+        "longs": {
+            "parametros": {
+                "ma_method": "SMA",
+                "ma_candle": 48,
+                "ma_lookback": 39,
+                "name": "ATR_EXPANSION",
+                "candle": 65,
+                "window": 43,
+                "lookback_ma": 32,
+                "follow_tend": 1.0606788067783492
+            },
+            "kpis": {
+                "score": 117.85028656482321,
+                "hr": 0.8285714285714286,
+                "rr": 2.022276472383259,
+                "pr": 9.774336283185752,
+                "tr": 35,
+                "mae": 0.0027479519847269434,
+                "sqn": 5.145579424942593,
+                "filter": "revert"
+            },
+            "side": "revert"
+        },
+        "shorts": {
+            "parametros": {
+                "ma_method": "TEMA",
+                "ma_candle": 66,
+                "ma_lookback": 66,
+                "name": "KEF",
+                "candle": 29,
+                "window": 66,
+                "follow_tend": 0.9760960091425085
+            },
+            "kpis": {
+                "score": 10.394557667697748,
+                "hr": 0.9130434782608695,
+                "rr": 0.37517507002802764,
+                "pr": 3.9393382352942905,
+                "tr": 23,
+                "mae": 0.004867543784328879,
+                "sqn": 2.2077006777258705,
+                "filter": "revert"
+            },
+            "side": "revert"
+        }
     }
 }
